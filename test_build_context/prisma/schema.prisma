@@ -1,0 +1,491 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String         @id @default(cuid())
+  name              String?
+  email             String         @unique
+  emailVerified     DateTime?
+  image             String?
+  password          String?        // Hashed password
+  previousPasswords String[]       @default([]) // Stores old hashed passwords
+  role              UserRole       @default(DEVELOPER)
+  eoaAddress        String?        @unique // Ethereum wallet address
+  accounts          Account[]
+  sessions          Session[]
+  profile           Profile?
+  startups          Startup[]
+  sentTransactions     Transaction[] @relation("TransactionSender")
+  receivedTransactions Transaction[] @relation("TransactionReceiver")
+  sentMessages      Message[]      @relation("MessageSender")
+  conversations     ConversationParticipant[]
+  followers         Connection[]   @relation("Following")
+  following         Connection[]   @relation("Follower")
+  activities        Activity[]
+  apiKeys           ApiKey[]
+  blogPosts         BlogPost[]
+  teamMemberships   TeamMembership[]
+  startupMemberships StartupMembership[]
+  notifications     Notification[]
+  threads           Thread[]
+  threadReplies     ThreadReply[]
+  threadLikes       ThreadLike[]
+  
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+
+  @@index([role])
+  @@index([createdAt])
+}
+
+enum UserRole {
+  DEVELOPER
+  FOUNDER
+  INVESTOR
+  ADMIN
+}
+
+model Profile {
+  id            String   @id @default(cuid())
+  bio           String?
+  companyName   String?
+  description   String?
+  location      String?
+  avatarUrl     String?
+  skills        String[]
+  githubUrl     String?
+  linkedinUrl   String?
+  twitterUrl    String?
+  websiteUrl    String?
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Developer-specific fields
+  experience    String?  // e.g., "5 years"
+  availability  String?  // "Available", "Part-time", "Consulting"
+  rate          String?  // Hourly rate e.g., "$150/hr"
+  
+  // Investor-specific fields
+  firm          String?  // Investment firm name
+  checkSize     String?  // Investment range e.g., "$500K - $2M"
+  portfolio     Int?     // Number of investments
+  focus         String?  // Investment focus areas
+  
+  projects      Project[]
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  name        String
+  description String?  @db.Text
+  url         String?  // Link to live project
+  githubUrl   String?  // Link to source code
+  imageUrl    String?  // Project screenshot/image
+  techStack   String[] // Technologies used
+  featured    Boolean  @default(false)
+  
+  profileId   String
+  profile     Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([profileId])
+}
+
+model Startup {
+  id          String   @id @default(cuid())
+  name        String
+  pitch       String
+  stage       String
+  websiteUrl  String?
+  logo        String?  // Emoji or image URL
+  raised      String?  // Amount raised e.g., "$500K"
+  teamSize    Int?     // Team size (renamed from team)
+  founderId   String
+  founder     User     @relation(fields: [founderId], references: [id])
+  team        Team?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  memberships StartupMembership[]
+  
+  @@index([founderId])
+  @@index([name])
+}
+
+model StartupMembership {
+  startupId String
+  startup   Startup  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      String   // "Founder", "Core Team", "Advisor", "Member"
+  joinedAt  DateTime @default(now())
+  isActive  Boolean  @default(true)
+
+  @@id([startupId, userId])
+  @@index([userId])
+}
+
+// Team Management
+model Team {
+  id          String           @id @default(cuid())
+  startupId   String           @unique
+  startup     Startup          @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  members     TeamMembership[]
+  invites     TeamInvite[]
+  createdAt   DateTime         @default(now())
+}
+
+model TeamMembership {
+  id        String     @id @default(cuid())
+  teamId    String
+  team      Team       @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      TeamRole   @default(MEMBER)
+  createdAt DateTime   @default(now())
+  
+  @@unique([teamId, userId])
+  @@index([userId])
+}
+
+model TeamInvite {
+  id        String       @id @default(cuid())
+  teamId    String
+  team      Team         @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  email     String
+  role      TeamRole     @default(MEMBER)
+  token     String       @unique
+  status    InviteStatus @default(PENDING)
+  expiresAt DateTime
+  createdAt DateTime     @default(now())
+  
+  @@index([email])
+  @@index([token])
+}
+
+enum TeamRole {
+  OWNER
+  ADMIN
+  MEMBER
+  VIEWER
+}
+
+enum InviteStatus {
+  PENDING
+  ACCEPTED
+  EXPIRED
+}
+
+// Notifications
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String   // "team_invite", "team_join", "thread_reply", etc.
+  title     String
+  message   String
+  link      String?
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  
+  @@index([userId, read])
+}
+
+// Community Threads
+model Thread {
+  id        String        @id @default(cuid())
+  authorId  String
+  author    User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  title     String
+  content   String        @db.Text
+  tags      String[]
+  likes     ThreadLike[]
+  replies   ThreadReply[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  
+  @@index([authorId])
+}
+
+model ThreadReply {
+  id        String       @id @default(cuid())
+  threadId  String
+  thread    Thread       @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User         @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  content   String       @db.Text
+  likes     Int          @default(0)
+  createdAt DateTime     @default(now())
+  
+  @@index([threadId])
+  @@index([authorId])
+}
+
+model ThreadLike {
+  id        String   @id @default(cuid())
+  threadId  String
+  thread    Thread   @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  
+  @@unique([threadId, userId])
+}
+
+// NextAuth Models
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  @db.Text
+  access_token       String?  @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.Text
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// Payment System
+model Transaction {
+  id              String            @id @default(cuid())
+  amount          Float             // Original amount
+  serviceFee      Float             // Platform service fee
+  netAmount       Float             // Amount after fee (amount - serviceFee)
+  currency        String            @default("USD")
+  provider        PaymentProvider
+  status          TransactionStatus @default(PENDING)
+  description     String?
+  
+  senderId        String
+  sender          User              @relation("TransactionSender", fields: [senderId], references: [id], onDelete: Cascade)
+  receiverId      String
+  receiver        User              @relation("TransactionReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+  
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  
+  @@index([senderId])
+  @@index([receiverId])
+  @@index([status])
+}
+
+enum PaymentProvider {
+  PAYPAL
+  CRYPTO
+  CARD
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+// Messaging System
+model Conversation {
+  id              String                      @id @default(cuid())
+  participants    ConversationParticipant[]
+  messages        Message[]
+  lastMessageAt   DateTime?
+  
+  createdAt       DateTime                    @default(now())
+  updatedAt       DateTime                    @updatedAt
+}
+
+model ConversationParticipant {
+  id              String       @id @default(cuid())
+  userId          String
+  user            User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  conversationId  String
+  conversation    Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  lastReadAt      DateTime?
+  
+  createdAt       DateTime     @default(now())
+  
+  @@unique([userId, conversationId])
+}
+
+model Message {
+  id              String       @id @default(cuid())
+  content         String       @db.Text
+  read            Boolean      @default(false)
+  attachments     String[]     // URLs to attachments
+  
+  senderId        String
+  sender          User         @relation("MessageSender", fields: [senderId], references: [id], onDelete: Cascade)
+  conversationId  String
+  conversation    Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  @@index([conversationId])
+  @@index([createdAt])
+}
+
+// User Connections (Following/Followers)
+model Connection {
+  id          String   @id @default(cuid())
+  followerId  String
+  follower    User     @relation("Follower", fields: [followerId], references: [id], onDelete: Cascade)
+  followingId String
+  following   User     @relation("Following", fields: [followingId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  
+  @@unique([followerId, followingId])
+  @@index([followerId])
+  @@index([followingId])
+}
+
+// Activity Feed
+model Activity {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String   // "connection", "startup", "message", "payment"
+  message   String
+  icon      String?
+  createdAt DateTime @default(now())
+  
+  @@index([userId, createdAt])
+  @@index([type])
+}
+
+// API Keys for Developer Access
+model ApiKey {
+  id          String    @id @default(cuid())
+  keyHash     String    // Bcrypt hash of the full key
+  keyPrefix   String    // "sk_live_" + first 8 chars for display/lookup
+  name        String
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  isActive    Boolean   @default(true)
+  permissions String[]  @default(["read"])  // Scopes: read, write, admin
+  lastUsed    DateTime?
+  createdAt   DateTime  @default(now())
+  expiresAt   DateTime?
+  
+  @@index([userId])
+  @@index([keyPrefix])
+}
+
+// Blog System
+model BlogPost {
+  id          String         @id @default(cuid())
+  title       String
+  slug        String         @unique
+  excerpt     String?        @db.Text
+  content     String?        @db.Text  // MDX content (optional if using files)
+  coverImage  String?
+  status      BlogPostStatus @default(DRAFT)
+  authorId    String
+  author      User           @relation(fields: [authorId], references: [id])
+  
+  publishedAt DateTime?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  
+  @@index([slug])
+  @@index([authorId])
+  @@index([status])
+}
+
+enum BlogPostStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+// Join Applications (public form submissions)
+model JoinApplication {
+  id          String                  @id @default(cuid())
+  name        String
+  email       String
+  role        UserRole
+  location    String?
+  
+  // Developer fields
+  skills      String[]
+  experience  String?
+  availability String?
+  rate        String?
+  
+  // Investor fields
+  firm        String?
+  checkSize   String?
+  focus       String?
+  
+  // Founder fields
+  startupName String?
+  pitch       String?                 @db.Text
+  stage       String?
+  websiteUrl  String?
+  
+  status      ApplicationStatus       @default(PENDING)
+  notes       String?                 @db.Text
+  
+  createdAt   DateTime                @default(now())
+  updatedAt   DateTime                @updatedAt
+  
+  @@index([email])
+  @@index([status])
+}
+
+enum ApplicationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+// Contact Form Messages
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String
+  message   String   @db.Text
+  status    String   @default("UNREAD") // UNREAD, READ, ARCHIVED
+  createdAt DateTime @default(now())
+  
+  @@index([email])
+  @@index([status])
+}
+
+

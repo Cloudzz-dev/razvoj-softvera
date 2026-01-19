@@ -1,0 +1,515 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id                   String                    @id @default(cuid())
+  name                 String?
+  email                String                    @unique
+  emailVerified        DateTime?
+  image                String?
+  password             String?
+  previousPasswords    String[]                  @default([])
+  role                 UserRole                  @default(DEVELOPER)
+  eoaAddress           String?                   @unique
+  deletedAt            DateTime?
+  scheduledDeletionAt  DateTime?
+  createdAt            DateTime                  @default(now())
+  updatedAt            DateTime                  @updatedAt
+  referralCode         String?                   @unique @default(cuid())
+  referredBy           String?
+  referralCount        Int                       @default(0)
+  isVerifiedBuilder    Boolean                   @default(false)
+  subscriptionTier     SubscriptionTier          @default(FREE)
+  accounts             Account[]
+  activities           Activity[]
+  apiKeys              ApiKey[]
+  blogPosts            BlogPost[]
+  following            Connection[]              @relation("Follower")
+  followers            Connection[]              @relation("Following")
+  conversations        ConversationParticipant[]
+  featureRequests      FeatureRequest[]
+  featureRequestVotes  FeatureRequestVote[]
+  sentMessages         Message[]                 @relation("MessageSender")
+  metrics              Metric[]
+  notifications        Notification[]
+  profile              Profile?
+  sessions             Session[]
+  startups             Startup[]
+  startupMemberships   StartupMembership[]
+  teamMemberships      TeamMembership[]
+  threads              Thread[]
+  threadLikes          ThreadLike[]
+  threadReplies        ThreadReply[]
+  receivedTransactions Transaction[]             @relation("TransactionReceiver")
+  sentTransactions     Transaction[]             @relation("TransactionSender")
+
+  @@index([role])
+  @@index([createdAt])
+}
+
+model Profile {
+  id           String    @id @default(cuid())
+  bio          String?
+  companyName  String?
+  description  String?
+  location     String?
+  avatarUrl    String?
+  skills       String[]
+  githubUrl    String?
+  linkedinUrl  String?
+  twitterUrl   String?
+  websiteUrl   String?
+  userId       String    @unique
+  experience   String?
+  availability String?
+  rate         String?
+  firm         String?
+  checkSize    String?
+  portfolio    Int?
+  focus        String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  projects     Project[]
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  url         String?
+  githubUrl   String?
+  imageUrl    String?
+  techStack   String[]
+  featured    Boolean  @default(false)
+  profileId   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  profile     Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@index([profileId])
+}
+
+model Startup {
+  id          String              @id @default(cuid())
+  name        String
+  pitch       String
+  stage       String
+  websiteUrl  String?
+  logo        String?
+  raised      String?
+  teamSize    Int?
+  founderId   String
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  founder     User                @relation(fields: [founderId], references: [id], onDelete: Cascade)
+  memberships StartupMembership[]
+  team        Team?
+
+  @@index([founderId])
+  @@index([name])
+}
+
+model StartupMembership {
+  startupId String
+  userId    String
+  role      String
+  joinedAt  DateTime @default(now())
+  isActive  Boolean  @default(true)
+  startup   Startup  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([startupId, userId])
+  @@index([userId])
+}
+
+model Team {
+  id        String           @id @default(cuid())
+  startupId String           @unique
+  createdAt DateTime         @default(now())
+  startup   Startup          @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  invites   TeamInvite[]
+  members   TeamMembership[]
+}
+
+model TeamMembership {
+  id        String   @id @default(cuid())
+  teamId    String
+  userId    String
+  role      TeamRole @default(MEMBER)
+  createdAt DateTime @default(now())
+  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([teamId, userId])
+  @@index([userId])
+}
+
+model TeamInvite {
+  id        String       @id @default(cuid())
+  teamId    String
+  email     String
+  role      TeamRole     @default(MEMBER)
+  token     String       @unique
+  status    InviteStatus @default(PENDING)
+  expiresAt DateTime
+  createdAt DateTime     @default(now())
+  team      Team         @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  @@index([email])
+  @@index([token])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  title     String
+  message   String
+  link      String?
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, read])
+}
+
+model Thread {
+  id        String        @id @default(cuid())
+  authorId  String
+  title     String
+  content   String
+  tags      String[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  author    User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  likes     ThreadLike[]
+  replies   ThreadReply[]
+
+  @@index([authorId])
+}
+
+model ThreadReply {
+  id        String   @id @default(cuid())
+  threadId  String
+  authorId  String
+  content   String
+  likes     Int      @default(0)
+  createdAt DateTime @default(now())
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  thread    Thread   @relation(fields: [threadId], references: [id], onDelete: Cascade)
+
+  @@index([threadId])
+  @@index([authorId])
+}
+
+model ThreadLike {
+  id        String   @id @default(cuid())
+  threadId  String
+  userId    String
+  createdAt DateTime @default(now())
+  thread    Thread   @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([threadId, userId])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Transaction {
+  id             String            @id @default(cuid())
+  amount         Float
+  serviceFee     Float
+  netAmount      Float
+  currency       String            @default("USD")
+  provider       PaymentProvider
+  status         TransactionStatus @default(PENDING)
+  description    String?
+  idempotencyKey String?           @unique
+  senderId       String
+  receiverId     String
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  receiver       User              @relation("TransactionReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+  sender         User              @relation("TransactionSender", fields: [senderId], references: [id], onDelete: Cascade)
+
+  @@index([senderId])
+  @@index([receiverId])
+  @@index([status])
+  @@index([idempotencyKey])
+}
+
+model Conversation {
+  id            String                    @id @default(cuid())
+  lastMessageAt DateTime?
+  createdAt     DateTime                  @default(now())
+  updatedAt     DateTime                  @updatedAt
+  participants  ConversationParticipant[]
+  messages      Message[]
+}
+
+model ConversationParticipant {
+  id             String       @id @default(cuid())
+  userId         String
+  conversationId String
+  lastReadAt     DateTime?
+  createdAt      DateTime     @default(now())
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, conversationId])
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  content        String
+  read           Boolean      @default(false)
+  attachments    String[]
+  senderId       String
+  conversationId String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender         User         @relation("MessageSender", fields: [senderId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId])
+  @@index([createdAt])
+}
+
+model Connection {
+  id          String   @id @default(cuid())
+  followerId  String
+  followingId String
+  createdAt   DateTime @default(now())
+  follower    User     @relation("Follower", fields: [followerId], references: [id], onDelete: Cascade)
+  following   User     @relation("Following", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@unique([followerId, followingId])
+  @@index([followerId])
+  @@index([followingId])
+}
+
+model Activity {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  message   String
+  icon      String?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([type])
+}
+
+model ApiKey {
+  id          String    @id @default(cuid())
+  keyHash     String
+  keyPrefix   String
+  name        String
+  userId      String
+  isActive    Boolean   @default(true)
+  permissions String[]  @default(["read"])
+  lastUsed    DateTime?
+  createdAt   DateTime  @default(now())
+  expiresAt   DateTime?
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([keyPrefix])
+}
+
+model BlogPost {
+  id          String         @id @default(cuid())
+  title       String
+  slug        String         @unique
+  excerpt     String?
+  content     String?
+  coverImage  String?
+  status      BlogPostStatus @default(DRAFT)
+  authorId    String
+  publishedAt DateTime?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  author      User           @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([slug])
+  @@index([authorId])
+  @@index([status])
+}
+
+model JoinApplication {
+  id           String            @id @default(cuid())
+  name         String
+  email        String
+  role         UserRole
+  location     String?
+  skills       String[]
+  experience   String?
+  availability String?
+  rate         String?
+  firm         String?
+  checkSize    String?
+  focus        String?
+  startupName  String?
+  pitch        String?
+  stage        String?
+  websiteUrl   String?
+  status       ApplicationStatus @default(PENDING)
+  notes        String?
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  @@index([email])
+  @@index([status])
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  status    String   @default("UNREAD")
+  createdAt DateTime @default(now())
+
+  @@index([email])
+  @@index([status])
+}
+
+model FeatureRequest {
+  id          String               @id @default(cuid())
+  title       String
+  description String
+  status      String               @default("PLANNED")
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+  userId      String
+  user        User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  votes       FeatureRequestVote[]
+
+  @@index([status])
+  @@index([userId])
+}
+
+model FeatureRequestVote {
+  id               String         @id @default(cuid())
+  featureRequestId String
+  userId           String
+  type             VoteType       @default(UP)
+  createdAt        DateTime       @default(now())
+  featureRequest   FeatureRequest @relation(fields: [featureRequestId], references: [id], onDelete: Cascade)
+  user             User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([featureRequestId, userId])
+  @@index([featureRequestId])
+  @@index([userId])
+}
+
+model Metric {
+  id        String   @id @default(cuid())
+  type      String
+  value     Float
+  metadata  Json?
+  userId    String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, type, createdAt])
+}
+
+enum UserRole {
+  DEVELOPER
+  FOUNDER
+  INVESTOR
+  ADMIN
+}
+
+enum SubscriptionTier {
+  FREE
+  PRO
+  GROWTH
+}
+
+enum TeamRole {
+  OWNER
+  ADMIN
+  MEMBER
+  VIEWER
+}
+
+enum InviteStatus {
+  PENDING
+  ACCEPTED
+  EXPIRED
+}
+
+enum PaymentProvider {
+  PAYPAL
+  CRYPTO
+  CARD
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+enum BlogPostStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum ApplicationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum VoteType {
+  UP
+  DOWN
+}
