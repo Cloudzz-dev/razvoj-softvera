@@ -26,15 +26,8 @@ $ColorCyan = "Cyan"
 function Print-Banner {
     Write-Host "╔═══════════════════════════════════════════════════════════════════════════╗" -ForegroundColor $ColorPurple
     Write-Host "║                                                                           ║" -ForegroundColor $ColorPurple
-    Write-Host "║   ███████╗████████╗ █████╗ ██████╗ ████████╗██╗████████╗    ██╗ ██████╗   ║" -ForegroundColor $ColorPurple
-    Write-Host "║   ██╔════╝╚══██╔══╝██╔══██╗██╔══██╗╚══██╔══╝██║╚══██╔══╝    ██║██╔═══██╗  ║" -ForegroundColor $ColorPurple
-    Write-Host "║   ███████╗   ██║   ███████║██████╔╝   ██║   ██║   ██║       ██║██║   ██║  ║" -ForegroundColor $ColorPurple
-    Write-Host "║   ╚════██║   ██║   ██╔══██║██╔══██╗   ██║   ██║   ██║       ██║██║   ██║  ║" -ForegroundColor $ColorPurple
-    Write-Host "║   ███████║   ██║   ██║  ██║██║  ██║   ██║   ██║   ██║    ██╗██║╚██████╔╝  ║" -ForegroundColor $ColorPurple
-    Write-Host "║   ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝   ╚═╝    ╚═╝╚═╝ ╚═════╝   ║" -ForegroundColor $ColorPurple
-    Write-Host "║                                                                           ║" -ForegroundColor $ColorPurple
-    Write-Host "║                               Internal Tools                              ║" -ForegroundColor $ColorPurple
-    Write-Host "║                        Windows Deployment Script v1.0                     ║" -ForegroundColor $ColorPurple
+    Write-Host "║                         DFDS SYSTEM MONITOR                               ║" -ForegroundColor $ColorPurple
+    Write-Host "║                    Deployment Script v3.0 (Team Cloudzz)                  ║" -ForegroundColor $ColorPurple
     Write-Host "╚═══════════════════════════════════════════════════════════════════════════╝" -ForegroundColor $ColorPurple
     Write-Host ""
 }
@@ -271,11 +264,10 @@ function Start-Containers {
     # Docker on Windows usually accepts "C:\Users\..." or "/c/Users/..."
     # We will try standard string first. Quotes are critical.
     
-    $dockerRunCmd = "docker run --rm --network=startit_startit-network " + `
-                    "-e DATABASE_URL=""${db_url}"" " + `
-                    "-v ""${currentDir}\prisma:/app/prisma"" " + `
-                    "-w /app " + `
-                    "node:20-alpine sh -c ""apk add --no-cache openssl && npm install prisma@5 --no-save && npx prisma@5 generate && npx prisma@5 db push --skip-generate"""
+    # Run migrations using the migrator service defined in docker-compose.yml
+    # This avoids "npm install" every time by using the pre-built 'builder' stage 
+
+    $dockerRunCmd = "$composeCmd run --rm --entrypoint ""/bin/sh -c"" migrator ""npx prisma generate && npx prisma db push --skip-generate && npx ts-node --compiler-options '{\""module\"":\""CommonJS\""}' prisma/seed.ts"""
     
     Log-Info "Executing migration container..."
     Invoke-Expression $dockerRunCmd

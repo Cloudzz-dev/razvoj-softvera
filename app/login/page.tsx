@@ -20,6 +20,37 @@ export default function LoginPage() {
 
     const { update } = useSession();
 
+    const handleDemoLogin = async () => {
+        setIsLoading(true);
+        setError("");
+
+        // Demo credentials
+        const demoEmail = "demo@cloudzz.dev";
+        const demoPassword = "password123";
+
+        try {
+            const result = await signIn("credentials", {
+                email: demoEmail,
+                password: demoPassword,
+                redirect: false,
+            });
+
+            if (result?.error) {
+                setError("Demo login failed. Please try again.");
+            } else if (result?.ok) {
+                posthog.identify(demoEmail, { email: demoEmail, is_demo: true });
+                posthog.capture("demo_user_login");
+                await update();
+                router.refresh();
+                router.push("/dashboard");
+            }
+        } catch (error) {
+            setError("An error occurred during demo login.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
@@ -178,6 +209,21 @@ export default function LoginPage() {
                                 >
                                     {isLoading ? "Signing in..." : "Sign In"}
                                 </button>
+
+                                <div className="mt-4 pt-4 border-t border-white/10">
+                                    <button
+                                        type="button"
+                                        onClick={handleDemoLogin}
+                                        disabled={isLoading}
+                                        className="w-full px-6 py-3 rounded-lg bg-white/10 text-white font-semibold hover:bg-white/20 transition-colors disabled:opacity-50 flex items-center justify-center gap-2 group"
+                                    >
+                                        <span>🚀</span>
+                                        <span>Test Account (Hackathon Judges)</span>
+                                    </button>
+                                    <p className="text-center text-xs text-zinc-500 mt-2">
+                                        Instant access with demo privileges
+                                    </p>
+                                </div>
                             </form>
                         </>
                     ) : (

@@ -151,7 +151,8 @@ export default function MembersPage() {
                 const membersRes = await fetch(`/api/startups/${startup.id}/members`);
                 if (membersRes.ok) {
                     const membersData = await membersRes.json();
-                    setMembers(membersData);
+                    // Handle both paginated and non-paginated responses
+                    setMembers(Array.isArray(membersData) ? membersData : membersData.members || []);
 
                     // Fetch Invites
                     const invitesRes = await fetch(`/api/startups/${startup.id}/invites`);

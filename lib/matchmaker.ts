@@ -31,7 +31,7 @@ export class Matchmaker {
      * Executes the Vector Search via Database RPC.
      * In production, this calls Supabase's `match_investors` PostgreSQL function.
      */
-    private async fetchMatchesFromDB(sourceEmbedding: number[], filterMetadata: any): Promise<any[]> {
+    private async fetchMatchesFromDB(sourceEmbedding: number[]): Promise<any[]> {
         // SIMULATION: In a real app, this would be:
         // const { data, error } = await supabase.rpc('match_investors', {
         //    query_embedding: sourceEmbedding,
@@ -56,7 +56,7 @@ export class Matchmaker {
         console.log(`[MATCHMAKER] Initiating semantic search for: ${sourceProfile.id}`);
 
         // 1. Perform Vector Search (RPC -> pgvector)
-        const rawMatches = await this.fetchMatchesFromDB(sourceProfile.embedding, sourceProfile.metadata);
+        const rawMatches = await this.fetchMatchesFromDB(sourceProfile.embedding);
 
         // 2. Hydrate & Rank Results
         const results: MatchResult[] = rawMatches.map(match => {

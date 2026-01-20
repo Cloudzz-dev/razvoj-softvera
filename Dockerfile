@@ -18,6 +18,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY package.json package-lock.json ./
 COPY prisma/schema.prisma ./prisma/schema.prisma
+COPY DFDS_Dokumentacija.md ./DFDS_Dokumentacija.md
 
 # Generate Prisma client
 RUN npx prisma generate

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
-import { verifyCsrfToken, getCsrfTokenFromRequest } from "@/lib/csrf";
+// import { verifyCsrfToken, getCsrfTokenFromRequest } from "@/lib/csrf";
 
 /**
  * Next.js Middleware
@@ -15,7 +15,7 @@ const PROTECTED_ROUTES = [
 
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
-    const method = request.method;
+    // const method = request.method;
 
     // 1. Auth Protection
     // Check if route requires authentication

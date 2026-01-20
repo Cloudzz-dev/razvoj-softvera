@@ -7,8 +7,8 @@ import { ensureRateLimit, ensureAuthResponse } from "@/lib/api-security";
 const MAX_THREADS_PER_PAGE = 50;
 
 const createThreadSchema = z.object({
-    title: z.string().min(5).max(200).trim(),
-    content: z.string().min(10).max(5000).trim(),
+    title: z.string().min(3).max(200).trim(),
+    content: z.string().min(3).max(5000).trim(),
     tags: z.array(z.string().max(30)).max(5).optional(),
 });
 

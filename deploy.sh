@@ -351,11 +351,11 @@ start_containers() {
   log_info "Detected Docker Network: $NETWORK_ID"
 
   # Run prisma db push using a temporary container with Prisma v5 and OpenSSL
-  docker run --rm --network="$NETWORK_ID" \
-    -e DATABASE_URL="postgresql://${ACTUAL_DB_USER}:${ACTUAL_DB_PASS}@postgres:5432/${ACTUAL_DB_NAME}?schema=public" \
-    -v "$(pwd)/prisma:/app/prisma" \
-    -w /app \
-    node:20-alpine sh -c "apk add --no-cache openssl && npm install prisma@5 --no-save && npx prisma@5 generate && npx prisma@5 db push --skip-generate"
+  # Run prisma db push using the migrator service (reusing built layers)
+  log_info "Running migrations via migrator..."
+  
+  # We override the command to perform the migration sequence
+  $COMPOSE_CMD run --rm --entrypoint "/bin/sh -c" migrator "npx prisma generate && npx prisma db push --skip-generate && npx ts-node --compiler-options '{\"module\":\"CommonJS\"}' prisma/seed.ts"
 
   # Start all services
   $COMPOSE_CMD up -d
@@ -409,7 +409,7 @@ force_db_push() {
     -e DATABASE_URL="postgresql://${ACTUAL_DB_USER}:${ACTUAL_DB_PASS}@postgres:5432/${ACTUAL_DB_NAME}?schema=public" \
     -v "$(pwd)/prisma:/app/prisma" \
     -w /app \
-    node:20-alpine sh -c "apk add --no-cache openssl && npm install prisma@5 --no-save && npx prisma@5 generate && npx prisma@5 db push --skip-generate --accept-data-loss"
+    node:20-alpine sh -c "apk add --no-cache openssl && npm install prisma@5.22.0 @prisma/client@5.22.0 --no-save && npx prisma generate && npx prisma db push --skip-generate --accept-data-loss"
 
   log_success "Database schema updated (forced)!"
 }

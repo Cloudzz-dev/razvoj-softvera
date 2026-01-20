@@ -5,8 +5,7 @@ import { NextRequest } from "next/server";
 import bcrypt from "bcryptjs";
 
 describe("API Ingest Security", () => {
-    let user;
-    let apiKey;
+    let user: any;
     const plainKey = "sk_live_12345678_testingkey";
 
     beforeAll(async () => {
@@ -19,7 +18,7 @@ describe("API Ingest Security", () => {
         });
 
         const hashedKey = await bcrypt.hash(plainKey, 10);
-        apiKey = await prisma.apiKey.create({
+        await prisma.apiKey.create({
             data: {
                 userId: user.id,
                 name: "Test Key",

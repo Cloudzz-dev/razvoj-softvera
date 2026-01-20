@@ -1,4 +1,4 @@
-# 📘 DFDS: Dokumentacija Sustava
+# DFDS: Dokumentacija Sustava
 
 > **Verzija**: 1.1.0  
 > **Status**: Spremno za Produkciju 
@@ -7,7 +7,7 @@
 
 ##  Uvod (O Projektu)
 
-Bok! Dobrodošli u **DFDS** – platformu koju smo izgradili tijekom natjecanja. Naš tim je **Cloudzz**.
+Bok! Dobrodošli u **DFDS** – platformu koju smo izgradili tijekom natjecanja. Naš tim je **Team Cloudzz**.
 
 Naš cilj nije bio samo napraviti još jedan LinkedIn, već stvoriti **ekosustav** gdje se startup timovi zapravo *grade*. Koristimo moderni stack (Next.js, Prisma, AI) kako bi sve letjelo, a korisničko iskustvo bilo vrhunsko. Demo možete pogledati na [dfds.cloudzz.dev](https://dfds.cloudzz.dev).
 
@@ -15,7 +15,7 @@ Ovdje ćemo proći kroz to **kako stvari zapravo rade ispod haube**.
 
 ---
 
-##  Kako Sustav "Diše" (Arhitektura)
+## -Kako Sustav "Diše" (Arhitektura)
 
 DFDS je **hibridna cloud aplikacija**. To znači da kombiniramo brzinu statičkog weba (Next.js) s dinamikom stvarnog vremena (WebSockets).
 
@@ -53,7 +53,7 @@ Ako otvarate projekt prvi put, evo gdje se što nalazi. Organizirani smo da se l
 ### `/app` (Mozak Operacije)
 Ovo je Next.js App Router. Struktura mapa prati URL-ove u pregledniku.
 *   `api/` - Naš backend. Ovdje su rute za registraciju, chat, AI.
-*   `dashboard/` - Zaštićeni dio aplikacije (samo za logirane).
+*   `dashboard/` - Zaštićeni dio aplikacije (samo za ulogirane korisnike).
 *   `layout.tsx` - Glavni okvir (headeri, fontovi, providers).
 
 ### `/components` (Lego Kockice)
@@ -69,7 +69,7 @@ Pomoćne funkcije koje koristimo svugdje.
 *   `utils.ts` - Male funkcije za formatiranje datuma, klasa itd.
 
 ### `/prisma` (Baza)
-*   `schema.prisma` - **Najvažnija datoteka**. Ovdje definiramo kako izgledaju podaci (Korisnik, Startup, Poruka). Ako mijenjate bazu, mijenjate ovo.
+*   `schema.prisma` - **Najvažnija datoteka**. Ovdje definiramo kako izgledaju podaci (Korisnik, Startup, Poruka). Ako mijenjate bazu, mijenjate ovu datoteku.
 
 ---
 
@@ -98,7 +98,7 @@ sequenceDiagram
     Soketi->>Bob: PUSH: "Alice: Bok!"
 ```
 
-### 3. AI Poslovni Konzultant
+### 3. AI konzultant
 Integrirali smo GPT-4 izravno u dashboard.
 *   Korisnik unese ideju.
 *   API šalje prompt u OpenAI s "kontekstom" (npr. "Ponašaj se kao iskusni VC investitor").
@@ -116,11 +116,11 @@ Napravili smo skriptu da ne morate tipkati 10 naredbi.
     cd dfds
     ```
 
-2.  **Pokrenite čaroliju** (treba vam Docker):
+2.  **Pokrenite skriptu** (treba vam Docker):
     ```bash
     ./deploy.sh full
     ```
-    *Ovo će podići bazu, aplikaciju, Redis i sve što treba.*
+    *Ovo će podići bazu, aplikaciju, Redis i sve servise koji su potrebni.*
 
 3.  **Otvorite**: `http://localhost:3753`
 
@@ -128,7 +128,7 @@ Napravili smo skriptu da ne morate tipkati 10 naredbi.
 
 ---
 
-## Varijable Okruženja (Environment)
+## Environment Varijable 
 
 Projekt koristi razne vanjske servise. Za potrebe Hackathona, **aplikacija će se pokrenuti i raditi** i bez većine ovih ključeva, ali određene funkcionalnosti neće biti dostupne.
 
@@ -143,15 +143,15 @@ Evo popisa ključeva koje je korisno znati:
 | `GITHUB_ID` / `SECRET` |  Ne | Prijava putem GitHuba. | Gumb "Sign in with GitHub" neće raditi. |
 | `GOOGLE_ID` / `SECRET` |  Ne | Prijava putem Googlea. | Gumb "Sign in with Google" neće raditi. |
 
-> **Napomena**: Ako pokrećete putem `./deploy.sh`, svi **infrastrukturni** ključevi (Baza, Redis, Websoketi) su već automatski konfigurirani! Trebate unijeti samo API ključeve za vanjske servise (OpenAI, Resend, OAuth) u `.env` datoteku ako želite isprobati te specifične funkcionalnosti.
+> **Napomena**: Ako pokrećete putem `./deploy.sh`, svi **infrastrukturni** ključevi (Baza, Redis, Websoketi) su već automatski konfigurirani! Trebate unijeti samo API ključeve za vanjske servise (OpenAI, Resend, OAuth) u `.env` filu ako želite isprobati te specifične funkcionalnosti. Resend i Oauth mozete dobiti besplatno. za OpenAI trebate uplaitit novac u OpenAI-ovu platfromu da bi ste mogli koristit AI funkcionalnosti.
 
 ---
 
-## 🛡️ Sigurnost (Security First)
+## Sigurnost (Security First)
 Nismo zaboravili na sigurnost.
-*   **Password Hashing**: Ne spremamo lozinke u plain textu (Bcrypt).
-*   **Rate Limiting**: Redis pazi da nitko ne spamma API.
-*   **Sanitizacija**: Inputi se čiste prije nego dotaknu bazu.
+*   **Password Hashing**: Ne spremamo lozinke u plain textu nego ih kriptografksi hashiramo (Bcrypt).
+*   **Rate Limiting**: Redis pazi da nitko ne spamma API i cacha requestove.
+*   **Sanitizacija**: Inputi se ciste prije nego dotaknu bazu podataka ili API.
 
 ---
 

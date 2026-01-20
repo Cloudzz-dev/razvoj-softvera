@@ -98,7 +98,10 @@ export async function POST(req: Request) {
         // Check if we have Pusher configured
         try {
             const { pusherServer } = await import("@/lib/pusher");
-            await pusherServer.trigger(`private-${conversation.id}`, "new-message", realtimeMessage);
+            // Fire and forget - do not await
+            pusherServer.trigger(`private-${conversation.id}`, "new-message", realtimeMessage).catch((error) => {
+                console.error("PUSHER_TRIGGER_ERROR", error);
+            });
         } catch (error) {
             console.error("PUSHER_ERROR", error);
             const { getPostHogClient } = await import("@/lib/posthog-server");

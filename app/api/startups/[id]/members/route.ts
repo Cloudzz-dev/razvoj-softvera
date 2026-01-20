@@ -37,22 +37,33 @@ export async function GET(
             return new NextResponse("Forbidden", { status: 403 });
         }
 
-        // Fetch all members
-        const members = await prisma.startupMembership.findMany({
-            where: { startupId: id },
-            include: {
-                user: {
-                    select: {
-                        id: true,
-                        name: true,
-                        email: true,
-                        image: true,
-                        role: true, // Platform role
+        // Parse pagination params
+        const { searchParams } = new URL(req.url);
+        const page = parseInt(searchParams.get("page") || "1");
+        const limit = parseInt(searchParams.get("limit") || "50");
+        const skip = (page - 1) * limit;
+
+        // Fetch members with pagination
+        const [members, total] = await Promise.all([
+            prisma.startupMembership.findMany({
+                where: { startupId: id },
+                include: {
+                    user: {
+                        select: {
+                            id: true,
+                            name: true,
+                            email: true,
+                            image: true,
+                            role: true, // Platform role
+                        },
                     },
                 },
-            },
-            orderBy: { joinedAt: "asc" },
-        });
+                orderBy: { joinedAt: "asc" },
+                take: limit,
+                skip: skip,
+            }),
+            prisma.startupMembership.count({ where: { startupId: id } }),
+        ]);
 
         const formattedMembers = members.map((m) => ({
             id: m.userId,
@@ -65,7 +76,15 @@ export async function GET(
             isActive: m.isActive,
         }));
 
-        return NextResponse.json(formattedMembers);
+        return NextResponse.json({
+            members: formattedMembers,
+            pagination: {
+                total,
+                pages: Math.ceil(total / limit),
+                currentPage: page,
+                limit
+            }
+        });
     } catch (error) {
         console.error("STARTUP_MEMBERS_ERROR", error);
         return new NextResponse("Internal Error", { status: 500 });

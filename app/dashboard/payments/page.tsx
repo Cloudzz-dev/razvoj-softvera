@@ -27,7 +27,8 @@ export default function PaymentsPage() {
 
                 if (txRes.ok) {
                     const data = await txRes.json();
-                    setTransactions(data);
+                    // Handle both paginated and non-paginated responses for backward compatibility
+                    setTransactions(Array.isArray(data) ? data : data.transactions || []);
                 }
             } catch (error) {
                 console.error("Failed to fetch data", error);
@@ -78,24 +79,6 @@ export default function PaymentsPage() {
             <div>
                 <h1 className="text-3xl font-bold text-white mb-2">Payments</h1>
                 <p className="text-zinc-400">Manage your transactions and payments</p>
-            </div>
-
-            {/* Coming Soon Banner */}
-            <div className="relative overflow-hidden rounded-xl border border-amber-500/30 bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-amber-500/10 p-4">
-                <div className="flex items-center gap-3">
-                    <div className="flex-shrink-0 p-2 rounded-lg bg-amber-500/20">
-                        <svg className="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <p className="text-amber-200 font-medium">🚧 Payment Processing Coming Soon</p>
-                        <p className="text-amber-300/70 text-sm">Live payment integration is under development. You can view your transaction history below.</p>
-                    </div>
-                    <span className="ml-auto px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                        Beta
-                    </span>
-                </div>
             </div>
 
             {/* Stats */}

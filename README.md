@@ -4,6 +4,10 @@
 
 DFDS is a comprehensive networking platform that connects startups, investors, and developers in one seamless ecosystem. Built for the **Competition** by **Team Cloudzz**.
 
+## 📚 Documentation
+
+For a deep dive into the architecture, API, and project structure, please read the [Official Documentation](./DFDS_Dokumentacija.md).
+
 ---
 
 ## ✨ Features

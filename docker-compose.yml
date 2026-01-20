@@ -57,6 +57,20 @@ services:
     networks:
       - dfds-network
 
+  # Migrator Service (Uses builder stage to run migrations)
+  migrator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    profiles: [ "tools" ]
+    environment:
+      - DATABASE_URL=postgresql://${DB_USER:-dfds}:${DB_PASSWORD:-dfds_secure_password}@postgres:5432/${DB_NAME:-dfds}
+    volumes:
+      - ./prisma:/app/prisma
+    networks:
+      - dfds-network
+
   # DFDS.io Application
   app:
     build:

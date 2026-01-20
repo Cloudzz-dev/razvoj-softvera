@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import Markdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { EnhancedBackground } from '@/components/ui/EnhancedBackground';
 
 export const metadata = {
@@ -23,6 +24,7 @@ export default function ApiDocsPage() {
 
                 <div className="prose prose-invert prose-emerald max-w-none bg-white/5 p-8 rounded-2xl border border-white/10 backdrop-blur-sm shadow-2xl">
                     <Markdown
+                        remarkPlugins={[remarkGfm]}
                         components={{
                             pre: ({ ...props }) => (
                                 <div className="relative group">
