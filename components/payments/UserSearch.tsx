@@ -1,9 +1,9 @@
-"use strict";
+"use client";
 
-import { useState, useEffect } from "react";
-import { Command } from "cmdk";
-import { Search, Loader2, Check, User } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Search, Loader2, Check, User, X } from "lucide-react";
 import { useDebounce } from "@/hooks/use-debounce";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface UserSearchProps {
     onSelect: (user: any) => void;
@@ -15,6 +15,7 @@ export function UserSearch({ onSelect, selectedUserId }: UserSearchProps) {
     const [query, setQuery] = useState("");
     const [users, setUsers] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
+    const containerRef = useRef<HTMLDivElement>(null);
 
     // Custom debounce hook used in the project
     const debouncedQuery = useDebounce(query, 300);
@@ -28,11 +29,11 @@ export function UserSearch({ onSelect, selectedUserId }: UserSearchProps) {
 
             setLoading(true);
             try {
-                // Ensure the API supports this query param
                 const res = await fetch(`/api/network?search=${encodeURIComponent(debouncedQuery)}&limit=5`);
                 if (res.ok) {
                     const data = await res.json();
-                    setUsers(data);
+                    // Fix: API returns { items: [], nextCursor: ... }, not just []
+                    setUsers(Array.isArray(data) ? data : (data.items || []));
                 }
             } catch (error) {
                 console.error("Search failed", error);
@@ -44,10 +45,41 @@ export function UserSearch({ onSelect, selectedUserId }: UserSearchProps) {
         searchUsers();
     }, [debouncedQuery]);
 
+    // Handle click outside to close dropdown
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+                setOpen(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+    const clearSearch = () => {
+        setQuery("");
+        setUsers([]);
+        setOpen(false);
+        onSelect(null); // Optional: clear selection if desired behavior
+    };
+
     return (
-        <div className="relative w-full">
-            <div className="relative">
-                <Search className="absolute left-3 top-3 h-4 w-4 text-zinc-400" />
+        <div ref={containerRef} className="relative w-full group">
+            {/* Input Container with animated glow border */}
+            <div className={`
+                relative flex items-center transition-all duration-300
+                rounded-xl bg-white/5 border border-white/10
+                focus-within:bg-white/10 focus-within:border-indigo-500/50 focus-within:ring-1 focus-within:ring-indigo-500/50
+                group-hover:border-white/20
+            `}>
+                <div className="pl-4 text-zinc-400 group-focus-within:text-indigo-400 transition-colors">
+                    {loading ? (
+                        <Loader2 className="h-5 w-5 animate-spin" />
+                    ) : (
+                        <Search className="h-5 w-5" />
+                    )}
+                </div>
+
                 <input
                     type="text"
                     value={query}
@@ -55,52 +87,105 @@ export function UserSearch({ onSelect, selectedUserId }: UserSearchProps) {
                         setQuery(e.target.value);
                         setOpen(true);
                     }}
-                    onFocus={() => setOpen(true)}
-                    onBlur={() => setTimeout(() => setOpen(false), 200)}
-                    placeholder="Search by name or email..."
-                    className="w-full rounded-lg bg-white/5 border border-white/10 py-2 pl-9 pr-4 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-zinc-500"
+                    onFocus={() => {
+                        if (query.length > 0) setOpen(true);
+                    }}
+                    placeholder="Search users by name or email..."
+                    className="w-full bg-transparent border-none py-4 px-3 text-white placeholder-zinc-500 focus:outline-none focus:ring-0 text-base"
                 />
-                {loading && (
-                    <Loader2 className="absolute right-3 top-3 h-4 w-4 animate-spin text-zinc-400" />
+
+                {query.length > 0 && (
+                    <button
+                        onClick={clearSearch}
+                        className="pr-4 text-zinc-500 hover:text-zinc-300 transition-colors"
+                    >
+                        <X className="h-4 w-4" />
+                    </button>
                 )}
             </div>
 
-            {open && (query.length > 0) && (
-                <div className="absolute z-50 mt-1 w-full overflow-hidden rounded-lg border border-white/10 bg-zinc-900 shadow-xl">
-                    {users.length === 0 && !loading ? (
-                        <div className="p-4 text-center text-sm text-zinc-500">No users found.</div>
-                    ) : (
-                        <div className="max-h-60 overflow-y-auto p-1">
-                            {users.map((user) => (
-                                <button
-                                    key={user.id}
-                                    onClick={() => {
-                                        onSelect(user);
-                                        setQuery(user.name || user.email);
-                                        setOpen(false);
-                                    }}
-                                    className={`flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors hover:bg-white/5 ${selectedUserId === user.id ? "bg-white/10" : ""}`}
-                                >
-                                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-500/10">
-                                        {user.profile?.avatarUrl ? (
-                                            <img src={user.profile.avatarUrl} alt={user.name} className="h-8 w-8 rounded-full" />
-                                        ) : (
-                                            <User className="h-4 w-4 text-indigo-400" />
-                                        )}
+            {/* Floating Glass Dropdown */}
+            <AnimatePresence>
+                {open && (users.length > 0 || loading || (query.length > 0 && users.length === 0 && !loading)) && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 10, scale: 0.98 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute z-50 mt-2 w-full overflow-hidden rounded-xl border border-white/10 bg-black/60 shadow-2xl backdrop-blur-xl ring-1 ring-black/5"
+                    >
+                        <div className="max-h-[300px] overflow-y-auto p-2 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+                            {users.length === 0 && !loading ? (
+                                <div className="p-8 text-center flex flex-col items-center gap-3">
+                                    <div className="p-3 rounded-full bg-white/5">
+                                        <Search className="h-6 w-6 text-zinc-500" />
                                     </div>
-                                    <div className="flex flex-col items-start">
-                                        <span className="font-medium text-white">{user.name}</span>
-                                        <span className="text-xs text-zinc-500">{user.email}</span>
+                                    <p className="text-sm text-zinc-400">No users found used "{query}"</p>
+                                </div>
+                            ) : (
+                                <div className="space-y-1">
+                                    <div className="px-2 py-1.5 text-xs font-medium text-zinc-500 uppercase tracking-wider">
+                                        Suggested Users
                                     </div>
-                                    {selectedUserId === user.id && (
-                                        <Check className="ml-auto h-4 w-4 text-indigo-400" />
-                                    )}
-                                </button>
-                            ))}
+                                    {users.map((user) => (
+                                        <motion.button
+                                            key={user.id}
+                                            layout
+                                            onClick={() => {
+                                                onSelect(user);
+                                                setQuery(user.name || user.email);
+                                                setOpen(false);
+                                            }}
+                                            className={`
+                                                w-full flex items-center gap-4 rounded-lg px-3 py-3 text-sm transition-all
+                                                hover:bg-white/10 group/item relative overflow-hidden
+                                                ${selectedUserId === user.id ? "bg-indigo-500/20 border border-indigo-500/30" : "transparent"}
+                                            `}
+                                        >
+                                            {/* Selection Indicator Background */}
+                                            {selectedUserId === user.id && (
+                                                <motion.div
+                                                    layoutId="selection"
+                                                    className="absolute inset-0 bg-indigo-500/10"
+                                                    initial={false}
+                                                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                                                />
+                                            )}
+
+                                            <div className="relative">
+                                                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500/20 to-purple-500/20 ring-1 ring-white/10 group-hover/item:ring-white/30 transition-all">
+                                                    {user.profile?.avatarUrl ? (
+                                                        <img src={user.profile.avatarUrl} alt={user.name} className="h-10 w-10 rounded-full object-cover" />
+                                                    ) : (
+                                                        <User className="h-5 w-5 text-indigo-400" />
+                                                    )}
+                                                </div>
+                                            </div>
+
+                                            <div className="flex flex-col items-start flex-1 min-w-0">
+                                                <span className={`font-medium truncate transition-colors ${selectedUserId === user.id ? "text-indigo-200" : "text-zinc-200 group-hover/item:text-white"}`}>
+                                                    {user.name}
+                                                </span>
+                                                <span className="text-xs text-zinc-500 truncate">{user.email}</span>
+                                            </div>
+
+                                            {selectedUserId === user.id && (
+                                                <motion.div
+                                                    initial={{ scale: 0 }}
+                                                    animate={{ scale: 1 }}
+                                                    className="p-1 rounded-full bg-indigo-500"
+                                                >
+                                                    <Check className="h-3 w-3 text-white" />
+                                                </motion.div>
+                                            )}
+                                        </motion.button>
+                                    ))}
+                                </div>
+                            )}
                         </div>
-                    )}
-                </div>
-            )}
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }

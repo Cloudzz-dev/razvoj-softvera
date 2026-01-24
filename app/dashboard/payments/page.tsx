@@ -81,8 +81,8 @@ export default function PaymentsPage() {
                 <p className="text-zinc-400">Manage your transactions and payments</p>
             </div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            {/* Stats Overview */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <GlassCard className="p-6 border-white/10 bg-black/40">
                     <div className="flex items-center justify-between mb-4">
                         <div className="p-3 rounded-lg bg-red-500/10">
@@ -112,35 +112,42 @@ export default function PaymentsPage() {
                     <p className="text-2xl font-bold text-white mb-1">{formatCurrency(totalFees)}</p>
                     <p className="text-sm text-zinc-400">Platform Fees (2.5%)</p>
                 </GlassCard>
+            </div>
 
-                <GlassCard className="p-6 border-white/10 bg-black/40 flex flex-col items-center justify-center gap-3">
-                    <div className="w-full">
-                        <UserSearch
-                            onSelect={(user) => setSelectedUser(user)}
-                            selectedUserId={selectedUser?.id}
-                        />
-                    </div>
-                    {selectedUser && (
-                        <div className="flex items-center gap-2 p-2 rounded bg-white/5 border border-white/10 w-full">
-                            <div className="flex-1 text-sm text-white truncate text-center">
-                                paying <span className="font-bold">{selectedUser.name}</span>
+            {/* Quick Send Section - Expanded Layout */}
+            <div className="relative z-10">
+                <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-pink-500/10 blur-3xl -z-10" />
+                <GlassCard className="p-8 border-white/10 bg-black/60 relative overflow-visible">
+                    <div className="flex flex-col md:flex-row items-center gap-8">
+                        <div className="flex-1 w-full space-y-2">
+                            <h2 className="text-xl font-semibold text-white">Send Payment</h2>
+                            <p className="text-zinc-400 text-sm">Search for a user by name or email to initiate a secure transfer.</p>
+                            <div className="pt-2 max-w-xl">
+                                <UserSearch
+                                    onSelect={(user) => setSelectedUser(user)}
+                                    selectedUserId={selectedUser?.id}
+                                />
                             </div>
+                        </div>
+
+                        <div className="w-full md:w-auto flex flex-col items-stretch md:items-end gap-3 min-w-[200px]">
+                            {selectedUser && (
+                                <div className="bg-white/5 border border-white/10 rounded-xl p-4 w-full animate-in fade-in slide-in-from-right-4">
+                                    <div className="text-xs text-zinc-400 mb-1">Recipient</div>
+                                    <div className="font-medium text-white">{selectedUser.name}</div>
+                                    <div className="text-xs text-zinc-500">{selectedUser.email}</div>
+                                </div>
+                            )}
                             <button
-                                onClick={() => setSelectedUser(null)}
-                                className="text-zinc-400 hover:text-white"
+                                onClick={() => setIsPaymentModalOpen(true)}
+                                disabled={!selectedUser}
+                                className="w-full px-8 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-indigo-500/20 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:shadow-none"
                             >
-                                ×
+                                <Send className="w-4 h-4" />
+                                Proceed to Pay
                             </button>
                         </div>
-                    )}
-                    <button
-                        onClick={() => setIsPaymentModalOpen(true)}
-                        disabled={!selectedUser}
-                        className="w-full px-6 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        <Send className="w-4 h-4" />
-                        Send Payment
-                    </button>
+                    </div>
                 </GlassCard>
             </div>
 
