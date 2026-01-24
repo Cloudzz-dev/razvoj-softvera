@@ -28,8 +28,8 @@ interface Transaction {
     serviceFee: number;
     netAmount: number;
     status: "COMPLETED" | "PENDING" | "FAILED" | "CANCELLED";
-    date: string;
-    description: string;
+    createdAt: string;
+    description: string | null;
     provider: "PAYPAL" | "CRYPTO" | "CARD";
 }
 
@@ -46,7 +46,8 @@ export function TransactionHistory() {
             const response = await fetch(`/api/transactions?filter=${currentFilter}`);
             if (!response.ok) throw new Error("Failed to fetch transactions");
             const data = await response.json();
-            setTransactions(data);
+            // Handle both paginated response { transactions: [] } and legacy array response
+            setTransactions(Array.isArray(data) ? data : data.transactions || []);
         } catch (error) {
             console.error(error);
             toast.error("Could not load transaction history.");
@@ -120,7 +121,7 @@ export function TransactionHistory() {
                                             </div>
                                             <p className="text-sm text-zinc-400 mb-2">{tx.description}</p>
                                             <div className="flex items-center gap-4 text-xs text-zinc-500">
-                                                <span>{format(new Date(tx.date), "MMM dd, yyyy")}</span>
+                                                <span>{format(new Date(tx.createdAt), "MMM dd, yyyy")}</span>
                                                 <span>{getProviderIcon(tx.provider)} {tx.provider}</span>
                                             </div>
                                         </div>

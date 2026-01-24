@@ -1,0 +1,50 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Build outputs
+.next
+out
+build
+dist
+
+# Testing
+coverage
+
+# Environment files (handled separately)
+.env*.local
+
+# IDE and OS
+.idea
+.vscode
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+
+# Docker (prevent recursive context)
+Dockerfile*
+docker-compose*.yml
+
+# Documentation and misc (except docs needed in build)
+*.md
+!DFDS_Dokumentacija.md
+LICENSE
+docs
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Prisma generated files (will be regenerated in container)
+# Keep prisma schema
+!prisma/schema.prisma

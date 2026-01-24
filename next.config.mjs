@@ -8,7 +8,7 @@ const securityHeaders = [
   { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
   {
     key: 'Content-Security-Policy',
-    value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' *.posthog.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: *.posthog.com *.googleusercontent.com *.githubusercontent.com; connect-src 'self' *.posthog.com; font-src 'self' data:; frame-src 'self' https://accounts.google.com; object-src 'none'; base-uri 'self';",
+    value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' *.posthog.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: *.posthog.com *.googleusercontent.com *.githubusercontent.com; connect-src 'self' *.posthog.com ws://localhost:* wss://localhost:* ws://127.0.0.1:* wss://127.0.0.1:*; font-src 'self' data:; frame-src 'self' https://accounts.google.com; object-src 'none'; base-uri 'self';",
   },
 ];
 

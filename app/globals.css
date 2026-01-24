@@ -170,38 +170,59 @@ button:active {
   0% {
     transform: translate(40vw, 20vh) scale(1);
   }
+
   25% {
     transform: translate(60vw, 80vh) scale(1.2);
   }
+
   50% {
     transform: translate(20vw, 70vh) scale(0.8);
   }
+
   75% {
     transform: translate(-20vw, 40vh) scale(1.1);
   }
+
   100% {
     transform: translate(40vw, 20vh) scale(1);
   }
 }
 
+/* ✅ FIX: Respect user motion preferences for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .moving-light {
+    animation: none;
+  }
+
+  .animate-fade-in,
+  .animate-slide-in,
+  .animate-pulse-slow,
+  .animate-scroll-fast,
+  .animate-scroll-normal,
+  .animate-scroll-slow {
+    animation: none;
+  }
+}
+
 /* Infinite Scroll Animation */
 @keyframes scroll {
-    from {
-        transform: translateX(0);
-    }
-    to {
-        transform: translateX(-50%);
-    }
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 .animate-scroll-fast {
-    animation: scroll 20s linear infinite;
+  animation: scroll 20s linear infinite;
 }
 
 .animate-scroll-normal {
-    animation: scroll 40s linear infinite;
+  animation: scroll 40s linear infinite;
 }
 
 .animate-scroll-slow {
-    animation: scroll 80s linear infinite;
+  animation: scroll 80s linear infinite;
 }

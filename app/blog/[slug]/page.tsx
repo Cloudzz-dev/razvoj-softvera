@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 interface Props {
     params: Promise<{ slug: string }>;
@@ -87,10 +89,13 @@ export default async function BlogPostPage({ params }: Props) {
 
                 <div className="prose prose-invert prose-lg max-w-none">
                     {post.content ? (
-                        <div
-                            className="text-zinc-300 leading-relaxed whitespace-pre-wrap"
-                            dangerouslySetInnerHTML={{ __html: post.content }}
-                        />
+                        // ✅ FIX: Use ReactMarkdown instead of dangerouslySetInnerHTML
+                        // This safely renders markdown without XSS risk
+                        <div className="text-zinc-300 leading-relaxed prose-headings:text-white prose-a:text-indigo-400">
+                            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                                {post.content}
+                            </ReactMarkdown>
+                        </div>
                     ) : (
                         <p className="text-zinc-400">Content coming soon...</p>
                     )}

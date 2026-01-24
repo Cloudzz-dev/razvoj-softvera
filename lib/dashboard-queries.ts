@@ -81,13 +81,17 @@ export const getDashboardStats = unstable_cache(
     { revalidate: 3600, tags: ['dashboard-stats'] }
 );
 
-export async function getRecentActivity(userId: string) {
-    return prisma.activity.findMany({
-        where: { userId },
-        orderBy: { createdAt: "desc" },
-        take: 10,
-    });
-}
+export const getRecentActivity = unstable_cache(
+    async (userId: string) => {
+        return prisma.activity.findMany({
+            where: { userId },
+            orderBy: { createdAt: "desc" },
+            take: 10,
+        });
+    },
+    ['recent-activity'],
+    { revalidate: 60, tags: ['recent-activity'] }
+);
 
 export const getGrowthMetrics = unstable_cache(
     async (timeRange: string = "month", userId: string) => {

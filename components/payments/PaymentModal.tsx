@@ -96,6 +96,7 @@ export function PaymentModal({ isOpen, onClose, recipientName, recipientId }: Pa
                     recipientName,
                     description,
                     provider,
+                    idempotencyKey: `pay_${Date.now()}_${crypto.randomUUID().slice(0, 8)}`, // ✅ FIX: Added required field
                 }),
             });
 
