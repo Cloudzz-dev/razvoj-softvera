@@ -1,7 +1,12 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { GlassCard } from "@/components/ui/GlassCard";
-import { GrowthDashboard } from "@/components/dashboard/GrowthDashboard";
+import dynamic from "next/dynamic";
+// import { GrowthDashboard } from "@/components/dashboard/GrowthDashboard"; // Replaced with dynamic
+const GrowthDashboard = dynamic(
+    () => import("@/components/dashboard/GrowthDashboard").then((mod) => mod.GrowthDashboard),
+    { loading: () => <div className="h-[500px] w-full bg-white/5 animate-pulse rounded-xl" /> }
+);
 import { FounderDashboard } from "@/components/dashboard/FounderDashboard"; // NEW
 import { Rocket, Users, Briefcase, TrendingUp, ArrowRight, Send, MessageSquare } from "lucide-react";
 import Link from "next/link";

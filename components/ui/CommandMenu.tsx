@@ -54,18 +54,21 @@ export function CommandMenu() {
                     <Command.Group heading="Navigation" className="text-xs font-medium text-white/40 px-2 py-1.5 mb-2">
                         <CommandItem
                             onSelect={() => runCommand(() => router.push("/"))}
+                            onMouseEnter={() => router.prefetch("/")}
                         >
                             <Home className="mr-2 h-4 w-4" />
                             <span>Home</span>
                         </CommandItem>
                         <CommandItem
                             onSelect={() => runCommand(() => router.push("/dashboard"))}
+                            onMouseEnter={() => router.prefetch("/dashboard")}
                         >
                             <LayoutDashboard className="mr-2 h-4 w-4" />
                             <span>Dashboard</span>
                         </CommandItem>
                         <CommandItem
                             onSelect={() => runCommand(() => router.push("/roadmap"))}
+                            onMouseEnter={() => router.prefetch("/roadmap")}
                         >
                             <Map className="mr-2 h-4 w-4" />
                             <span>Roadmap</span>
@@ -75,12 +78,14 @@ export function CommandMenu() {
                     <Command.Group heading="Settings" className="text-xs font-medium text-white/40 px-2 py-1.5 mb-2">
                         <CommandItem
                             onSelect={() => runCommand(() => router.push("/profile"))}
+                            onMouseEnter={() => router.prefetch("/profile")}
                         >
                             <User className="mr-2 h-4 w-4" />
                             <span>Profile</span>
                         </CommandItem>
                         <CommandItem
                             onSelect={() => runCommand(() => router.push("/settings"))}
+                            onMouseEnter={() => router.prefetch("/settings")}
                         >
                             <Settings className="mr-2 h-4 w-4" />
                             <span>Settings</span>
@@ -107,13 +112,15 @@ export function CommandMenu() {
 interface CommandItemProps {
     children: React.ReactNode;
     onSelect?: () => void;
+    onMouseEnter?: () => void;
 }
 
-function CommandItem({ children, onSelect }: CommandItemProps) {
+function CommandItem({ children, onSelect, onMouseEnter }: CommandItemProps) {
     return (
         <Command.Item
             onSelect={onSelect}
             className="relative flex cursor-pointer select-none items-center rounded-lg px-3 py-2.5 text-sm text-white/70 outline-none hover:bg-white/10 hover:text-white data-[selected=true]:bg-white/10 data-[selected=true]:text-white transition-colors duration-150"
+            onPointerEnter={onMouseEnter} // Use pointer enter for hover
         >
             {children}
         </Command.Item>

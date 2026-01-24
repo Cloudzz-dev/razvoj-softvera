@@ -2,8 +2,18 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import useSWR from "swr";
-import { MetricsChart } from "@/components/ui/MetricsChart";
+import dynamic from "next/dynamic";
+// import { MetricsChart } from "@/components/ui/MetricsChart"; // Replaced with dynamic import
 import { TrendingUp, TrendingDown, Users, DollarSign } from "lucide-react";
+
+// Lazy load heavy chart component
+const MetricsChart = dynamic(
+    () => import("@/components/ui/MetricsChart").then((mod) => mod.MetricsChart),
+    {
+        loading: () => <div className="h-[280px] w-full bg-white/5 animate-pulse rounded-xl" />,
+        ssr: false
+    }
+);
 import toast from "react-hot-toast";
 
 type TimeRange = "week" | "month" | "quarter" | "year";
