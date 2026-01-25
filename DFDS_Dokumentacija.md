@@ -1,159 +1,206 @@
 # DFDS: Dokumentacija Sustava
 
-> **Verzija**: 1.1.0  
+> **Verzija**: 1.2.0  
 > **Status**: Spremno za Produkciju 
+> **Tim**: Team Cloudzz
 
 ---
 
-##  Uvod (O Projektu)
+## 📖 Uvod (O Projektu)
 
-Bok! Dobrodošli u **DFDS** – platformu koju smo izgradili tijekom natjecanja. Naš tim je **Team Cloudzz**.
+Bok! Dobrodošli u **DFDS** – naprednu platformu koju smo izgradili s ciljem revolucije startup ekosustava. Naš tim, **Team Cloudzz**, fokusirao se na rješavanje stvarnog problema: *nepovezanosti između inovatora (Foundera), graditelja (Developera) i investitora.*
 
-Naš cilj nije bio samo napraviti još jedan LinkedIn, već stvoriti **ekosustav** gdje se startup timovi zapravo *grade*. Koristimo moderni stack (Next.js, Prisma, AI) kako bi sve letjelo, a korisničko iskustvo bilo vrhunsko. Demo možete pogledati na [dfds.cloudzz.dev](https://dfds.cloudzz.dev).
+Naš cilj nije bio samo napraviti još jedan LinkedIn, već stvoriti **živi ekosustav** gdje se startup timovi zapravo *grade* i financiraju. Koristimo moderni "bleeding-edge" stack (Next.js, Prisma, AI, WebSockets) kako bi aplikacija bila brza, responzivna i spremna za skaliranje.
 
-Ovdje ćemo proći kroz to **kako stvari zapravo rade ispod haube**.
+Glavne značajke:
+*   **Smart Matching**: Algoritamsko povezivanje talenata.
+*   **Real-time Komunikacija**: Chat bez kašnjenja.
+*   **AI Konzultant**: Instant povratne informacije na poslovne ideje.
+*   **Investicijski Dashboard**: Transparentno praćenje financiranja.
 
 ---
 
-## -Kako Sustav "Diše" (Arhitektura)
+## 🏗️ Kako Sustav "Diše" (Arhitektura)
 
-DFDS je **hibridna cloud aplikacija**. To znači da kombiniramo brzinu statičkog weba (Next.js) s dinamikom stvarnog vremena (WebSockets).
+DFDS je **hibridna cloud aplikacija**. Kombiniramo brzinu statičkog weba (Next.js SSR) s dinamikom stvarnog vremena (WebSockets).
 
 Evo kako podaci putuju kroz sustav:
 
 ```mermaid
 graph TD
-    User(" Korisnik") -->|Browser| UI["Next.js Frontend"]
-    UI -->|API Pozivi| API{"Next.js API Routes"}
+    User("👤 Korisnik") -->|Browser| UI["💻 Next.js Frontend"]
+    UI -->|API Pozivi| API{"⚡ Next.js API Routes"}
     
-    subgraph Backend ["Backend Logika"]
-        API -->|ORM| Prisma["Prisma Klijent"]
-        Prisma -->|SQL| DB[("PostgreSQL Baza")]
+    subgraph Backend ["⚙️ Backend Logika"]
+        API -->|ORM| Prisma["🔷 Prisma Klijent"]
+        Prisma -->|SQL| DB[("🗄️ PostgreSQL Baza")]
         
-        API -->|Cache/PubSub| Redis[("Redis")]
-        Redis <--> Soketi["Soketi (WebSocket)"]
+        API -->|Cache/PubSub| Redis[("🔴 Redis")]
+        Redis <--> Soketi["🔌 Soketi (WebSocket)"]
         
-        API -->|AI Upiti| GPT["OpenAI Servis"]
+        API -->|AI Upiti| GPT["🤖 OpenAI Servis"]
     end
     
     Soketi -.->|Live Update| User
 ```
 
 **Ukratko:**
-1.  **Frontend**: Sve što vidite je React, ali renderiran na serveru (SSR) za brzinu.
-2.  **Baza**: PostgreSQL čuva sve - od profila do poruka.
-3.  **Real-time**: Kad pošaljete poruku, ona ide kroz Redis do Soketija, koji je odmah "gura" primatelju. Nema osvježavanja stranice.
+1.  **Frontend**: Sve što vidite je React, ali renderiran na serveru (SSR) za SEO i brzinu.
+2.  **Baza**: PostgreSQL čuva sve podatke - od profila korisnika do transakcija.
+3.  **Real-time**: Kad pošaljete poruku, ona ide kroz Redis do Soketija, koji je odmah "gura" primatelju. Nema osvježavanja stranice ("F5").
 
 ---
 
-## Struktura Koda (Deep Dive)
+## 📱 Korisničke Upute (User Guide)
 
-Ako otvarate projekt prvi put, evo gdje se što nalazi. Organizirani smo da se lako snađete:
+Ovdje možete vidjeti kako aplikacija izgleda i funkcionira u praksi. Pokrili smo svaki dio sustava.
 
-### `/app` (Mozak Operacije)
-Ovo je Next.js App Router. Struktura mapa prati URL-ove u pregledniku.
-*   `api/` - Naš backend. Ovdje su rute za registraciju, chat, AI.
-*   `dashboard/` - Zaštićeni dio aplikacije (samo za ulogirane korisnike).
-*   `layout.tsx` - Glavni okvir (headeri, fontovi, providers).
+### 1. Naslovna Stranica (Landing Page)
+Prvi kontakt s aplikacijom. Dizajnirana je da bude čista i jasna, odmah objašnjavajući vrijednost platforme.
 
-### `/components` (Lego Kockice)
-Sve vizualno je ovdje.
-*   `ui/` - Male komponente (gumbi, kartice, inputi). Koristimo *glassmorphism* stil.
-*   `landing/` - Sve što vidite na naslovnoj stranici (Hero sekcija).
-*   `dashboard/` - Kompleksnije komponente poput grafova i tablica.
+![Naslovna Stranica](./docs/images/landing_page_1769369074923.png)
 
-### `/lib` (Alati)
-Pomoćne funkcije koje koristimo svugdje.
-*   `prisma.ts` - Jedan "otvor" prema bazi podataka.
-*   `auth.ts` - Logika za prijavu i sesije.
-*   `utils.ts` - Male funkcije za formatiranje datuma, klasa itd.
+### 2. Glavni Dashboard
+Kontrolna ploča za korisnika. Ovdje Founder može vidjeti ključne metrike: prikupljena sredstva, doseg ("Runway") i aktivnost korisnika.
 
-### `/prisma` (Baza)
-*   `schema.prisma` - **Najvažnija datoteka**. Ovdje definiramo kako izgledaju podaci (Korisnik, Startup, Poruka). Ako mijenjate bazu, mijenjate ovu datoteku.
+![Glavni Dashboard](./docs/images/dashboard_final_1769369850203.png)
 
----
+### 3. Pregled Startupa (Startups Grid)
+Srce platforme. Investitori i developeri ovdje pregledavaju aktivne startupe. Kartice prikazuju fazu financiranja (npr. "Series A") i omogućuju direktno povezivanje.
 
-##  Ključne Funkcionalnosti (Under the Hood)
+![Pregled Startupa](./docs/images/startups_page_final_1769369880445.png)
 
-### 1. Smart Matching (Pametno Povezivanje)
-Ne spajamo ljude nasumično. Algoritam gleda:
-*   **Vještine**: (npr. traži se React + Node.js)
-*   **Interese**: (npr. Fintech, AI)
-*   **Ulogu**: (Founder traži Co-foundera)
+### 4. Poruke i Chat (Real-time)
+Integrirani sustav za dopisivanje. Omogućuje direktnu komunikaciju između investitora i osnivača bez napuštanja platforme.
 
-### 2. Live Chat Sustav
-Ovo nije običan chat. Koristimo **WebSockete** za trenutnu komunikaciju.
-*   **Pusher Protokol**: Koristimo `pusher-js` na klijentu i `soketi` na serveru.
-*   **Sigurnost**: Svaki kanal je privatan i autoriziran.
+![Chat Sustav](./docs/images/chat_page_final_1769369863673.png)
 
-```mermaid
-sequenceDiagram
-    participant Alice
-    participant Server
-    participant Bob
-    
-    Alice->>Server: Pošalji poruku "Bok!"
-    Server->>Database: Spremi poruku
-    Server->>Soketi: Publish "new-message"
-    Soketi->>Bob: PUSH: "Alice: Bok!"
-```
+### 5. Investitori (Investors)
+Prikaz aktivnih investitora na platformi, njihov fokus (npr. SaaS, AI) i prosjek ulaganja ("Check Size").
 
-### 3. AI konzultant
-Integrirali smo GPT-4 izravno u dashboard.
-*   Korisnik unese ideju.
-*   API šalje prompt u OpenAI s "kontekstom" (npr. "Ponašaj se kao iskusni VC investitor").
-*   Vraćamo strukturirani savjet (SWOT analiza, Monetizacija).
+![Investitori](./docs/images/investors_page_1769370060670.png)
+
+### 6. Mreža Developera (Network)
+Baza talenata. Founder ovdje može pronaći developere prema vještinama (React, Node.js) i iskustvu.
+
+![Mreža Developera](./docs/images/network_page_1769370073312.png)
+
+### 7. Diskusije i Zajednica (Threads)
+Forum gdje korisnici raspravljaju o tehnologiji, traže savjete ili partnere za hackathone.
+
+![Diskusije](./docs/images/threads_page_1769370084469.png)
+
+### 8. Plan Razvoja (Roadmap)
+Transparentni prikaz budućih značajki platforme gdje korisnici mogu glasati za ono što žele sljedeće.
+
+![Roadmap](./docs/images/roadmap_page_1769370098909.png)
+
+### 9. Postavke Profila (Settings)
+Upravljanje korisničkim računom, avatarima i osobnim podacima.
+
+![Postavke](./docs/images/settings_page_1769370112162.png)
 
 ---
 
-## Kako Pokrenuti (Quick Start)
+## 🔌 API Dokumentacija
 
-Napravili smo skriptu da ne morate tipkati 10 naredbi.
+Aplikacija izlaže RESTful API koji koristi frontend, ali se može koristiti i za integracije. Svi odgovori su u `JSON` formatu.
 
-1.  **Skinite kod**:
-    ```bash
-    git clone https://github.com/Cloudzz-dev/dfds.git
-    cd dfds
+### Autentifikacija
+Većina ruta zahtijeva aktivnu sesiju (NextAuth).
+
+### 1. Registracija (Register)
+Stvara novog korisnika u sustavu.
+
+*   **Endpoint**: `POST /api/register`
+*   **Body (JSON)**:
+    ```json
+    {
+      "name": "Ivan Horvat",
+      "email": "ivan@primjer.com",
+      "password": "sigurna_lozinka_123",
+      "role": "FOUNDER", // Opcije: FOUNDER, DEVELOPER, INVESTOR
+      "startupName": "Moja Firma" // Samo za FOUNDER role
+    }
     ```
 
-2.  **Pokrenite skriptu** (treba vam Docker):
-    ```bash
-    ./deploy.sh full
-    ```
-    *Ovo će podići bazu, aplikaciju, Redis i sve servise koji su potrebni.*
+### 2. Dohvat Startupa (Get Startups)
+Vraća paginiranu listu startupa.
 
+*   **Endpoint**: `GET /api/startups`
+*   **Query Params**:
+    *   `page`: Broj stranice (default: 1)
+    *   `limit`: Broj zapisa (default: 25)
+*   **Response**:
+    ```json
+    [
+      {
+        "id": "cuid123...",
+        "name": "EcoInc",
+        "stage": "Seed",
+        "founder": { "name": "Marko Ivic" }
+      },
+      ...
+    ]
+    ```
+
+### 3. Kreiranje Startupa (Create Startup)
+Omogućuje korisniku (Founderu) da registrira svoj startup.
+
+*   **Endpoint**: `POST /api/startups`
+*   **Zahtijeva Auth**: Da
+*   **Body (JSON)**:
+    ```json
+    {
+      "name": "Nova Aplikacija",
+      "pitch": "Revolucija u AI...",
+      "stage": "Pre-seed",
+      "websiteUrl": "https://nova-app.com",
+      "teamSize": 5,
+      "raised": "$0"
+    }
+    ```
+
+### 4. Slanje Poruke (Send Message)
+Šalje privatnu poruku drugom korisniku.
+
+*   **Endpoint**: `POST /api/messages/send`
+*   **Zahtijeva Auth**: Da
+*   **Body (JSON)**:
+    ```json
+    {
+      "receiverId": "user_id_primatelja",
+      "content": "Pozdrav, zanima me vaš projekt."
+    }
+    ```
+    *Napomena: Ova akcija automatski triggera WebSocket event za primatelja.*
+
+---
+
+## 📂 Struktura Koda (Deep Dive)
+
+### `/app`
+*   `api/` - Backend API rute.
+*   `dashboard/` - Glavno sučelje aplikacije.
+*   `layout.tsx` - Root layout.
+
+### `/components`
+*   `ui/` - Shadcn/UI komponente.
+*   `landing/` - Landing page sekcije.
+
+### `/prisma`
+*   `schema.prisma` - DB shema.
+*   `seed.ts` - Glavna seed skripta.
+
+---
+
+## 🚀 Kako Pokrenuti
+
+1.  **Skinite kod**: `git clone ...`
+2.  **Pokrenite**: `./deploy.sh full`
 3.  **Otvorite**: `http://localhost:3753`
 
-> **Pro Tip**: Ako želite vidjeti logove, samo ukucajte `./deploy.sh logs`.
-
 ---
 
-## Environment Varijable 
-
-Projekt koristi razne vanjske servise. Za potrebe Hackathona, **aplikacija će se pokrenuti i raditi** i bez većine ovih ključeva, ali određene funkcionalnosti neće biti dostupne.
-
-Evo popisa ključeva koje je korisno znati:
-
-| Varijabla | Obavezna? | Što radi? | Posljedica ako nedostaje |
-| :--- | :--- | :--- | :--- |
-| `DATABASE_URL` |  Da | Veza na PostgreSQL bazu. | App se ne pokreće. (Postavljeno automatski u Dockeru) |
-| `NEXTAUTH_SECRET` |  Da | Enkripcija sesija. | Login ne radi. (Postavljeno automatski u Dockeru) |
-| `OPENAI_API_KEY` |  Ne | **AI Konzultant** (Dashboard). | AI funkcionalnosti (SWOT analize) neće raditi. |
-| `RESEND_API_KEY` |  Ne | Slanje e-mailova (invite). | Pozivnice za timove neće stizati na mail. |
-| `GITHUB_ID` / `SECRET` |  Ne | Prijava putem GitHuba. | Gumb "Sign in with GitHub" neće raditi. |
-| `GOOGLE_ID` / `SECRET` |  Ne | Prijava putem Googlea. | Gumb "Sign in with Google" neće raditi. |
-
-> **Napomena**: Ako pokrećete putem `./deploy.sh`, svi **infrastrukturni** ključevi (Baza, Redis, Websoketi) su već automatski konfigurirani! Trebate unijeti samo API ključeve za vanjske servise (OpenAI, Resend, OAuth) u `.env` filu ako želite isprobati te specifične funkcionalnosti. Resend i Oauth mozete dobiti besplatno. za OpenAI trebate uplaitit novac u OpenAI-ovu platfromu da bi ste mogli koristit AI funkcionalnosti.
-
----
-
-## Sigurnost (Security First)
-Nismo zaboravili na sigurnost.
-*   **Password Hashing**: Ne spremamo lozinke u plain textu nego ih kriptografksi hashiramo (Bcrypt).
-*   **Rate Limiting**: Redis pazi da nitko ne spamma API i cacha requestove.
-*   **Sanitizacija**: Inputi se ciste prije nego dotaknu bazu podataka ili API.
-
----
-
-*Hvala što koristite DFDS. Gradimo budućnost zajedno!*  
+*Hvala što koristite DFDS.*  
 *- Tim Cloudzz*

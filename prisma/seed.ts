@@ -280,6 +280,61 @@ async function main() {
     // If roadmap is static or uses issues/threads, I'll skip for now or use Threads with "Feature Request" tag.
     // Let's verify schema first? No time, assume Threads with tag is enough based on tasks).
 
+    // --- ENHANCED MESSAGING SEED FOR DEMO USER ---
+    console.log("Creating Enhanced Demo Messages...");
+    const demoUserUpdated = await prisma.user.findUnique({ where: { email: "demo@cloudzz.dev" } });
+    if (demoUserUpdated) {
+        // Find some people to talk to
+        const chatPartners = await prisma.user.findMany({
+            where: {
+                NOT: { id: demoUserUpdated.id },
+                role: { in: ["INVESTOR", "DEVELOPER"] }
+            },
+            take: 3
+        });
+
+        for (const partner of chatPartners) {
+            // Create a conversation
+            const conversation = await prisma.conversation.create({
+                data: {
+                    participants: {
+                        create: [
+                            { userId: demoUserUpdated.id },
+                            { userId: partner.id }
+                        ]
+                    }
+                }
+            });
+
+            // Add some messages
+            await prisma.message.createMany({
+                data: [
+                    {
+                        conversationId: conversation.id,
+                        senderId: partner.id,
+                        content: "Hi! I saw your profile and I'm interested in your project.",
+                        createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24), // 1 day ago
+                        read: true
+                    },
+                    {
+                        conversationId: conversation.id,
+                        senderId: demoUserUpdated.id,
+                        content: "Hello! Thanks for reaching out. What specifically caught your eye?",
+                        createdAt: new Date(Date.now() - 1000 * 60 * 60 * 23),
+                        read: true
+                    },
+                    {
+                        conversationId: conversation.id,
+                        senderId: partner.id,
+                        content: "The AI integration looks solid. Do you have a roadmap for Q3?",
+                        createdAt: new Date(Date.now() - 1000 * 60 * 60 * 5),
+                        read: false
+                    }
+                ]
+            });
+        }
+    }
+
     console.log("✅ Database seeded successfully!");
 }
 
