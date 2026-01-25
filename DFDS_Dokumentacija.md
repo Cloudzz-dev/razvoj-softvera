@@ -256,7 +256,9 @@ sequenceDiagram
     F-->>U: Markdown renderiran odgovor
 ```
 
-### Struktura Direktorija
+### Struktura Direktorija (Sažetak)
+
+> **Napomena**: Ovo je sažeti prikaz glavnih direktorija. Stvarna struktura sadrži više datoteka.
 
 ```
 dfds/
@@ -1161,9 +1163,7 @@ Prva stranica koju posjetitelji vide. Dizajnirana za konverziju.
 
 ## 📞 Kontakt i Podrška
 
-- **Email**: support@dfds.io
-- **GitHub Issues**: [github.com/team-cloudzz/dfds/issues](https://github.com/team-cloudzz/dfds/issues)
-- **Discord**: [discord.gg/dfds](https://discord.gg/dfds)
+- **Email**: team@cloudzz.dev
 
 ---
 
