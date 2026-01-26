@@ -44,11 +44,13 @@ services:
     container_name: dfds-soketi
     restart: unless-stopped
     environment:
-      SOKETI_DEBUG: "1"
+      SOKETI_DEBUG: "${SOKETI_DEBUG:-0}"
       SOKETI_METRICS_SERVER_PORT: "9601"
-      SOKETI_DEFAULT_APP_ID: "app-id"
-      SOKETI_DEFAULT_APP_KEY: "app-key"
-      SOKETI_DEFAULT_APP_SECRET: "app-secret"
+      # Use env vars for secrets - defaults provided for local dev only
+      # In production, set these via .env file with secure values
+      SOKETI_DEFAULT_APP_ID: "${SOKETI_DEFAULT_APP_ID:-dfds-app}"
+      SOKETI_DEFAULT_APP_KEY: "${NEXT_PUBLIC_PUSHER_KEY:-dfds-local-key}"
+      SOKETI_DEFAULT_APP_SECRET: "${SOKETI_DEFAULT_APP_SECRET:-dfds-local-secret-change-in-prod}"
     ports:
       - "${SOKETI_PORT:-6001}:6001"
       - "${SOKETI_METRICS_PORT:-9601}:9601"
@@ -89,12 +91,14 @@ services:
       - GITHUB_SECRET=${GITHUB_SECRET:-}
       - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID:-}
       - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET:-}
-      # Real-time Messaging
+      # Real-time Messaging (must match Soketi config)
       - PUSHER_HOST=soketi
       - PUSHER_PORT=6001
-      - NEXT_PUBLIC_PUSHER_HOST=localhost
-      - NEXT_PUBLIC_PUSHER_PORT=6001
-      - NEXT_PUBLIC_PUSHER_KEY=app-key
+      - PUSHER_APP_ID=${SOKETI_DEFAULT_APP_ID:-dfds-app}
+      - PUSHER_APP_SECRET=${SOKETI_DEFAULT_APP_SECRET:-dfds-local-secret-change-in-prod}
+      - NEXT_PUBLIC_PUSHER_HOST=${NEXT_PUBLIC_PUSHER_HOST:-localhost}
+      - NEXT_PUBLIC_PUSHER_PORT=${NEXT_PUBLIC_PUSHER_PORT:-6001}
+      - NEXT_PUBLIC_PUSHER_KEY=${NEXT_PUBLIC_PUSHER_KEY:-dfds-local-key}
     depends_on:
       postgres:
         condition: service_healthy
