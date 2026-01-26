@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { MessageSquare, X, Send, Bot, User, Sparkles, Search, Mail, GripHorizontal } from "lucide-react";
+import { MessageSquare, X, Send, Bot, User, Sparkles, Search, Mail, GripHorizontal, AlertTriangle } from "lucide-react";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
@@ -27,6 +27,8 @@ export function AiAssistant() {
     ]);
     const [input, setInput] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [isDisabled, setIsDisabled] = useState(false);
+    const [disabledReason, setDisabledReason] = useState<string | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     // Resize state
@@ -128,9 +130,34 @@ export function AiAssistant() {
                 }),
             });
 
-            if (!response.ok) throw new Error("Failed to fetch response");
-
             const data = await response.json();
+
+            // Handle API key not configured
+            if (response.status === 500 && data.error === "OpenAI API key not configured") {
+                setIsDisabled(true);
+                setDisabledReason("AI features are currently unavailable. Please try again later.");
+                setMessages(prev => [...prev, {
+                    role: "assistant",
+                    content: "I apologize, but AI features are temporarily unavailable. The OpenAI integration is not configured. Please contact support or try again later."
+                }]);
+                return;
+            }
+
+            // Handle access gate (referral/subscription required)
+            if (response.status === 403 && data.requiresAccess) {
+                setMessages(prev => [...prev, {
+                    role: "assistant",
+                    content: `To use the AI assistant, you need one of the following:\n\n` +
+                        `• **Invite ${data.targetReferrals - data.currentReferrals} more friends** (${data.currentReferrals}/${data.targetReferrals} referrals)\n` +
+                        `• **Get verified as a Builder**\n` +
+                        `• **Upgrade to PRO or GROWTH** (current: ${data.tier})\n\n` +
+                        `Visit your settings to learn more!`
+                }]);
+                return;
+            }
+
+            if (!response.ok) throw new Error(data.error || "Failed to fetch response");
+
             let reply = data.reply;
 
             // Check for navigation command
@@ -259,6 +286,14 @@ export function AiAssistant() {
                         ))}
                     </div>
 
+                    {/* Disabled Warning */}
+                    {isDisabled && disabledReason && (
+                        <div className="mx-4 mb-2 p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center gap-2">
+                            <AlertTriangle className="w-4 h-4 text-amber-400 flex-shrink-0" />
+                            <p className="text-xs text-amber-300">{disabledReason}</p>
+                        </div>
+                    )}
+
                     {/* Input */}
                     <form onSubmit={handleSubmit} className="p-4 border-t border-white/10 bg-black/20">
                         <div className="relative">
@@ -266,12 +301,13 @@ export function AiAssistant() {
                                 type="text"
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
-                                placeholder="Pitaj o startupima..."
-                                className="w-full pl-4 pr-12 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                placeholder={isDisabled ? "AI assistant unavailable" : "Ask about startups..."}
+                                disabled={isDisabled}
+                                className="w-full pl-4 pr-12 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
                             />
                             <button
                                 type="submit"
-                                disabled={!input.trim() || isLoading}
+                                disabled={!input.trim() || isLoading || isDisabled}
                                 className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-lg text-indigo-400 hover:text-white hover:bg-indigo-600/50 transition-colors disabled:opacity-50 disabled:hover:bg-transparent disabled:hover:text-indigo-400"
                             >
                                 <Send className="w-4 h-4" />
