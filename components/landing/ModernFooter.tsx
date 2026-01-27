@@ -10,7 +10,7 @@ export function ModernFooter() {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="relative bg-black border-t border-white/10 pt-16 pb-8 overflow-hidden">
+        <footer className="relative border-t border-white/10 pt-16 pb-8 overflow-hidden">
             <div className="container px-4 md:px-6 mx-auto relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-12 mb-16">
                     <div className="col-span-1 md:col-span-2">

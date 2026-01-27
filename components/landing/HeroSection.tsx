@@ -40,17 +40,6 @@ export function HeroSection() {
     return (
         <section className="relative min-h-screen flex flex-col items-center justify-start pt-32 overflow-hidden">
             <DynamicIsland />
-            {/* Background Elements */}
-            <div className="absolute inset-0 z-0" aria-hidden="true">
-                <div
-                    key="bg-gradient-1"
-                    className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-500/20 rounded-full blur-[128px] animate-pulse"
-                />
-                <div
-                    key="bg-gradient-2"
-                    className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-[128px] animate-pulse delay-1000"
-                />
-            </div>
 
             <div className="container relative z-10 px-4 md:px-6 flex flex-col items-center text-center gap-8">
                 <motion.div
