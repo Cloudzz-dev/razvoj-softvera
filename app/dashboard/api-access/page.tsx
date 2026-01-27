@@ -348,6 +348,7 @@ export default function ApiPage() {
                                                             setEditingName(apiKey.name);
                                                         }}
                                                         className="p-1 hover:bg-white/10 rounded transition-colors"
+                                                        aria-label="Edit API key name"
                                                     >
                                                         <Edit2 className="w-3 h-3 text-zinc-400" />
                                                     </button>
@@ -368,6 +369,7 @@ export default function ApiPage() {
                                                     onClick={() => copyToClipboard(apiKey.fullKey || apiKey.key, apiKey.id)}
                                                     className="p-1 hover:bg-white/10 rounded transition-colors"
                                                     title="Copy API Key"
+                                                    aria-label="Copy API Key"
                                                 >
                                                     {copiedId === apiKey.id ? (
                                                         <Check className="w-4 h-4 text-green-400" />
@@ -401,6 +403,7 @@ export default function ApiPage() {
                                         <button
                                             onClick={() => deleteApiKey(apiKey.id)}
                                             className="p-2 hover:bg-red-500/10 rounded-xl text-red-400 transition-colors"
+                                            aria-label="Delete API Key"
                                         >
                                             <Trash2 className="w-4 h-4" />
                                         </button>
@@ -477,6 +480,7 @@ export default function ApiPage() {
                                                             }}
                                                             className="p-1.5 hover:bg-indigo-500/20 rounded-lg transition-colors"
                                                             title="Test this endpoint"
+                                                            aria-label="Test this endpoint"
                                                         >
                                                             <Play className="w-4 h-4 text-indigo-400" />
                                                         </button>
@@ -505,6 +509,7 @@ export default function ApiPage() {
                                                                         `curl-${endpointId}`
                                                                     )}
                                                                     className="absolute top-2 right-2 p-1 hover:bg-white/10 rounded-lg"
+                                                                    aria-label="Copy curl command"
                                                                 >
                                                                     {copiedId === `curl-${endpointId}` ? (
                                                                         <Check className="w-3 h-3 text-green-400" />

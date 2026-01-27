@@ -188,6 +188,7 @@ export function AiAssistant() {
             {/* Toggle Button */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
+                aria-label="Toggle AI Assistant"
                 className={cn(
                     "fixed bottom-6 right-6 z-50 p-4 rounded-full shadow-lg transition-all duration-300 hover:scale-105",
                     isOpen ? "bg-red-500 hover:bg-red-600 rotate-90" : "bg-indigo-600 hover:bg-indigo-700"
@@ -279,7 +280,7 @@ export function AiAssistant() {
                     <div className="px-4 py-2 flex gap-2 overflow-x-auto no-scrollbar">
                         {quickActions.map((action, idx) => (
                             <button
-                                key={idx}
+                                key={action.label}
                                 onClick={() => setInput(action.prompt)}
                                 className="group"
                             >
@@ -308,11 +309,13 @@ export function AiAssistant() {
                                 onChange={(e) => setInput(e.target.value)}
                                 placeholder={isDisabled ? "AI assistant unavailable" : "Ask about startups..."}
                                 disabled={isDisabled}
+                                aria-label="AI assistant input"
                                 className="pr-12 py-6"
                             />
                             <button
                                 type="submit"
                                 disabled={!input.trim() || isLoading || isDisabled}
+                                aria-label="Send message"
                                 className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full text-indigo-400 hover:text-white hover:bg-indigo-600/50 transition-colors disabled:opacity-50 disabled:hover:bg-transparent disabled:hover:text-indigo-400"
                             >
                                 <Send className="w-4 h-4" />

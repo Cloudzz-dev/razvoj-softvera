@@ -242,16 +242,18 @@ export default function SettingsPage() {
                                     <h4 className="text-sm font-semibold text-zinc-400 uppercase tracking-wider">Basic Information</h4>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-sm font-medium text-zinc-300 mb-2">Display Name</label>
+                                            <label htmlFor="display-name" className="block text-sm font-medium text-zinc-300 mb-2">Display Name</label>
                                             <Input
+                                                id="display-name"
                                                 type="text"
                                                 value={name}
                                                 onChange={(e) => setName(e.target.value)}
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-zinc-300 mb-2">Location</label>
+                                            <label htmlFor="location" className="block text-sm font-medium text-zinc-300 mb-2">Location</label>
                                             <Input
+                                                id="location"
                                                 type="text"
                                                 value={location}
                                                 onChange={(e) => setLocation(e.target.value)}
@@ -260,8 +262,9 @@ export default function SettingsPage() {
                                         </div>
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-zinc-300 mb-2">Bio</label>
+                                        <label htmlFor="bio" className="block text-sm font-medium text-zinc-300 mb-2">Bio</label>
                                         <Textarea
+                                            id="bio"
                                             value={bio}
                                             onChange={(e) => setBio(e.target.value)}
                                             rows={4}
@@ -276,8 +279,9 @@ export default function SettingsPage() {
                                     <h4 className="text-sm font-semibold text-zinc-400 uppercase tracking-wider">Social Links</h4>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-sm font-medium text-zinc-300 mb-2">GitHub URL</label>
+                                            <label htmlFor="github" className="block text-sm font-medium text-zinc-300 mb-2">GitHub URL</label>
                                             <Input
+                                                id="github"
                                                 type="url"
                                                 value={githubUrl}
                                                 onChange={(e) => setGithubUrl(e.target.value)}
@@ -285,8 +289,9 @@ export default function SettingsPage() {
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-zinc-300 mb-2">LinkedIn URL</label>
+                                            <label htmlFor="linkedin" className="block text-sm font-medium text-zinc-300 mb-2">LinkedIn URL</label>
                                             <Input
+                                                id="linkedin"
                                                 type="url"
                                                 value={linkedinUrl}
                                                 onChange={(e) => setLinkedinUrl(e.target.value)}
@@ -317,7 +322,7 @@ export default function SettingsPage() {
                                     <div className="flex flex-wrap gap-2">
                                         {skills.map((skill, idx) => (
                                             <Badge
-                                                key={idx}
+                                                key={skill}
                                                 variant="indigo"
                                                 className="gap-2"
                                             >
@@ -326,6 +331,7 @@ export default function SettingsPage() {
                                                     variant="ghost"
                                                     size="sm"
                                                     onClick={() => handleRemoveSkill(skill)}
+                                                    aria-label={`Remove ${skill}`}
                                                     className="h-auto p-0 text-zinc-400 hover:text-white hover:bg-transparent"
                                                 >
                                                     ×
@@ -434,10 +440,11 @@ export default function SettingsPage() {
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-zinc-400 mb-2">
+                                    <label htmlFor="delete-confirm" className="block text-sm font-medium text-zinc-400 mb-2">
                                         Type <span className="text-white font-mono">DELETE</span> to confirm
                                     </label>
                                     <Input
+                                        id="delete-confirm"
                                         type="text"
                                         value={deleteConfirmation}
                                         onChange={(e) => setDeleteConfirmation(e.target.value)}

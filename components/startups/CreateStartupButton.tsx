@@ -91,8 +91,9 @@ export function CreateStartupButton() {
             >
                 <form onSubmit={handleCreate} className="space-y-4">
                     <div>
-                        <label className="block text-sm font-medium text-zinc-300 mb-1">Startup Name</label>
+                        <label htmlFor="startup-name" className="block text-sm font-medium text-zinc-300 mb-1">Startup Name</label>
                         <Input
+                            id="startup-name"
                             type="text"
                             required
                             value={formData.name}
@@ -102,8 +103,9 @@ export function CreateStartupButton() {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-zinc-300 mb-1">One-Liner Pitch</label>
+                        <label htmlFor="startup-pitch" className="block text-sm font-medium text-zinc-300 mb-1">One-Liner Pitch</label>
                         <textarea
+                            id="startup-pitch"
                             required
                             value={formData.pitch}
                             onChange={(e) => setFormData({ ...formData, pitch: e.target.value })}
@@ -122,8 +124,9 @@ export function CreateStartupButton() {
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-zinc-300 mb-1">Team Size</label>
+                            <label htmlFor="team-size" className="block text-sm font-medium text-zinc-300 mb-1">Team Size</label>
                             <Input
+                                id="team-size"
                                 type="number"
                                 min="1"
                                 value={formData.teamSize}
@@ -133,8 +136,9 @@ export function CreateStartupButton() {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-zinc-300 mb-1">Website URL (Optional)</label>
+                        <label htmlFor="website-url" className="block text-sm font-medium text-zinc-300 mb-1">Website URL (Optional)</label>
                         <Input
+                            id="website-url"
                             type="url"
                             value={formData.websiteUrl}
                             onChange={(e) => setFormData({ ...formData, websiteUrl: e.target.value })}

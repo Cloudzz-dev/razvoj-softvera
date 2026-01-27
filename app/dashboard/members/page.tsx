@@ -268,6 +268,7 @@ export default function MembersPage() {
                             placeholder="Search name or email..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
+                            aria-label="Search users by name or email"
                             className="pl-10"
                         />
                     </div>
@@ -278,6 +279,7 @@ export default function MembersPage() {
                             placeholder="Filter by startup..."
                             value={startupFilter}
                             onChange={(e) => setStartupFilter(e.target.value)}
+                            aria-label="Filter by startup name"
                             className="pl-10"
                         />
                     </div>
@@ -319,6 +321,7 @@ export default function MembersPage() {
                                                 onClick={() => updateRole(user.id, r)}
                                                 className={`px-2 h-7 ${user.role === r ? 'bg-white/10 text-white' : 'text-zinc-500'}`}
                                                 title={`Set role to ${r}`}
+                                                aria-label={`Set role to ${r}`}
                                             >
                                                 {r[0]}
                                             </Button>
@@ -327,6 +330,7 @@ export default function MembersPage() {
                                             variant="ghost"
                                             size="sm"
                                             onClick={() => deleteUser(user.id)}
+                                            aria-label="Delete user"
                                             className="p-1 text-red-400 hover:bg-red-500/10 rounded ml-2"
                                         >
                                             <Trash2 className="w-4 h-4" />
@@ -431,7 +435,7 @@ export default function MembersPage() {
                                         <p className="text-sm text-white">{member.startupRole}</p>
                                         <p className="text-xs text-zinc-500">Joined {new Date(member.joinedAt).toLocaleDateString()}</p>
                                     </div>
-                                    <Button variant="ghost" size="icon" className="text-zinc-400 hover:text-white"><MoreVertical className="w-4 h-4" /></Button>
+                                    <Button variant="ghost" size="icon" className="text-zinc-400 hover:text-white" aria-label="Member options"><MoreVertical className="w-4 h-4" /></Button>
                                 </div>
                             </div>
                         </GlassCard>
