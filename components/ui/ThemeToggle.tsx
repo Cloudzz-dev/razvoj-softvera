@@ -29,6 +29,7 @@ export function ThemeToggle({ variant = "button" }: ThemeToggleProps) {
                 <div className="flex items-center gap-2 bg-black/40 p-1 rounded-full border border-white/5">
                     <button
                         onClick={() => setTheme("light")}
+                        aria-label="Switch to light mode"
                         className={`p-2 rounded-full transition-all ${theme === "light" ? "bg-white text-black shadow-lg" : "text-zinc-500 hover:text-white"
                             }`}
                     >
@@ -36,6 +37,7 @@ export function ThemeToggle({ variant = "button" }: ThemeToggleProps) {
                     </button>
                     <button
                         onClick={() => setTheme("dark")}
+                        aria-label="Switch to dark mode"
                         className={`p-2 rounded-full transition-all ${theme === "dark" ? "bg-zinc-800 text-white shadow-lg border border-white/10" : "text-zinc-500 hover:text-white"
                             }`}
                     >
@@ -43,6 +45,7 @@ export function ThemeToggle({ variant = "button" }: ThemeToggleProps) {
                     </button>
                     <button
                         onClick={() => setTheme("system")}
+                        aria-label="Switch to system theme"
                         className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${theme === "system"
                             ? "bg-zinc-800 text-white border border-white/10"
                             : "text-zinc-500 hover:text-white"

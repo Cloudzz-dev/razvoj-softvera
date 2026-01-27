@@ -132,6 +132,7 @@ export function SkillsAutocomplete({
                         <button
                             type="button"
                             onClick={() => removeSkill(skill)}
+                            aria-label={`Remove ${skill}`}
                             className="hover:text-white transition-colors"
                         >
                             <X className="w-3 h-3" />
@@ -149,6 +150,7 @@ export function SkillsAutocomplete({
                     onKeyDown={handleKeyDown}
                     onFocus={() => inputValue && setIsOpen(true)}
                     placeholder={value.length === 0 ? placeholder : "Add another skill..."}
+                    aria-label="Add a skill"
                     disabled={value.length >= maxSkills}
                     className="py-6"
                 />

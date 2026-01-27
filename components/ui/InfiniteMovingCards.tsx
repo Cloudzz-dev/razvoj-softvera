@@ -54,7 +54,7 @@ export const InfiniteMovingCards = ({
             >
                 {[...items, ...items].map((item, idx) => (
                     <GlassCard
-                        key={idx}
+                        key={`${item.name}-${idx}`}
                         variant="light"
                         className="w-[350px] md:w-[450px] flex-shrink-0 mx-2"
                         aria-hidden={idx >= items.length}
