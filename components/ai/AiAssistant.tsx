@@ -3,6 +3,8 @@
 import { useState, useRef, useEffect } from "react";
 import { MessageSquare, X, Send, Bot, User, Sparkles, Search, Mail, GripHorizontal, AlertTriangle } from "lucide-react";
 import { GlassCard } from "@/components/ui/GlassCard";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import posthog from "posthog-js";
@@ -216,7 +218,7 @@ export function AiAssistant() {
 
                     {/* Header */}
                     <div className="p-4 border-b border-white/10 bg-indigo-600/20 flex items-center gap-3 pl-8">
-                        <div className="p-2 rounded-lg bg-indigo-600">
+                        <div className="p-2 rounded-xl bg-indigo-600">
                             <Bot className="w-5 h-5 text-white" />
                         </div>
                         <div>
@@ -242,7 +244,7 @@ export function AiAssistant() {
                                     {msg.role === "user" ? <User className="w-4 h-4 text-white" /> : <Bot className="w-4 h-4 text-white" />}
                                 </div>
                                 <div className={cn(
-                                    "p-3 rounded-2xl text-sm",
+                                    "p-3 rounded-3xl text-sm",
                                     msg.role === "user"
                                         ? "bg-white/10 text-white rounded-tr-none"
                                         : "bg-indigo-600/20 text-zinc-200 border border-indigo-500/20 rounded-tl-none"
@@ -262,7 +264,7 @@ export function AiAssistant() {
                                 <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center flex-shrink-0">
                                     <Bot className="w-4 h-4 text-white" />
                                 </div>
-                                <div className="p-3 rounded-2xl bg-indigo-600/20 border border-indigo-500/20 rounded-tl-none flex items-center gap-1">
+                                <div className="p-3 rounded-3xl bg-indigo-600/20 border border-indigo-500/20 rounded-tl-none flex items-center gap-1">
                                     <div className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: "0ms" }} />
                                     <div className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: "150ms" }} />
                                     <div className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: "300ms" }} />
@@ -278,17 +280,19 @@ export function AiAssistant() {
                             <button
                                 key={idx}
                                 onClick={() => setInput(action.prompt)}
-                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-zinc-300 hover:bg-white/10 hover:text-white transition-colors whitespace-nowrap"
+                                className="group"
                             >
-                                <action.icon className="w-3 h-3" />
-                                {action.label}
+                                <Badge variant="outline" className="flex items-center gap-1.5 cursor-pointer group-hover:bg-white/10 group-hover:text-white transition-colors whitespace-nowrap">
+                                    <action.icon className="w-3 h-3" />
+                                    {action.label}
+                                </Badge>
                             </button>
                         ))}
                     </div>
 
                     {/* Disabled Warning */}
                     {isDisabled && disabledReason && (
-                        <div className="mx-4 mb-2 p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center gap-2">
+                        <div className="mx-4 mb-2 p-3 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center gap-2">
                             <AlertTriangle className="w-4 h-4 text-amber-400 flex-shrink-0" />
                             <p className="text-xs text-amber-300">{disabledReason}</p>
                         </div>
@@ -297,18 +301,18 @@ export function AiAssistant() {
                     {/* Input */}
                     <form onSubmit={handleSubmit} className="p-4 border-t border-white/10 bg-black/20">
                         <div className="relative">
-                            <input
+                            <Input
                                 type="text"
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
                                 placeholder={isDisabled ? "AI assistant unavailable" : "Ask about startups..."}
                                 disabled={isDisabled}
-                                className="w-full pl-4 pr-12 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="pr-12 py-6"
                             />
                             <button
                                 type="submit"
                                 disabled={!input.trim() || isLoading || isDisabled}
-                                className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-lg text-indigo-400 hover:text-white hover:bg-indigo-600/50 transition-colors disabled:opacity-50 disabled:hover:bg-transparent disabled:hover:text-indigo-400"
+                                className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full text-indigo-400 hover:text-white hover:bg-indigo-600/50 transition-colors disabled:opacity-50 disabled:hover:bg-transparent disabled:hover:text-indigo-400"
                             >
                                 <Send className="w-4 h-4" />
                             </button>

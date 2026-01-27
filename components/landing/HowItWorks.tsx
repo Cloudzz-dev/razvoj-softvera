@@ -80,9 +80,9 @@ export function HowItWorks() {
                                             <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold text-xl shadow-lg">
                                                 {step.number}
                                             </div>
-                                            <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-indigo-500/10 flex items-center justify-center relative">
+                                            <div className="flex-shrink-0 w-12 h-12 rounded-3xl bg-indigo-500/10 flex items-center justify-center relative">
                                                 <Icon className="w-6 h-6 text-indigo-400" />
-                                                <div className="absolute inset-0 bg-indigo-500/20 rounded-lg blur-md animate-pulse" />
+                                                <div className="absolute inset-0 bg-indigo-500/20 rounded-3xl blur-md animate-pulse" />
                                             </div>
                                         </div>
                                         <div>

@@ -1,9 +1,13 @@
 "use client";
 
 import { GlassCard } from "@/components/ui/GlassCard";
+import { Input } from "@/components/ui/input";
 import { LocationAutocomplete } from "@/components/ui/LocationAutocomplete";
 import { SkillsAutocomplete } from "@/components/ui/SkillsAutocomplete";
+import { Textarea } from "@/components/ui/textarea";
+import { Select } from "@/components/ui/select";
 import { Rocket, Users, Briefcase, ArrowLeft, Check, ChevronRight } from "lucide-react";
+import { RadioGroup, RadioGroupOption } from "@/components/ui/radio-group";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -207,12 +211,12 @@ export default function JoinPage() {
                                 exit={{ opacity: 0, x: -20 }}
                                 className="space-y-6"
                             >
-                                <div className="grid grid-cols-1 gap-4">
+                                <RadioGroup value={selectedRole || ""} onChange={handleRoleSelect} className="grid grid-cols-1 gap-4">
                                     {roles.map((role) => (
-                                        <button
+                                        <RadioGroupOption
                                             key={role.id}
-                                            onClick={() => handleRoleSelect(role.id)}
-                                            className="flex items-center gap-4 p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-indigo-500/50 transition-all group text-left relative overflow-hidden"
+                                            value={role.id}
+                                            className="flex items-center gap-4 p-4 rounded-3xl group"
                                         >
                                             <div className={`p-3 rounded-lg bg-${role.color}-500/10 text-${role.color}-400 group-hover:scale-110 transition-transform`}>
                                                 {role.icon}
@@ -221,12 +225,12 @@ export default function JoinPage() {
                                                 <h3 className="font-semibold text-white mb-1 group-hover:text-indigo-300 transition-colors">
                                                     {role.name}
                                                 </h3>
-                                                <p className="text-sm text-zinc-400">{role.description}</p>
+                                                <p className="text-sm text-zinc-400 group-hover:text-zinc-300 transition-colors">{role.description}</p>
                                             </div>
                                             <ChevronRight className="w-5 h-5 text-zinc-600 group-hover:text-white transition-colors" />
-                                        </button>
+                                        </RadioGroupOption>
                                     ))}
-                                </div>
+                                </RadioGroup>
 
                                 <div className="text-center pt-4 border-t border-white/5">
                                     <p className="text-sm text-zinc-500">
@@ -261,40 +265,37 @@ export default function JoinPage() {
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                             <div>
                                                 <label className="block text-sm font-medium text-zinc-300 mb-2">Full Name</label>
-                                                <input
-                                                    type="text"
-                                                    value={name}
-                                                    onChange={(e) => setName(e.target.value)}
-                                                    required
-                                                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
-                                                    placeholder="John Doe"
-                                                />
+                                                    <Input
+                                                        type="text"
+                                                        value={name}
+                                                        onChange={(e) => setName(e.target.value)}
+                                                        required
+                                                        placeholder="John Doe"
+                                                    />
                                             </div>
                                             <div>
                                                 <label className="block text-sm font-medium text-zinc-300 mb-2">Email</label>
-                                                <input
-                                                    type="email"
-                                                    value={email}
-                                                    onChange={(e) => setEmail(e.target.value)}
-                                                    required
-                                                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
-                                                    placeholder="john@example.com"
-                                                />
+                                                    <Input
+                                                        type="email"
+                                                        value={email}
+                                                        onChange={(e) => setEmail(e.target.value)}
+                                                        required
+                                                        placeholder="john@example.com"
+                                                    />
                                             </div>
                                         </div>
 
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                             <div>
                                                 <label className="block text-sm font-medium text-zinc-300 mb-2">Password</label>
-                                                <input
-                                                    type="password"
-                                                    value={password}
-                                                    onChange={(e) => setPassword(e.target.value)}
-                                                    required
-                                                    minLength={8}
-                                                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
-                                                    placeholder="Min. 8 characters"
-                                                />
+                                                    <Input
+                                                        type="password"
+                                                        value={password}
+                                                        onChange={(e) => setPassword(e.target.value)}
+                                                        required
+                                                        minLength={8}
+                                                        placeholder="Min. 8 characters"
+                                                    />
                                             </div>
                                             <div>
                                                 <label className="block text-sm font-medium text-zinc-300 mb-2">Location</label>
@@ -327,34 +328,31 @@ export default function JoinPage() {
                                                 </div>
                                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                     <div>
-                                                        <label className="block text-sm font-medium text-zinc-300 mb-2">Experience Level</label>
-                                                        <select
+                                                        <Select
+                                                            label="Experience Level"
                                                             value={experience}
-                                                            onChange={(e) => setExperience(e.target.value)}
-                                                            required
-                                                            className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 appearance-none cursor-pointer"
-                                                        >
-                                                            <option value="" disabled className="bg-zinc-900">Select experience</option>
-                                                            <option value="Junior (0-2 years)" className="bg-zinc-900">Junior (0-2 years)</option>
-                                                            <option value="Mid (2-5 years)" className="bg-zinc-900">Mid (2-5 years)</option>
-                                                            <option value="Senior (5-8 years)" className="bg-zinc-900">Senior (5-8 years)</option>
-                                                            <option value="Staff/Principal (8+ years)" className="bg-zinc-900">Staff/Principal (8+ years)</option>
-                                                        </select>
+                                                            onChange={(value) => setExperience(value)}
+                                                            placeholder="Select experience"
+                                                            options={[
+                                                                "Junior (0-2 years)",
+                                                                "Mid (2-5 years)",
+                                                                "Senior (5-8 years)",
+                                                                "Staff/Principal (8+ years)"
+                                                            ]}
+                                                        />
                                                     </div>
                                                     <div>
-                                                        <label className="block text-sm font-medium text-zinc-300 mb-2">Availability</label>
-                                                        <div className="relative">
-                                                            <select
-                                                                value={availability}
-                                                                onChange={(e) => setAvailability(e.target.value)}
-                                                                className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 appearance-none cursor-pointer"
-                                                            >
-                                                                <option value="Available" className="bg-zinc-900">Available</option>
-                                                                <option value="Part-time" className="bg-zinc-900">Part-time</option>
-                                                                <option value="Consulting" className="bg-zinc-900">Consulting</option>
-                                                                <option value="Not looking" className="bg-zinc-900">Not looking</option>
-                                                            </select>
-                                                        </div>
+                                                        <Select
+                                                            label="Availability"
+                                                            value={availability}
+                                                            onChange={(value) => setAvailability(value)}
+                                                            options={[
+                                                                "Available",
+                                                                "Part-time",
+                                                                "Consulting",
+                                                                "Not looking"
+                                                            ]}
+                                                        />
                                                     </div>
                                                 </div>
                                             </div>
@@ -364,38 +362,35 @@ export default function JoinPage() {
                                             <div className="space-y-4">
                                                 <div>
                                                     <label className="block text-sm font-medium text-zinc-300 mb-2">Firm / Company</label>
-                                                    <input
+                                                    <Input
                                                         type="text"
                                                         value={firm}
                                                         onChange={(e) => setFirm(e.target.value)}
-                                                        className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                                         placeholder="Acme Ventures (Optional)"
                                                     />
                                                 </div>
                                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                     <div>
-                                                        <label className="block text-sm font-medium text-zinc-300 mb-2">Check Size Check</label>
-                                                        <select
+                                                        <Select
+                                                            label="Check Size"
                                                             value={checkSize}
-                                                            onChange={(e) => setCheckSize(e.target.value)}
-                                                            required
-                                                            className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 appearance-none cursor-pointer"
-                                                        >
-                                                            <option value="" disabled className="bg-zinc-900">Select range</option>
-                                                            <option value="<$50K" className="bg-zinc-900">&lt;$50K (Angel)</option>
-                                                            <option value="$50K - $250K" className="bg-zinc-900">$50K - $250K</option>
-                                                            <option value="$250K - $1M" className="bg-zinc-900">$250K - $1M</option>
-                                                            <option value="$1M+" className="bg-zinc-900">$1M+</option>
-                                                        </select>
+                                                            onChange={(value) => setCheckSize(value)}
+                                                            placeholder="Select range"
+                                                            options={[
+                                                                { label: "<$50K (Angel)", value: "<$50K" },
+                                                                { label: "$50K - $250K", value: "$50K - $250K" },
+                                                                { label: "$250K - $1M", value: "$250K - $1M" },
+                                                                { label: "$1M+", value: "$1M+" }
+                                                            ]}
+                                                        />
                                                     </div>
                                                     <div>
                                                         <label className="block text-sm font-medium text-zinc-300 mb-2">Primary Focus</label>
-                                                        <input
+                                                        <Input
                                                             type="text"
                                                             value={focus}
                                                             onChange={(e) => setFocus(e.target.value)}
                                                             placeholder="e.g. SaaS, Fintech, AI"
-                                                            className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                                         />
                                                     </div>
                                                 </div>
@@ -406,50 +401,47 @@ export default function JoinPage() {
                                             <div className="space-y-4">
                                                 <div>
                                                     <label className="block text-sm font-medium text-zinc-300 mb-2">Startup Name</label>
-                                                    <input
+                                                    <Input
                                                         type="text"
                                                         value={startupName}
                                                         onChange={(e) => setStartupName(e.target.value)}
                                                         required
-                                                        className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                                         placeholder="Your Startup Name"
                                                     />
                                                 </div>
                                                 <div>
                                                     <label className="block text-sm font-medium text-zinc-300 mb-2">Elevator Pitch</label>
-                                                    <textarea
+                                                    <Textarea
                                                         value={pitch}
                                                         onChange={(e) => setPitch(e.target.value)}
                                                         required
                                                         rows={3}
-                                                        className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                                         placeholder="Describe your startup in 1-2 sentences. What problem do you solve?"
                                                     />
                                                     <p className="text-xs text-zinc-500 mt-1 text-right">{pitch.length} chars (min 50)</p>
                                                 </div>
                                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                     <div>
-                                                        <label className="block text-sm font-medium text-zinc-300 mb-2">Current Stage</label>
-                                                        <select
+                                                        <Select
+                                                            label="Current Stage"
                                                             value={stage}
-                                                            onChange={(e) => setStage(e.target.value)}
-                                                            className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 appearance-none cursor-pointer"
-                                                        >
-                                                            <option value="Idea" className="bg-zinc-900">Idea Phase</option>
-                                                            <option value="MVP" className="bg-zinc-900">MVP / Prototype</option>
-                                                            <option value="Pre-seed" className="bg-zinc-900">Pre-seed</option>
-                                                            <option value="Seed" className="bg-zinc-900">Seed</option>
-                                                            <option value="Series A+" className="bg-zinc-900">Series A+</option>
-                                                        </select>
+                                                            onChange={(value) => setStage(value)}
+                                                            options={[
+                                                                { label: "Idea Phase", value: "Idea" },
+                                                                { label: "MVP / Prototype", value: "MVP" },
+                                                                { label: "Pre-seed", value: "Pre-seed" },
+                                                                { label: "Seed", value: "Seed" },
+                                                                { label: "Series A+", value: "Series A+" }
+                                                            ]}
+                                                        />
                                                     </div>
                                                     <div>
                                                         <label className="block text-sm font-medium text-zinc-300 mb-2">Website</label>
-                                                        <input
+                                                        <Input
                                                             type="url"
                                                             value={websiteUrl}
                                                             onChange={(e) => setWebsiteUrl(e.target.value)}
                                                             placeholder="https://"
-                                                            className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                                         />
                                                     </div>
                                                 </div>
@@ -471,7 +463,7 @@ export default function JoinPage() {
                                     <button
                                         type="submit"
                                         disabled={isLoading}
-                                        className="w-full px-6 py-3.5 rounded-lg bg-gradient-to-r from-indigo-600 to-indigo-500 text-white font-semibold hover:from-indigo-500 hover:to-indigo-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-indigo-900/20"
+                                        className="w-full px-6 py-3.5 rounded-full bg-gradient-to-r from-indigo-600 to-indigo-500 text-white font-semibold hover:from-indigo-500 hover:to-indigo-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-indigo-900/20"
                                     >
                                         {isLoading ? (
                                             <>

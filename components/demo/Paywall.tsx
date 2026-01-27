@@ -71,7 +71,7 @@ export default function Paywall() {
 
     if (unlockedData) {
         return (
-            <div className="p-6 bg-green-50 border border-green-200 rounded-lg">
+            <div className="p-6 bg-green-50 border border-green-200 rounded-3xl">
                 <div className="flex items-center gap-2 text-green-700 mb-2">
                     <Unlock className="w-5 h-5" />
                     <h3 className="font-semibold">Content Unlocked</h3>
@@ -82,7 +82,7 @@ export default function Paywall() {
     }
 
     return (
-        <div className="p-6 bg-gray-900 border border-gray-700 rounded-lg max-w-md">
+        <div className="p-6 bg-gray-900 border border-gray-700 rounded-3xl max-w-md">
             <div className="flex items-center gap-2 text-white mb-4">
                 <Lock className="w-5 h-5 text-yellow-500" />
                 <h3 className="font-semibold text-lg">Premium Content</h3>
@@ -96,7 +96,7 @@ export default function Paywall() {
             <button
                 onClick={handlePay}
                 disabled={loading}
-                className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-500 text-white rounded-md font-medium flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-500 text-white rounded-full font-medium flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
                 {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Unlock Now (0.01 ETH)"}
             </button>

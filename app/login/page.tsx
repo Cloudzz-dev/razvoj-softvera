@@ -1,6 +1,7 @@
 "use client";
 
 import { GlassCard } from "@/components/ui/GlassCard";
+import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useState } from "react";
 import { signIn, useSession } from "next-auth/react";
@@ -135,7 +136,7 @@ export default function LoginPage() {
             <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-[128px]" />
 
             <div className="relative z-10 w-full max-w-md">
-                <GlassCard className="p-8 border-white/10 bg-black/40">
+                <GlassCard className="p-8 border-white/10 bg-black/60">
                     <div className="text-center mb-8">
                         <h1 className="text-3xl font-bold text-white mb-2">
                             {isForgotPassword ? "Reset Password" : "Welcome Back"}
@@ -155,14 +156,13 @@ export default function LoginPage() {
                                     <label htmlFor="email" className="block text-sm font-medium text-zinc-300 mb-2">
                                         Email
                                     </label>
-                                    <input
+                                    <Input
                                         id="email"
                                         type="email"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         required
                                         autoComplete="email"
-                                        className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                                         placeholder="team@cloudzz.dev"
                                     />
                                 </div>
@@ -184,14 +184,13 @@ export default function LoginPage() {
                                             Forgot Password?
                                         </button>
                                     </div>
-                                    <input
+                                    <Input
                                         id="password"
                                         type="password"
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         required
                                         autoComplete="current-password"
-                                        className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                                         placeholder="••••••••"
                                     />
                                 </div>
@@ -202,10 +201,10 @@ export default function LoginPage() {
                                     </div>
                                 )}
 
-                                <button
+                                    <button
                                     type="submit"
                                     disabled={isLoading}
-                                    className="w-full px-6 py-3 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="w-full px-6 py-3 rounded-full bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     {isLoading ? "Signing in..." : "Sign In"}
                                 </button>
@@ -215,7 +214,7 @@ export default function LoginPage() {
                                         type="button"
                                         onClick={handleDemoLogin}
                                         disabled={isLoading}
-                                        className="w-full px-6 py-3 rounded-lg bg-white/10 text-white font-semibold hover:bg-white/20 transition-colors disabled:opacity-50 flex items-center justify-center gap-2 group"
+                                        className="w-full px-6 py-3 rounded-full bg-white/10 text-white font-semibold hover:bg-white/20 transition-colors disabled:opacity-50 flex items-center justify-center gap-2 group"
                                     >
                                         <span>🚀</span>
                                         <span>Test Account (Hackathon Judges)</span>
@@ -234,13 +233,12 @@ export default function LoginPage() {
                                     <label htmlFor="resetEmail" className="block text-sm font-medium text-zinc-300 mb-2">
                                         Email
                                     </label>
-                                    <input
+                                    <Input
                                         id="resetEmail"
                                         type="email"
                                         value={resetEmail}
                                         onChange={(e) => setResetEmail(e.target.value)}
                                         required
-                                        className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                                         placeholder="Enter your email"
                                     />
                                 </div>
@@ -260,7 +258,7 @@ export default function LoginPage() {
                                 <button
                                     type="submit"
                                     disabled={isResetLoading}
-                                    className="w-full px-6 py-3 rounded-lg bg-white text-black font-semibold hover:bg-zinc-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="w-full px-6 py-3 rounded-full bg-white text-black font-semibold hover:bg-zinc-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     {isResetLoading ? "Sending..." : "Send Reset Link"}
                                 </button>

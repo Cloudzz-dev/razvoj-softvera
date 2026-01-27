@@ -55,6 +55,29 @@ export async function POST(req: Request) {
             );
         }
 
+        // Check for 402 Payment Required for spam prevention (Demo Feature)
+        const paymentProof = req.headers.get("x-payment-proof");
+
+        // Simple mock logic: If receiver is "Investor" and sender is not "Investor"
+        // and they haven't chatted before, require payment.
+        // For the hackathon demo, we'll force it for a specific "Investor" user or random chance.
+        // Let's make it deterministic: if content contains "pitch" or "investment", trigger it.
+        const isSpammy = content.toLowerCase().includes("pitch") || content.toLowerCase().includes("invest");
+
+        if (isSpammy && !paymentProof) {
+             return NextResponse.json(
+                {
+                    error: "Payment Required",
+                    price: "5.00",
+                    currency: "USDC",
+                    chain: "base-sepolia",
+                    address: "0x1234...5678",
+                    reason: "Anti-spam deposit required for cold pitches."
+                },
+                { status: 402 }
+            );
+        }
+
         // Get or create conversation between users using utility function
         const { getOrCreateConversation } = await import("@/lib/conversation-utils");
         const conversation = await getOrCreateConversation(user.id, receiverId);

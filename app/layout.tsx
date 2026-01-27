@@ -65,8 +65,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="en" className="overflow-x-hidden">
+      <body className={`${inter.className} overflow-x-hidden`}>
         <AuthProvider>
           <PostHogProvider>
             <DynamicBackground />
@@ -82,6 +82,7 @@ export default function RootLayout({
                   color: "#fff",
                   border: "1px solid rgba(255, 255, 255, 0.1)",
                   backdropFilter: "blur(10px)",
+                  borderRadius: "9999px",
                 },
               }}
             />

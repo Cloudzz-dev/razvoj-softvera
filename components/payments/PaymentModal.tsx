@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { GlassCard } from "@/components/ui/GlassCard";
+import { Dialog } from "@/components/ui/dialog";
 import { X, CreditCard, Wallet, Smartphone } from "lucide-react";
 import { formatCurrency } from "@/lib/payment-utils";
 import toast from "react-hot-toast";
@@ -132,96 +132,87 @@ export function PaymentModal({ isOpen, onClose, recipientName, recipientId }: Pa
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-            <GlassCard variant="dark" className="w-full max-w-2xl p-6 max-h-[90vh] overflow-y-auto">
-                <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-2xl font-bold text-white">Send Payment</h2>
-                    <button onClick={onClose} className="p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-white/10 transition-colors">
-                        <X className="w-5 h-5" />
-                    </button>
+        <Dialog isOpen={isOpen} onClose={onClose} title="Send Payment" className="max-w-2xl">
+            <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
+                    <p className="text-sm text-zinc-400 mb-1">Sending to</p>
+                    <p className="text-lg font-semibold text-white">{recipientName}</p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="p-4 rounded-lg bg-white/5 border border-white/10">
-                        <p className="text-sm text-zinc-400 mb-1">Sending to</p>
-                        <p className="text-lg font-semibold text-white">{recipientName}</p>
-                    </div>
-
-                    <div>
-                        <label htmlFor="amount" className="block text-sm font-medium text-zinc-300 mb-2">Amount (USD)</label>
-                        <div className="relative">
-                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400 text-lg">$</span>
-                            <input
-                                id="amount"
-                                type="number"
-                                step="0.01"
-                                min="0"
-                                value={amount}
-                                onChange={(e) => setAmount(e.target.value)}
-                                required
-                                className="w-full pl-8 pr-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white text-lg placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                                placeholder="0.00"
-                            />
-                        </div>
-                    </div>
-
-                    {isCalculating && <div className="text-sm text-zinc-400 text-center">Calculating fees...</div>}
-
-                    {paymentDetails && !isCalculating && (
-                        <div className="p-4 rounded-lg bg-gradient-to-br from-indigo-500/10 to-purple-500/5 border border-white/10 space-y-2">
-                            <div className="flex justify-between text-sm">
-                                <span className="text-zinc-400">Amount</span>
-                                <span className="text-white font-medium">{formatCurrency(paymentDetails.amount)}</span>
-                            </div>
-                            <div className="flex justify-between text-sm">
-                                <span className="text-zinc-400">Service Fee</span>
-                                <span className="text-yellow-400 font-medium">-{formatCurrency(paymentDetails.serviceFee)}</span>
-                            </div>
-                            <div className="pt-2 border-t border-white/10 flex justify-between">
-                                <span className="text-white font-semibold">Recipient Receives</span>
-                                <span className="text-green-400 font-bold text-lg">{formatCurrency(paymentDetails.netAmount)}</span>
-                            </div>
-                        </div>
-                    )}
-
-                    <div>
-                        <label className="block text-sm font-medium text-zinc-300 mb-3">Payment Method</label>
-                        <div className="grid grid-cols-3 gap-3">
-                            {providers.map((p) => (
-                                <button
-                                    key={p.id}
-                                    type="button"
-                                    onClick={() => setProvider(p.id)}
-                                    className={`p-4 rounded-lg border transition-all ${provider === p.id ? "bg-white/10 border-indigo-500" : "bg-white/5 border-white/10 hover:bg-white/10"}`}
-                                >
-                                    <p.icon className={`w-6 h-6 mx-auto mb-2 ${provider === p.id ? "text-indigo-400" : "text-zinc-400"}`} />
-                                    <p className={`text-xs font-medium text-center ${provider === p.id ? "text-white" : "text-zinc-400"}`}>{p.name}</p>
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-
-                    <div>
-                        <label htmlFor="description" className="block text-sm font-medium text-zinc-300 mb-2">Description (Optional)</label>
+                <div>
+                    <label htmlFor="amount" className="block text-sm font-medium text-zinc-300 mb-2">Amount (USD)</label>
+                    <div className="relative">
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400 text-lg">$</span>
                         <input
-                            id="description"
-                            type="text"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                            placeholder="What's this payment for?"
+                            id="amount"
+                            type="number"
+                            step="0.01"
+                            min="0"
+                            value={amount}
+                            onChange={(e) => setAmount(e.target.value)}
+                            required
+                            className="w-full pl-8 pr-4 py-3 rounded-full bg-white/5 border border-white/10 text-white text-lg placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                            placeholder="0.00"
                         />
                     </div>
+                </div>
 
-                    <button
-                        type="submit"
-                        disabled={isProcessing || isCalculating || !paymentDetails}
-                        className="w-full px-6 py-3 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        {isProcessing ? "Processing..." : `Send ${paymentDetails ? formatCurrency(paymentDetails.amount) : "Payment"}`}
-                    </button>
-                </form>
-            </GlassCard>
-        </div>
+                {isCalculating && <div className="text-sm text-zinc-400 text-center">Calculating fees...</div>}
+
+                {paymentDetails && !isCalculating && (
+                    <div className="p-4 rounded-2xl bg-gradient-to-br from-indigo-500/10 to-purple-500/5 border border-white/10 space-y-2">
+                        <div className="flex justify-between text-sm">
+                            <span className="text-zinc-400">Amount</span>
+                            <span className="text-white font-medium">{formatCurrency(paymentDetails.amount)}</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                            <span className="text-zinc-400">Service Fee</span>
+                            <span className="text-yellow-400 font-medium">-{formatCurrency(paymentDetails.serviceFee)}</span>
+                        </div>
+                        <div className="pt-2 border-t border-white/10 flex justify-between">
+                            <span className="text-white font-semibold">Recipient Receives</span>
+                            <span className="text-green-400 font-bold text-lg">{formatCurrency(paymentDetails.netAmount)}</span>
+                        </div>
+                    </div>
+                )}
+
+                <div>
+                    <label className="block text-sm font-medium text-zinc-300 mb-3">Payment Method</label>
+                    <div className="grid grid-cols-3 gap-3">
+                        {providers.map((p) => (
+                            <button
+                                key={p.id}
+                                type="button"
+                                onClick={() => setProvider(p.id)}
+                                className={`p-4 rounded-2xl border transition-all ${provider === p.id ? "bg-white/10 border-indigo-500" : "bg-white/5 border-white/10 hover:bg-white/10"}`}
+                            >
+                                <p.icon className={`w-6 h-6 mx-auto mb-2 ${provider === p.id ? "text-indigo-400" : "text-zinc-400"}`} />
+                                <p className={`text-xs font-medium text-center ${provider === p.id ? "text-white" : "text-zinc-400"}`}>{p.name}</p>
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                <div>
+                    <label htmlFor="description" className="block text-sm font-medium text-zinc-300 mb-2">Description (Optional)</label>
+                    <input
+                        id="description"
+                        type="text"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        className="w-full px-4 py-3 rounded-full bg-white/5 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        placeholder="What's this payment for?"
+                    />
+                </div>
+
+                <button
+                    type="submit"
+                    disabled={isProcessing || isCalculating || !paymentDetails}
+                    className="w-full px-6 py-3 rounded-full bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    {isProcessing ? "Processing..." : `Send ${paymentDetails ? formatCurrency(paymentDetails.amount) : "Payment"}`}
+                </button>
+            </form>
+        </Dialog>
     );
 }

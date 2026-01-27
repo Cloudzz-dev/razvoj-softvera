@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import useSWR from "swr";
 import dynamic from "next/dynamic";
+import { Badge } from "@/components/ui/badge";
 // import { MetricsChart } from "@/components/ui/MetricsChart"; // Replaced with dynamic import
 import { TrendingUp, TrendingDown, Users, DollarSign } from "lucide-react";
 
@@ -103,20 +104,17 @@ export function GrowthDashboard({ initialData }: { initialData?: GrowthData }) {
                 <div className="flex items-center gap-3">
                     <h2 className="text-2xl font-bold text-white">Growth Analytics</h2>
                     {/* Live Indicator */}
-                    <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-green-500/10 border border-green-500/20">
-                        <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                        </span>
-                        <span className="text-xs font-medium text-green-400">LIVE</span>
-                    </div>
+                    <Badge variant="green" dot className="relative">
+                        <span className="animate-ping absolute left-2.5 top-1/2 -translate-y-1/2 inline-flex h-1.5 w-1.5 rounded-full bg-green-400 opacity-75"></span>
+                        LIVE
+                    </Badge>
                 </div>
                 <div className="flex gap-2">
                     {(["week", "month", "quarter", "year"] as TimeRange[]).map((range) => (
                         <button
                             key={range}
                             onClick={() => handleTimeRangeChange(range)}
-                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${timeRange === range ? "bg-indigo-600 text-white" : "bg-white/5 text-zinc-400 hover:bg-white/10 hover:text-white"}`}
+                            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${timeRange === range ? "bg-indigo-600 text-white" : "bg-white/5 text-zinc-400 hover:bg-white/10 hover:text-white"}`}
                         >
                             {range.charAt(0).toUpperCase() + range.slice(1)}
                         </button>
@@ -163,7 +161,7 @@ export function GrowthDashboard({ initialData }: { initialData?: GrowthData }) {
 
 
 const SummaryCard = ({ icon: Icon, title, value, change, color }: any) => (
-    <div className={`p-6 rounded-xl bg-gradient-to-br from-${color}-500/10 to-purple-500/5 border border-white/10 backdrop-blur-md`}>
+    <div className={`p-6 rounded-3xl bg-black/20 border border-white/10 backdrop-blur-2xl`}>
         <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
                 <Icon className={`w-5 h-5 text-${color}-400`} />
@@ -181,19 +179,19 @@ const SummaryCard = ({ icon: Icon, title, value, change, color }: any) => (
 const DashboardSkeleton = () => (
     <div className="space-y-6 animate-pulse">
         <div className="flex items-center justify-between">
-            <div className="h-8 bg-white/10 rounded-md w-1/3"></div>
+            <div className="h-8 bg-white/10 rounded-full w-1/3"></div>
             <div className="flex gap-2">
-                <div className="h-10 bg-white/10 rounded-lg w-20"></div>
+                <div className="h-10 bg-white/10 rounded-full w-20"></div>
             </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="h-28 bg-white/10 rounded-xl"></div>
-            <div className="h-28 bg-white/10 rounded-xl"></div>
-            <div className="h-28 bg-white/10 rounded-xl"></div>
+            <div className="h-28 bg-white/10 rounded-3xl"></div>
+            <div className="h-28 bg-white/10 rounded-3xl"></div>
+            <div className="h-28 bg-white/10 rounded-3xl"></div>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="h-72 bg-white/10 rounded-xl"></div>
-            <div className="h-72 bg-white/10 rounded-xl"></div>
+            <div className="h-72 bg-white/10 rounded-3xl"></div>
+            <div className="h-72 bg-white/10 rounded-3xl"></div>
         </div>
     </div>
 );

@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { GlassCard } from "@/components/ui/GlassCard";
+import { Input } from "@/components/ui/input";
 import { Mail, CheckCircle, RefreshCw } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -176,7 +177,7 @@ export function VerifyEmailContent() {
                 {/* Code Input */}
                 <div className="flex justify-center gap-2 mb-6" onPaste={handlePaste}>
                     {code.map((digit, index) => (
-                        <input
+                        <Input
                             key={index}
                             ref={el => { inputRefs.current[index] = el; }}
                             type="text"
@@ -186,7 +187,7 @@ export function VerifyEmailContent() {
                             onChange={e => handleChange(index, e.target.value)}
                             onKeyDown={e => handleKeyDown(index, e)}
                             disabled={isLoading}
-                            className="w-12 h-14 text-center text-2xl font-bold rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent disabled:opacity-50"
+                            className="w-12 h-14 text-center text-2xl font-bold rounded-lg"
                         />
                     ))}
                 </div>

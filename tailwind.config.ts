@@ -7,6 +7,15 @@ const config: Config = {
         "./components/**/*.{js,ts,jsx,tsx,mdx}",
         "./app/**/*.{js,ts,jsx,tsx,mdx}",
     ],
+    safelist: [
+        {
+            pattern: /(bg|text)-(indigo|purple|emerald|green|blue|red|yellow|rose)-(400|500)/,
+            variants: ["hover", "group-hover"],
+        },
+        {
+            pattern: /bg-(indigo|purple|emerald|green|blue|red|yellow|rose)-500\/10/,
+        },
+    ],
     theme: {
         extend: {
             colors: {

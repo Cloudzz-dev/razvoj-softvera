@@ -12,18 +12,23 @@ import { env } from "@/lib/env";
 const PUSHER_HOST = env.NEXT_PUBLIC_PUSHER_HOST || env.PUSHER_HOST || "127.0.0.1";
 const PUSHER_PORT = env.PUSHER_PORT || "6001";
 
-export const pusherServer = new PusherServer({
-    appId: env.SOKETI_DEFAULT_APP_ID || "app-id",
-    key: env.NEXT_PUBLIC_PUSHER_KEY || "app-key",
-    secret: env.SOKETI_DEFAULT_APP_SECRET || "app-secret",
+// Guard: Mock or disable if config is missing to prevent crashes
+const isPusherConfigured = env.SOKETI_DEFAULT_APP_ID && env.NEXT_PUBLIC_PUSHER_KEY;
+
+export const pusherServer = isPusherConfigured ? new PusherServer({
+    appId: env.SOKETI_DEFAULT_APP_ID!,
+    key: env.NEXT_PUBLIC_PUSHER_KEY!,
+    secret: env.SOKETI_DEFAULT_APP_SECRET!,
     host: PUSHER_HOST,
     port: PUSHER_PORT,
     useTLS: false,
-});
+}) : {
+    trigger: async () => { console.warn("Pusher not configured (server)"); return {} as any; }
+} as unknown as PusherServer;
 
 // Client-side Pusher instance
-export const pusherClient = new PusherClient(
-    env.NEXT_PUBLIC_PUSHER_KEY || "app-key",
+export const pusherClient = isPusherConfigured ? new PusherClient(
+    env.NEXT_PUBLIC_PUSHER_KEY!,
     {
         wsHost: env.NEXT_PUBLIC_PUSHER_HOST || "127.0.0.1",
         wsPort: parseInt(env.NEXT_PUBLIC_PUSHER_PORT || "6001"),
@@ -36,4 +41,9 @@ export const pusherClient = new PusherClient(
             transport: "ajax",
         },
     }
-);
+) : {
+    subscribe: () => ({ bind: () => { }, unbind: () => { } }),
+    unsubscribe: () => { },
+    channel: () => ({ trigger: () => { } }),
+    connection: { bind: () => { }, unbind: () => { } }
+} as unknown as PusherClient;

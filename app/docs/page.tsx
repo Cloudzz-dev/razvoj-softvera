@@ -36,15 +36,15 @@ export default function DocsPage() {
                     </p>
                 </div>
 
-                <div className="prose prose-invert prose-indigo max-w-none bg-zinc-900/50 p-8 rounded-2xl border border-white/10 backdrop-blur-sm shadow-2xl">
+                <div className="prose prose-invert prose-indigo max-w-none bg-zinc-900/50 p-8 rounded-3xl border border-white/10 backdrop-blur-sm shadow-2xl">
                     <Markdown
                         remarkPlugins={[remarkGfm]}
                         components={{
                             // Custom components to match the "Glassmorphism" look
                             pre: ({ ...props }) => (
                                 <div className="relative group my-6">
-                                    <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
-                                    <pre {...props} className="relative bg-black/80 p-6 rounded-lg overflow-x-auto border border-white/10 text-sm leading-relaxed" />
+                                    <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+                                    <pre {...props} className="relative bg-black/80 p-6 rounded-2xl overflow-x-auto border border-white/10 text-sm leading-relaxed" />
                                 </div>
                             ),
                             code: ({ ...props }) => (
@@ -53,11 +53,11 @@ export default function DocsPage() {
                             h1: ({ ...props }) => <h1 {...props} className="text-3xl font-bold mt-12 mb-6 text-white pb-4 border-b border-indigo-500/30" />,
                             h2: ({ ...props }) => <h2 {...props} className="text-2xl font-semibold mt-10 mb-4 text-indigo-400 flex items-center gap-2" />,
                             h3: ({ ...props }) => <h3 {...props} className="text-xl font-medium mt-8 mb-3 text-white/90" />,
-                            table: ({ ...props }) => <div className="overflow-x-auto my-8 border border-white/10 rounded-lg"><table {...props} className="min-w-full text-left text-sm border-collapse" /></div>,
+                            table: ({ ...props }) => <div className="overflow-x-auto my-8 border border-white/10 rounded-3xl"><table {...props} className="min-w-full text-left text-sm border-collapse" /></div>,
                             th: ({ ...props }) => <th {...props} className="bg-white/5 border-b border-white/10 font-semibold p-4 text-indigo-300" />,
                             td: ({ ...props }) => <td {...props} className="border-b border-white/5 p-4 text-gray-300" />,
                             blockquote: ({ ...props }) => (
-                                <blockquote {...props} className="border-l-4 border-purple-500 pl-4 py-1 my-6 bg-purple-500/5 rounded-r-lg italic text-gray-300" />
+                                <blockquote {...props} className="border-l-4 border-purple-500 pl-4 py-1 my-6 bg-purple-500/5 rounded-r-2xl italic text-gray-300" />
                             ),
                             a: ({ ...props }) => (
                                 <a {...props} className="text-indigo-400 hover:text-indigo-300 font-medium underline decoration-indigo-500/30 hover:decoration-indigo-500 transition-colors" target="_blank" rel="noopener noreferrer" />

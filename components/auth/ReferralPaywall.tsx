@@ -50,7 +50,7 @@ export function ReferralPaywall({
                         <div className="text-2xl font-bold text-white mb-6">Free</div>
                         <button
                             onClick={onVerify}
-                            className="w-full py-2 px-4 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium transition-colors mb-2"
+                            className="w-full py-2 px-4 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-medium transition-colors mb-2"
                         >
                             Verify Profile
                         </button>
@@ -81,7 +81,7 @@ export function ReferralPaywall({
                         </div>
                         <button
                             onClick={handleCopy}
-                            className="w-full py-2 px-4 rounded-lg border border-amber-500/50 text-amber-400 hover:bg-amber-500/10 font-medium transition-colors flex items-center justify-center gap-2"
+                            className="w-full py-2 px-4 rounded-full border border-amber-500/50 text-amber-400 hover:bg-amber-500/10 font-medium transition-colors flex items-center justify-center gap-2"
                         >
                             {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                             {copied ? "Link Copied!" : "Copy Invite Link"}
@@ -102,7 +102,7 @@ export function ReferralPaywall({
                         </div>
                         <button
                             onClick={onUpgrade}
-                            className="w-full py-2 px-4 rounded-lg bg-purple-600 hover:bg-purple-700 text-white font-medium transition-colors flex items-center justify-center gap-2"
+                            className="w-full py-2 px-4 rounded-full bg-purple-600 hover:bg-purple-700 text-white font-medium transition-colors flex items-center justify-center gap-2"
                         >
                             Upgrade Now <ArrowRight className="w-4 h-4" />
                         </button>

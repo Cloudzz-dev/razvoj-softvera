@@ -5,6 +5,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { MetricsChart } from "@/components/ui/MetricsChart";
 import { Code, Briefcase, DollarSign, Star, MapPin } from "lucide-react";
 import { formatCurrency } from "@/lib/payment-utils";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 
@@ -200,9 +201,9 @@ export default function DeveloperDashboard() {
                                 </div>
                             </div>
                             <p className="text-sm text-zinc-300 mb-4">{startup.pitch}</p>
-                            <button className="w-full px-4 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors">
+                            <Button className="w-full">
                                 Apply Now
-                            </button>
+                            </Button>
                         </GlassCard>
                     ))}
                 </div>

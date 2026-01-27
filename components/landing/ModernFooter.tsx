@@ -3,6 +3,8 @@
 import React from "react";
 import { ArrowRight, Github, Twitter, Linkedin, Mail } from "lucide-react";
 import { motion } from "framer-motion";
+import { Input } from "@/components/ui/input";
+import { GlassCard } from "@/components/ui/GlassCard";
 
 export function ModernFooter() {
     const currentYear = new Date().getFullYear();
@@ -46,22 +48,24 @@ export function ModernFooter() {
                     </div>
 
                     <div className="col-span-1 md:col-span-4 lg:col-span-1">
-                        <h3 className="font-semibold text-white mb-4">Stay Updated</h3>
-                        <p className="text-zinc-400 text-sm mb-4">Get the latest news and updates from DFDS.io.</p>
-                        <form className="flex gap-2">
-                            <input
-                                type="email"
-                                placeholder="Enter your email"
-                                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            />
-                            <button
-                                type="submit"
-                                className="p-2 rounded-lg bg-indigo-500 text-white hover:bg-indigo-600 transition-colors"
-                                aria-label="Subscribe"
-                            >
-                                <ArrowRight className="w-5 h-5" />
-                            </button>
-                        </form>
+                        <GlassCard className="p-6 border-white/10 bg-white/5 rounded-3xl h-full">
+                            <h3 className="font-semibold text-white mb-4">Stay Updated</h3>
+                            <p className="text-zinc-400 text-sm mb-4">Get the latest news and updates from DFDS.io.</p>
+                            <form className="flex gap-2">
+                                <Input
+                                    type="email"
+                                    placeholder="Enter your email"
+                                    className="flex-1 bg-black/20"
+                                />
+                                <button
+                                    type="submit"
+                                    className="p-2 rounded-full bg-indigo-500 text-white hover:bg-indigo-600 transition-colors shrink-0"
+                                    aria-label="Subscribe"
+                                >
+                                    <ArrowRight className="w-5 h-5" />
+                                </button>
+                            </form>
+                        </GlassCard>
                     </div>
                 </div>
 

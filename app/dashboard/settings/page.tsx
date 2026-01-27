@@ -2,6 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { GlassCard } from "@/components/ui/GlassCard";
+import { Badge } from "@/components/ui/badge";
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
 import { User, Bell, Shield, Save, Loader2, AlertTriangle, X } from "lucide-react";
 import toast from "react-hot-toast";
 import posthog from "posthog-js";
@@ -178,27 +183,30 @@ export default function SettingsPage() {
                 {/* Sidebar */}
                 <div className="w-64 border-r border-white/10 p-6 flex flex-col">
                     <nav className="space-y-2 flex-1">
-                        <button
+                        <Button
+                            variant={activeTab === "profile" ? "glass" : "ghost"}
                             onClick={() => setActiveTab("profile")}
-                            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${activeTab === "profile" ? "bg-white/10 text-white" : "text-zinc-400 hover:bg-white/5 hover:text-white"}`}
+                            className="w-full justify-start gap-3 px-4 py-6 rounded-full"
                         >
                             <User className="w-5 h-5" />
                             <span className="font-medium">Profile</span>
-                        </button>
-                        <button
+                        </Button>
+                        <Button
+                            variant={activeTab === "notifications" ? "glass" : "ghost"}
                             onClick={() => setActiveTab("notifications")}
-                            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${activeTab === "notifications" ? "bg-white/10 text-white" : "text-zinc-400 hover:bg-white/5 hover:text-white"}`}
+                            className="w-full justify-start gap-3 px-4 py-6 rounded-full"
                         >
                             <Bell className="w-5 h-5" />
                             <span className="font-medium">Notifications</span>
-                        </button>
-                        <button
+                        </Button>
+                        <Button
+                            variant={activeTab === "security" ? "glass" : "ghost"}
                             onClick={() => setActiveTab("security")}
-                            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${activeTab === "security" ? "bg-white/10 text-white" : "text-zinc-400 hover:bg-white/5 hover:text-white"}`}
+                            className="w-full justify-start gap-3 px-4 py-6 rounded-full"
                         >
                             <Shield className="w-5 h-5" />
                             <span className="font-medium">Security</span>
-                        </button>
+                        </Button>
                     </nav>
 
                     <div className="pt-6 border-t border-white/10">
@@ -223,9 +231,9 @@ export default function SettingsPage() {
                                     <div>
                                         <h4 className="text-white font-medium mb-1">{name || "Your Name"}</h4>
                                         <p className="text-sm text-zinc-400 mb-3">{email}</p>
-                                        <button className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm font-medium hover:bg-white/10 transition-colors">
+                                        <Button variant="glass" size="sm" className="rounded-full">
                                             Change Avatar
-                                        </button>
+                                        </Button>
                                     </div>
                                 </div>
 
@@ -235,32 +243,30 @@ export default function SettingsPage() {
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
                                             <label className="block text-sm font-medium text-zinc-300 mb-2">Display Name</label>
-                                            <input
+                                            <Input
                                                 type="text"
                                                 value={name}
                                                 onChange={(e) => setName(e.target.value)}
-                                                className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                             />
                                         </div>
                                         <div>
                                             <label className="block text-sm font-medium text-zinc-300 mb-2">Location</label>
-                                            <input
+                                            <Input
                                                 type="text"
                                                 value={location}
                                                 onChange={(e) => setLocation(e.target.value)}
                                                 placeholder="City, Country"
-                                                className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                             />
                                         </div>
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-zinc-300 mb-2">Bio</label>
-                                        <textarea
+                                        <Textarea
                                             value={bio}
                                             onChange={(e) => setBio(e.target.value)}
                                             rows={4}
                                             placeholder="Tell us about yourself..."
-                                            className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+                                            className="resize-none"
                                         />
                                     </div>
                                 </div>
@@ -271,22 +277,20 @@ export default function SettingsPage() {
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
                                             <label className="block text-sm font-medium text-zinc-300 mb-2">GitHub URL</label>
-                                            <input
+                                            <Input
                                                 type="url"
                                                 value={githubUrl}
                                                 onChange={(e) => setGithubUrl(e.target.value)}
                                                 placeholder="https://github.com/username"
-                                                className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                             />
                                         </div>
                                         <div>
                                             <label className="block text-sm font-medium text-zinc-300 mb-2">LinkedIn URL</label>
-                                            <input
+                                            <Input
                                                 type="url"
                                                 value={linkedinUrl}
                                                 onChange={(e) => setLinkedinUrl(e.target.value)}
                                                 placeholder="https://linkedin.com/in/username"
-                                                className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                             />
                                         </div>
                                     </div>
@@ -296,35 +300,37 @@ export default function SettingsPage() {
                                 <div className="space-y-4">
                                     <h4 className="text-sm font-semibold text-zinc-400 uppercase tracking-wider">Skills</h4>
                                     <div className="flex gap-2">
-                                        <input
+                                        <Input
                                             type="text"
                                             value={newSkill}
                                             onChange={(e) => setNewSkill(e.target.value)}
                                             onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), handleAddSkill())}
                                             placeholder="Add a skill..."
-                                            className="flex-1 px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                         />
-                                        <button
+                                        <Button
                                             onClick={handleAddSkill}
-                                            className="px-4 py-2 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition-colors"
+                                            className="rounded-full"
                                         >
                                             Add
-                                        </button>
+                                        </Button>
                                     </div>
                                     <div className="flex flex-wrap gap-2">
                                         {skills.map((skill, idx) => (
-                                            <span
+                                            <Badge
                                                 key={idx}
-                                                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-sm border border-indigo-500/30"
+                                                variant="indigo"
+                                                className="gap-2"
                                             >
                                                 {skill}
-                                                <button
+                                                <Button
+                                                    variant="ghost"
+                                                    size="sm"
                                                     onClick={() => handleRemoveSkill(skill)}
-                                                    className="hover:text-white transition-colors"
+                                                    className="h-auto p-0 text-zinc-400 hover:text-white hover:bg-transparent"
                                                 >
                                                     ×
-                                                </button>
-                                            </span>
+                                                </Button>
+                                            </Badge>
                                         ))}
                                         {skills.length === 0 && (
                                             <p className="text-zinc-500 text-sm">No skills added yet</p>
@@ -336,63 +342,55 @@ export default function SettingsPage() {
 
                         {activeTab === "notifications" && (
                             <div className="space-y-4 max-w-xl">
-                                <div className="flex items-center justify-between p-4 rounded-lg bg-white/5 border border-white/10">
+                                <div className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/10">
                                     <div>
                                         <h4 className="text-white font-medium">Email Notifications</h4>
                                         <p className="text-sm text-zinc-400">Receive updates via email</p>
                                     </div>
-                                    <button
-                                        onClick={() => setEmailNotifs(!emailNotifs)}
-                                        className={`w-12 h-6 rounded-full transition-colors relative ${emailNotifs ? "bg-indigo-600" : "bg-zinc-600"}`}
-                                    >
-                                        <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-transform ${emailNotifs ? "left-7" : "left-1"}`} />
-                                    </button>
+                                    <Switch checked={emailNotifs} onCheckedChange={setEmailNotifs} />
                                 </div>
 
-                                <div className="flex items-center justify-between p-4 rounded-lg bg-white/5 border border-white/10">
+                                <div className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/10">
                                     <div>
                                         <h4 className="text-white font-medium">Push Notifications</h4>
                                         <p className="text-sm text-zinc-400">Receive updates in browser</p>
                                     </div>
-                                    <button
-                                        onClick={() => setPushNotifs(!pushNotifs)}
-                                        className={`w-12 h-6 rounded-full transition-colors relative ${pushNotifs ? "bg-indigo-600" : "bg-zinc-600"}`}
-                                    >
-                                        <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-transform ${pushNotifs ? "left-7" : "left-1"}`} />
-                                    </button>
+                                    <Switch checked={pushNotifs} onCheckedChange={setPushNotifs} />
                                 </div>
                             </div>
                         )}
 
                         {activeTab === "security" && (
                             <div className="space-y-6 max-w-xl">
-                                <div className="p-4 rounded-lg bg-yellow-500/10 border border-yellow-500/20">
+                                <div className="p-4 rounded-2xl bg-black/20 border border-white/10">
                                     <h4 className="text-yellow-400 font-medium mb-2">Change Password</h4>
                                     <p className="text-sm text-zinc-400 mb-4">Ensure your account is using a long, random password to stay secure.</p>
-                                    <button className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm font-medium hover:bg-white/10 transition-colors">
+                                    <Button variant="glass" size="sm" className="rounded-full">
                                         Update Password
-                                    </button>
+                                    </Button>
                                 </div>
 
-                                <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/20">
+                                <div className="p-4 rounded-2xl bg-black/20 border border-white/10">
                                     <h4 className="text-red-400 font-medium mb-2">Delete Account</h4>
                                     <p className="text-sm text-zinc-400 mb-4">Permanently delete your account and all of your content.</p>
-                                    <button
+                                    <Button
                                         onClick={() => setShowDeleteConfirm(true)}
-                                        className="px-4 py-2 rounded-lg bg-red-500/20 text-red-400 text-sm font-medium hover:bg-red-500/30 transition-colors"
+                                        variant="outline"
+                                        size="sm"
+                                        className="rounded-full border-red-500/20 text-red-400 hover:bg-red-500/10 hover:text-red-300"
                                     >
                                         Delete Account
-                                    </button>
+                                    </Button>
                                 </div>
                             </div>
                         )}
                     </div>
 
                     <div className="p-6 border-t border-white/10 flex justify-end">
-                        <button
+                        <Button
                             onClick={handleSave}
                             disabled={isSaving}
-                            className="flex items-center gap-2 px-6 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors disabled:opacity-50"
+                            className="gap-2 rounded-full"
                         >
                             {isSaving ? (
                                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -400,7 +398,7 @@ export default function SettingsPage() {
                                 <Save className="w-4 h-4" />
                             )}
                             {isSaving ? "Saving..." : "Save Changes"}
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </GlassCard>
@@ -416,12 +414,14 @@ export default function SettingsPage() {
                                     </div>
                                     <h3 className="text-lg font-bold">Delete Account</h3>
                                 </div>
-                                <button
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
                                     onClick={() => setShowDeleteConfirm(false)}
-                                    className="text-zinc-400 hover:text-white transition-colors"
+                                    className="text-zinc-400 hover:text-white"
                                 >
                                     <X className="w-5 h-5" />
-                                </button>
+                                </Button>
                             </div>
 
                             <div className="space-y-4">
@@ -437,34 +437,35 @@ export default function SettingsPage() {
                                     <label className="block text-sm font-medium text-zinc-400 mb-2">
                                         Type <span className="text-white font-mono">DELETE</span> to confirm
                                     </label>
-                                    <input
+                                    <Input
                                         type="text"
                                         value={deleteConfirmation}
                                         onChange={(e) => setDeleteConfirmation(e.target.value)}
-                                        className="w-full px-4 py-3 rounded-lg bg-black/50 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-red-500 font-mono"
+                                        className="font-mono"
                                         placeholder="DELETE"
                                     />
                                 </div>
                             </div>
 
                             <div className="flex gap-3">
-                                <button
+                                <Button
+                                    variant="glass"
                                     onClick={() => setShowDeleteConfirm(false)}
-                                    className="flex-1 px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 transition-colors"
+                                    className="flex-1 rounded-full"
                                 >
                                     Cancel
-                                </button>
-                                <button
+                                </Button>
+                                <Button
                                     onClick={handleDeleteAccount}
                                     disabled={deleteConfirmation !== "DELETE" || isDeleting}
-                                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-red-600 text-white font-semibold hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="flex-1 gap-2 rounded-full bg-red-600 hover:bg-red-700"
                                 >
                                     {isDeleting ? (
                                         <Loader2 className="w-4 h-4 animate-spin" />
                                     ) : (
                                         "Delete Account"
                                     )}
-                                </button>
+                                </Button>
                             </div>
                         </GlassCard>
                     </div>

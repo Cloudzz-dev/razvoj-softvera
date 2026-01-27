@@ -300,6 +300,18 @@ EOF
 
 # Build and start containers
 start_containers() {
+  # Verify .env exists
+  if [[ ! -f .env ]]; then
+    log_error ".env file missing! Please run ./deploy.sh setup first."
+    exit 1
+  fi
+
+  # Run build check to ensure code is valid
+  log_info "Running build check..."
+  npm run build || {
+    log_error "Build failed! Please fix errors before deploying."
+    exit 1
+  }
   log_info "Building and starting containers..."
 
   # Load environment variables from .env if it exists
@@ -491,7 +503,8 @@ print_usage() {
   echo ""
   echo -e "${CYAN}Monitoring & Scaling:${NC}"
   echo "  status      Show health and ports of running containers"
-  echo "  logs        Stream live container output for debugging"
+  echo "  logs        Stream live output from ALL containers"
+  echo "  web-logs    Stream live output from webapp only (dfds-app)"
   echo "  scale N     Scale web app to N instances (requires load balancer)"
   echo "  start-lb    Launch with Nginx load balancer for clustered setups"
   echo ""
@@ -536,6 +549,12 @@ main() {
     ;;
   logs)
     docker compose logs -f 2>/dev/null || docker-compose logs -f
+    ;;
+  web-logs)
+    log_info "Streaming real-time logs from webapp (dfds-app)..."
+    log_info "Press Ctrl+C to stop"
+    echo ""
+    docker compose logs -f app 2>/dev/null || docker-compose logs -f app
     ;;
   status)
     show_status

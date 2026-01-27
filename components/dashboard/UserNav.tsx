@@ -27,7 +27,7 @@ export function UserNav() {
 
     return (
         <Menu as="div" className="relative">
-            <Menu.Button className="flex items-center gap-3 px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+            <Menu.Button className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
                 {user.image ? (
                     <img
                         src={user.image}
@@ -52,7 +52,7 @@ export function UserNav() {
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
             >
-                <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right rounded-lg bg-black border border-white/10 shadow-xl z-20 focus:outline-none">
+                <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right rounded-3xl bg-black/80 border border-white/10 backdrop-blur-xl shadow-xl z-20 focus:outline-none">
                     <div className="p-4 border-b border-white/10">
                         <p className="text-sm font-medium text-white">{user.name}</p>
                         <p className="text-xs text-zinc-400 truncate">{user.email}</p>
@@ -62,7 +62,7 @@ export function UserNav() {
                             {({ active }) => (
                                 <Link
                                     href="/dashboard/settings"
-                                    className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm w-full text-left ${active ? "bg-white/5 text-white" : "text-zinc-300"}`}
+                                    className={`flex items-center gap-3 px-3 py-2 rounded-2xl text-sm w-full text-left ${active ? "bg-white/5 text-white" : "text-zinc-300"}`}
                                 >
                                     <User className="w-4 h-4" />
                                     Profile
@@ -73,7 +73,7 @@ export function UserNav() {
                             {({ active }) => (
                                 <Link
                                     href="/dashboard/settings"
-                                    className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm w-full text-left ${active ? "bg-white/5 text-white" : "text-zinc-300"}`}
+                                    className={`flex items-center gap-3 px-3 py-2 rounded-2xl text-sm w-full text-left ${active ? "bg-white/5 text-white" : "text-zinc-300"}`}
                                 >
                                     <Settings className="w-4 h-4" />
                                     Settings
@@ -86,7 +86,7 @@ export function UserNav() {
                             {({ active }) => (
                                 <button
                                     onClick={handleSignOut}
-                                    className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm w-full ${active ? "bg-red-500/10 text-red-300" : "text-red-400"}`}
+                                    className={`flex items-center gap-3 px-3 py-2 rounded-2xl text-sm w-full ${active ? "bg-red-500/10 text-red-300" : "text-red-400"}`}
                                 >
                                     <LogOut className="w-4 h-4" />
                                     Sign out

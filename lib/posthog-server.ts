@@ -12,6 +12,15 @@ let posthogClient: PostHog | null = null;
  */
 export function getPostHogClient(): PostHog {
     if (!posthogClient) {
+        // Guard: Return mock if no key
+        if (!env.NEXT_PUBLIC_POSTHOG_KEY) {
+            return {
+                capture: () => { },
+                shutdown: async () => { },
+                identify: () => { }
+            } as unknown as PostHog;
+        }
+
         posthogClient = new PostHog(
             env.NEXT_PUBLIC_POSTHOG_KEY!,
             {

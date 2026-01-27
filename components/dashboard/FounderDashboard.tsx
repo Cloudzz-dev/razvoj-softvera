@@ -2,6 +2,7 @@
 "use client";
 
 import { GlassCard } from "@/components/ui/GlassCard";
+import { Badge } from "@/components/ui/badge";
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts";
 import { TrendingUp, Users, DollarSign, Activity, Flame } from "lucide-react";
 import { useMemo } from "react";
@@ -41,9 +42,9 @@ export function FounderDashboard({ stats, growthData }: FounderDashboardProps) {
                 <div>
                     <h2 className="text-2xl font-bold text-white mb-1">{stats.companyName}</h2>
                     <div className="flex items-center gap-2 text-zinc-400 text-sm">
-                        <span className="px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/20">
+                        <Badge variant="indigo">
                             {stats.stage}
-                        </span>
+                        </Badge>
                         <span>•</span>
                         <span>{stats.teamSize} Team Members</span>
                     </div>
@@ -176,13 +177,13 @@ function SummaryCard({ title, value, icon: Icon, color, trend }: any) {
     return (
         <GlassCard className="p-6 border-white/10 bg-black/40">
             <div className="flex items-center justify-between mb-4">
-                <div className={`p-3 rounded-lg bg-${color}-500/10`}>
+                <div className={`p-3 rounded-xl bg-${color}-500/10`}>
                     <Icon className={`w-6 h-6 text-${color}-400`} />
                 </div>
                 {trend && (
-                    <span className="text-xs font-medium text-zinc-500 bg-zinc-900/50 px-2 py-1 rounded">
+                    <Badge variant="outline" className="text-zinc-500">
                         {trend}
-                    </span>
+                    </Badge>
                 )}
             </div>
             <p className="text-2xl font-bold text-white mb-1">{value}</p>

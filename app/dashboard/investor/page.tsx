@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { MetricsChart } from "@/components/ui/MetricsChart";
+import { Button } from "@/components/ui/button";
 import { TrendingUp, Users, Briefcase, DollarSign } from "lucide-react";
 import { formatCurrency } from "@/lib/payment-utils";
 import Link from "next/link";
@@ -217,9 +218,9 @@ export default function InvestorDashboard() {
                                         <p className="text-sm text-zinc-400">{startup.pitch}</p>
                                     </div>
                                 </div>
-                                <button className="px-4 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors">
+                                <Button>
                                     Review
-                                </button>
+                                </Button>
                             </div>
                         ))}
                     </div>

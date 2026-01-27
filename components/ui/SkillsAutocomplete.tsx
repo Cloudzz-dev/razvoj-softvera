@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, KeyboardEvent } from "react";
 import { Check, X, Plus } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 const SUGGESTED_SKILLS = [
     // Development
@@ -140,7 +141,7 @@ export function SkillsAutocomplete({
             </div>
 
             <div className="relative">
-                <input
+                <Input
                     ref={inputRef}
                     type="text"
                     value={inputValue}
@@ -149,17 +150,17 @@ export function SkillsAutocomplete({
                     onFocus={() => inputValue && setIsOpen(true)}
                     placeholder={value.length === 0 ? placeholder : "Add another skill..."}
                     disabled={value.length >= maxSkills}
-                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="py-6"
                 />
 
                 {isOpen && (suggestions.length > 0 || inputValue) && (
-                    <div className="absolute z-50 w-full mt-1 py-1 bg-zinc-900 border border-white/10 rounded-lg shadow-xl max-h-60 overflow-auto">
+                    <div className="absolute z-50 w-full mt-1 p-1 bg-zinc-900/95 backdrop-blur-xl border border-white/10 rounded-3xl shadow-xl max-h-60 overflow-auto">
                         {suggestions.map((suggestion, index) => (
                             <button
                                 key={suggestion}
                                 type="button"
                                 onClick={() => addSkill(suggestion)}
-                                className={`w-full px-3 py-2 text-left text-sm transition-colors flex items-center justify-between ${index === highlightedIndex
+                                className={`w-full px-4 py-2 text-left text-sm transition-colors rounded-xl flex items-center justify-between ${index === highlightedIndex
                                         ? "bg-indigo-600 text-white"
                                         : "text-zinc-300 hover:bg-white/5"
                                     }`}

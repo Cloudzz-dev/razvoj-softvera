@@ -34,7 +34,7 @@ export function DynamicIsland() {
                             href="/"
                             className="flex items-center gap-2 text-lg font-bold text-white mr-4"
                         >
-                            <Image src="/start-it-favicon.png" alt="DFDS.io" width={24} height={24} className="rounded" />
+                            <Image src="/start-it-favicon.png" alt="DFDS.io" width={24} height={24} className="rounded-xl" />
                             DFDS.io
                         </Link>
 

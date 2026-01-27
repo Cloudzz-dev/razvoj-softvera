@@ -2,6 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import { GlassCard } from "@/components/ui/GlassCard";
+import { Badge } from "@/components/ui/badge";
+import { Select } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 import { useSession } from "next-auth/react";
 import { Plus, ThumbsUp, Loader2 } from "lucide-react";
 import { toast } from "react-hot-toast";
@@ -137,10 +140,10 @@ export function RoadmapView({ readOnly = false }: RoadmapViewProps) {
         }
     };
 
-    const statusColors = {
-        PLANNED: "bg-blue-500/10 text-blue-400 border-blue-500/20",
-        IN_PROGRESS: "bg-amber-500/10 text-amber-400 border-amber-500/20",
-        DONE: "bg-green-500/10 text-green-400 border-green-500/20",
+    const statusVariants: Record<string, any> = {
+        PLANNED: "indigo",
+        IN_PROGRESS: "yellow",
+        DONE: "green",
     };
 
     return (
@@ -157,7 +160,7 @@ export function RoadmapView({ readOnly = false }: RoadmapViewProps) {
                 {!readOnly && session && (
                     <button
                         onClick={() => setIsCreating(!isCreating)}
-                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition-colors"
+                        className="flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition-colors"
                     >
                         <Plus className="w-4 h-4" />
                         Submit Idea
@@ -171,11 +174,10 @@ export function RoadmapView({ readOnly = false }: RoadmapViewProps) {
                         <h3 className="text-xl font-semibold text-white">New Feature Request</h3>
                         <div>
                             <label className="block text-sm text-white/60 mb-1">Title</label>
-                            <input
+                            <Input
                                 type="text"
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
-                                className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-indigo-500"
                                 placeholder="e.g. Dark Mode"
                                 required
                             />
@@ -185,7 +187,7 @@ export function RoadmapView({ readOnly = false }: RoadmapViewProps) {
                             <textarea
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
-                                className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-indigo-500 min-h-[100px]"
+                                className="w-full bg-black/20 border border-white/10 rounded-2xl px-4 py-2 text-white focus:outline-none focus:border-indigo-500 min-h-[100px]"
                                 placeholder="Describe your idea..."
                                 required
                             />
@@ -194,13 +196,13 @@ export function RoadmapView({ readOnly = false }: RoadmapViewProps) {
                             <button
                                 type="button"
                                 onClick={() => setIsCreating(false)}
-                                className="px-4 py-2 rounded-lg hover:bg-white/5 text-white/60 transition-colors"
+                                className="px-4 py-2 rounded-full hover:bg-white/5 text-white/60 transition-colors"
                             >
                                 Cancel
                             </button>
                             <button
                                 type="submit"
-                                className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition-colors"
+                                className="px-4 py-2 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition-colors"
                             >
                                 Submit
                             </button>
@@ -224,23 +226,21 @@ export function RoadmapView({ readOnly = false }: RoadmapViewProps) {
                             <GlassCard key={feature.id} className="flex flex-col h-full group">
                                 <div className="flex justify-between items-start gap-4 mb-4">
                                     {isAdmin && !readOnly ? (
-                                        <select
-                                            value={feature.status}
-                                            onChange={(e) => handleStatusChange(feature.id, e.target.value)}
-                                            className={`px-2 py-1 rounded text-xs font-medium border bg-transparent cursor-pointer outline-none appearance-none ${statusColors[feature.status] || "bg-white/5 text-white/60 border-white/10"
-                                                }`}
-                                        >
-                                            <option value="PLANNED" className="bg-black text-blue-400">PLANNED</option>
-                                            <option value="IN_PROGRESS" className="bg-black text-amber-400">IN PROGRESS</option>
-                                            <option value="DONE" className="bg-black text-green-400">DONE</option>
-                                        </select>
+                                        <div className="w-32">
+                                            <Select
+                                                value={feature.status}
+                                                onChange={(value) => handleStatusChange(feature.id, value)}
+                                                options={[
+                                                    { label: "PLANNED", value: "PLANNED" },
+                                                    { label: "IN PROGRESS", value: "IN_PROGRESS" },
+                                                    { label: "DONE", value: "DONE" }
+                                                ]}
+                                            />
+                                        </div>
                                     ) : (
-                                        <span
-                                            className={`px-2 py-1 rounded text-xs font-medium border ${statusColors[feature.status] || "bg-white/5 text-white/60 border-white/10"
-                                                }`}
-                                        >
+                                        <Badge variant={statusVariants[feature.status] || "outline"}>
                                             {feature.status.replace("_", " ")}
-                                        </span>
+                                        </Badge>
                                     )}
                                     <button
                                         onClick={() => handleVote(feature.id, feature.hasVoted)}

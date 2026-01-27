@@ -130,7 +130,7 @@ export function HeroSection() {
                         <div className="flex flex-col items-center gap-4">
                             <Link
                                 href="/discover"
-                                className="px-6 py-2 text-sm text-zinc-400 hover:text-white transition-colors flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-lg"
+                                className="px-6 py-2 text-sm text-zinc-400 hover:text-white transition-colors flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-full"
                                 aria-label="Discover DFDS"
                             >
                                 Discover DFDS <ArrowRight className="w-3 h-3" aria-hidden="true" />

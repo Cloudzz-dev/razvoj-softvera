@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Plus, Trash2, Eye, EyeOff } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 interface BlogPost {
     id: string;
@@ -117,7 +118,7 @@ export default function BlogAdminClient({ posts }: Props) {
             {!isCreating && (
                 <button
                     onClick={() => setIsCreating(true)}
-                    className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-full transition-colors"
                 >
                     <Plus className="w-4 h-4" />
                     New Post
@@ -126,29 +127,27 @@ export default function BlogAdminClient({ posts }: Props) {
 
             {/* Create Post Form */}
             {isCreating && (
-                <form onSubmit={handleSubmit} className="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-4">
+                <form onSubmit={handleSubmit} className="p-6 rounded-3xl bg-white/5 border border-white/10 space-y-4">
                     <h2 className="text-xl font-semibold text-white">Create New Post</h2>
 
                     <div>
                         <label className="block text-sm font-medium text-zinc-300 mb-2">Title</label>
-                        <input
+                        <Input
                             type="text"
                             value={title}
                             onChange={handleTitleChange}
                             required
-                            className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             placeholder="Post title"
                         />
                     </div>
 
                     <div>
                         <label className="block text-sm font-medium text-zinc-300 mb-2">Slug</label>
-                        <input
+                        <Input
                             type="text"
                             value={slug}
                             onChange={(e) => setSlug(e.target.value)}
                             required
-                            className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             placeholder="post-slug"
                         />
                     </div>
@@ -159,7 +158,7 @@ export default function BlogAdminClient({ posts }: Props) {
                             value={excerpt}
                             onChange={(e) => setExcerpt(e.target.value)}
                             rows={2}
-                            className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            className="w-full px-4 py-3 rounded-3xl bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             placeholder="Brief description of the post"
                         />
                     </div>
@@ -170,13 +169,13 @@ export default function BlogAdminClient({ posts }: Props) {
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
                             rows={8}
-                            className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono text-sm"
+                            className="w-full px-4 py-3 rounded-3xl bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono text-sm"
                             placeholder="Write your post content here..."
                         />
                     </div>
 
                     {error && (
-                        <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+                        <div className="p-3 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
                             {error}
                         </div>
                     )}
@@ -185,14 +184,14 @@ export default function BlogAdminClient({ posts }: Props) {
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors disabled:opacity-50"
+                            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-full transition-colors disabled:opacity-50"
                         >
                             {isLoading ? "Creating..." : "Create Post"}
                         </button>
                         <button
                             type="button"
                             onClick={() => setIsCreating(false)}
-                            className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
+                            className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors"
                         >
                             Cancel
                         </button>
@@ -211,7 +210,7 @@ export default function BlogAdminClient({ posts }: Props) {
                         {posts.map((post) => (
                             <div
                                 key={post.id}
-                                className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10"
+                                className="flex items-center justify-between p-4 rounded-3xl bg-white/5 border border-white/10"
                             >
                                 <div>
                                     <h3 className="font-medium text-white">{post.title}</h3>
@@ -231,7 +230,7 @@ export default function BlogAdminClient({ posts }: Props) {
                                 <div className="flex items-center gap-2">
                                     <button
                                         onClick={() => toggleStatus(post.id, post.status)}
-                                        className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                                        className="p-2 hover:bg-white/10 rounded-full transition-colors"
                                         title={post.status === "PUBLISHED" ? "Unpublish" : "Publish"}
                                     >
                                         {post.status === "PUBLISHED" ? (
@@ -242,7 +241,7 @@ export default function BlogAdminClient({ posts }: Props) {
                                     </button>
                                     <button
                                         onClick={() => deletePost(post.id)}
-                                        className="p-2 hover:bg-red-500/20 rounded-lg transition-colors"
+                                        className="p-2 hover:bg-red-500/20 rounded-full transition-colors"
                                         title="Delete"
                                     >
                                         <Trash2 className="w-4 h-4 text-red-400" />

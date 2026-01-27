@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { MapPin, Loader2, X } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 interface LocationSuggestion {
     place_id: number;
@@ -166,8 +167,8 @@ export function LocationAutocomplete({
     return (
         <div ref={wrapperRef} className={`relative block ${className}`}>
             <div className="relative">
-                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
-                <input
+                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 z-30" />
+                <Input
                     ref={inputRef}
                     type="text"
                     value={query}
@@ -178,7 +179,7 @@ export function LocationAutocomplete({
                     }}
                     onKeyDown={handleKeyDown}
                     placeholder={placeholder}
-                    className="w-full pl-10 pr-10 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 z-20 relative"
+                    className="pl-10 pr-10 py-6"
                 />
                 {isLoading ? (
                     <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 animate-spin" />
@@ -195,13 +196,13 @@ export function LocationAutocomplete({
 
             {/* Suggestions dropdown */}
             {isOpen && suggestions.length > 0 && (
-                <div className="absolute z-[9999] w-full mt-1 py-1 bg-zinc-900/95 backdrop-blur-xl border border-white/10 rounded-lg shadow-2xl max-h-60 overflow-auto">
+                <div className="absolute z-[9999] w-full mt-1 p-1 bg-zinc-900/95 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl max-h-60 overflow-auto">
                     {suggestions.map((suggestion, index) => (
                         <button
                             key={suggestion.place_id}
                             type="button"
                             onClick={() => handleSelect(suggestion)}
-                            className={`w-full px-3 py-2 text-left text-sm transition-colors ${index === highlightedIndex
+                            className={`w-full px-4 py-2 text-left text-sm transition-colors rounded-2xl ${index === highlightedIndex
                                     ? "bg-indigo-600 text-white"
                                     : "text-zinc-300 hover:bg-white/10"
                                 }`}
@@ -217,7 +218,7 @@ export function LocationAutocomplete({
 
             {/* No results message */}
             {isOpen && !isLoading && query.length >= 2 && suggestions.length === 0 && (
-                <div className="absolute z-[9999] w-full mt-1 py-3 px-4 bg-zinc-900/95 backdrop-blur-xl border border-white/10 rounded-lg text-sm text-zinc-400 text-center shadow-xl">
+                <div className="absolute z-[9999] w-full mt-1 py-3 px-4 bg-zinc-900/95 backdrop-blur-xl border border-white/10 rounded-2xl text-sm text-zinc-400 text-center shadow-xl">
                     No locations found
                 </div>
             )}

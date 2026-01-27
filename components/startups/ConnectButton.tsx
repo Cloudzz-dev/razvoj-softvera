@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import posthog from "posthog-js";
 
@@ -32,12 +33,12 @@ export function ConnectButton({ startup }: { startup: Startup }) {
     };
 
     return (
-        <button
+        <Button
             type="button"
             onClick={handleConnect}
-            className="mt-4 w-full px-4 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors"
+            className="mt-4 w-full rounded-full"
         >
             Connect
-        </button>
+        </Button>
     );
 }

@@ -3,6 +3,9 @@
 import { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { GlassCard } from "@/components/ui/GlassCard";
+import { Select } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { Shield, User, Mail, Plus, Trash2, MoreVertical, X, Loader2, Send, Briefcase, Users } from "lucide-react";
 import toast from "react-hot-toast";
 import Link from "next/link";
@@ -260,35 +263,35 @@ export default function MembersPage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="relative">
                         <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
-                        <input
+                        <Input
                             type="text"
                             placeholder="Search name or email..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                            className="pl-10"
                         />
                     </div>
                     <div className="relative">
                         <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
-                        <input
+                        <Input
                             type="text"
                             placeholder="Filter by startup..."
                             value={startupFilter}
                             onChange={(e) => setStartupFilter(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                            className="pl-10"
                         />
                     </div>
-                    <select
+                    <Select
                         value={roleFilter}
-                        onChange={(e) => setRoleFilter(e.target.value)}
-                        className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50"
-                    >
-                        <option value="ALL">All Roles</option>
-                        <option value="ADMIN">Admin</option>
-                        <option value="FOUNDER">Founder</option>
-                        <option value="INVESTOR">Investor</option>
-                        <option value="DEVELOPER">Developer</option>
-                    </select>
+                        onChange={(value) => setRoleFilter(value)}
+                        options={[
+                            { label: "All Roles", value: "ALL" },
+                            { label: "Admin", value: "ADMIN" },
+                            { label: "Founder", value: "FOUNDER" },
+                            { label: "Investor", value: "INVESTOR" },
+                            { label: "Developer", value: "DEVELOPER" }
+                        ]}
+                    />
                 </div>
 
                 <div className="grid gap-4">
@@ -309,16 +312,25 @@ export default function MembersPage() {
                                     {/* Simplified Role Switcher */}
                                     <div className="flex gap-1 ml-4">
                                         {(["ADMIN", "FOUNDER", "DEVELOPER"] as Role[]).map(r => (
-                                            <button
+                                            <Button
                                                 key={r}
+                                                variant="ghost"
+                                                size="sm"
                                                 onClick={() => updateRole(user.id, r)}
-                                                className={`px-2 py-1 rounded text-xs hover:bg-white/10 ${user.role === r ? 'bg-white/10 text-white' : 'text-zinc-500'}`}
+                                                className={`px-2 h-7 ${user.role === r ? 'bg-white/10 text-white' : 'text-zinc-500'}`}
                                                 title={`Set role to ${r}`}
                                             >
                                                 {r[0]}
-                                            </button>
+                                            </Button>
                                         ))}
-                                        <button onClick={() => deleteUser(user.id)} className="p-1 text-red-400 hover:bg-red-500/10 rounded ml-2"><Trash2 className="w-4 h-4" /></button>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            onClick={() => deleteUser(user.id)}
+                                            className="p-1 text-red-400 hover:bg-red-500/10 rounded ml-2"
+                                        >
+                                            <Trash2 className="w-4 h-4" />
+                                        </Button>
                                     </div>
                                 </div>
                             </div>
@@ -343,13 +355,13 @@ export default function MembersPage() {
                     </p>
                 </div>
                 {myStartup && (
-                    <button
+                    <Button
                         onClick={() => setShowInviteModal(true)}
-                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition-colors font-semibold"
+                        className="flex items-center gap-2"
                     >
                         <Plus className="w-4 h-4" />
                         Invite Member
-                    </button>
+                    </Button>
                 )}
             </div>
 
@@ -419,7 +431,7 @@ export default function MembersPage() {
                                         <p className="text-sm text-white">{member.startupRole}</p>
                                         <p className="text-xs text-zinc-500">Joined {new Date(member.joinedAt).toLocaleDateString()}</p>
                                     </div>
-                                    <button className="p-2 text-zinc-400 hover:text-white"><MoreVertical className="w-4 h-4" /></button>
+                                    <Button variant="ghost" size="icon" className="text-zinc-400 hover:text-white"><MoreVertical className="w-4 h-4" /></Button>
                                 </div>
                             </div>
                         </GlassCard>
@@ -436,53 +448,55 @@ export default function MembersPage() {
                                 <Mail className="w-5 h-5 text-indigo-400" />
                                 Invite Team Member
                             </h2>
-                            <button
+                            <Button
+                                variant="ghost"
+                                size="icon"
                                 onClick={() => setShowInviteModal(false)}
-                                className="p-2 rounded-lg hover:bg-white/10 text-zinc-400 hover:text-white transition-colors"
+                                className="text-zinc-400 hover:text-white"
                             >
                                 <X className="w-5 h-5" />
-                            </button>
+                            </Button>
                         </div>
 
                         <form onSubmit={handleInvite} className="space-y-4">
                             <div>
                                 <label className="block text-sm font-medium text-zinc-300 mb-1">Email Address</label>
-                                <input
+                                <Input
                                     type="email"
                                     required
                                     value={inviteEmail}
                                     onChange={(e) => setInviteEmail(e.target.value)}
-                                    className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                     placeholder="colleague@example.com"
                                 />
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-zinc-300 mb-1">Role</label>
-                                <select
+                                <Select
+                                    label="Role"
                                     value={inviteRole}
-                                    onChange={(e) => setInviteRole(e.target.value)}
-                                    className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                >
-                                    <option value="MEMBER">Member</option>
-                                    <option value="ADMIN">Admin</option>
-                                    <option value="VIEWER">Viewer</option>
-                                    <option value="OWNER">Owner</option>
-                                </select>
+                                    onChange={(value) => setInviteRole(value)}
+                                    options={[
+                                        { label: "Member", value: "MEMBER" },
+                                        { label: "Admin", value: "ADMIN" },
+                                        { label: "Viewer", value: "VIEWER" },
+                                        { label: "Owner", value: "OWNER" }
+                                    ]}
+                                />
                             </div>
 
                             <div className="pt-4 flex justify-end gap-3">
-                                <button
+                                <Button
                                     type="button"
+                                    variant="ghost"
                                     onClick={() => setShowInviteModal(false)}
-                                    className="px-4 py-2 rounded-lg text-zinc-400 hover:bg-white/10 transition-colors"
+                                    className="text-zinc-400 hover:text-white"
                                 >
                                     Cancel
-                                </button>
-                                <button
+                                </Button>
+                                <Button
                                     type="submit"
                                     disabled={isInviting}
-                                    className="px-6 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors disabled:opacity-50 flex items-center gap-2"
+                                    className="flex items-center gap-2"
                                 >
                                     {isInviting ? (
                                         <>
@@ -495,7 +509,7 @@ export default function MembersPage() {
                                             Send Invite
                                         </>
                                     )}
-                                </button>
+                                </Button>
                             </div>
                         </form>
                     </GlassCard>

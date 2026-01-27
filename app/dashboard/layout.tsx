@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 
 import { UserNav } from "@/components/dashboard/UserNav";
 import { AiAssistant } from "@/components/ai/AiAssistant";
+import { Badge } from "@/components/ui/badge";
 import DonateButton from "@/components/common/DonateButton";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
@@ -13,6 +14,7 @@ import { usePathname } from "next/navigation";
 import { SessionProvider } from "next-auth/react";
 import { DashboardSearch } from "@/components/dashboard/DashboardSearch";
 import { dashboardNav, adminNav, NavItem } from "@/config/nav";
+import { DemoControls } from "@/components/demo/DemoControls";
 
 function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
@@ -21,6 +23,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
 
     // Check if user is admin (role stored in session)
     const isAdmin = (session?.user as any)?.role === "ADMIN";
+    const isDemoUser = session?.user?.email === "demo@cloudzz.dev";
 
     const renderNavItems = (items: NavItem[], isAdminSection = false, onItemClick?: () => void) => (
         <>
@@ -39,7 +42,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
                         key={item.href}
                         href={item.href}
                         onClick={onItemClick}
-                        className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive
+                        className={`flex items-center gap-3 px-4 py-3 rounded-2xl transition-colors ${isActive
                             ? "bg-white/10 text-white"
                             : "text-zinc-400 hover:bg-white/5 hover:text-white"
                             } ${isAdminSection ? "border-l-2 border-purple-500/50" : ""}`}
@@ -61,10 +64,15 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
             </div>
 
             {/* Sidebar */}
-            <aside className="fixed left-0 top-0 h-full w-64 border-r border-white/10 bg-black/50 backdrop-blur-xl p-6 hidden md:flex md:flex-col z-20">
+            <aside className="fixed left-0 top-0 h-full w-64 border-r border-white/10 bg-black/20 backdrop-blur-xl p-6 hidden md:flex md:flex-col z-20">
                 <Link href="/" className="flex items-center gap-3 mb-8 flex-shrink-0">
-                    <Image src="/start-it-favicon.png" alt="DFDS.io" width={32} height={32} className="rounded-lg" />
+                    <Image src="/start-it-favicon.png" alt="DFDS.io" width={32} height={32} className="rounded-2xl" />
                     <h1 className="text-2xl font-bold text-white">DFDS.io</h1>
+                    {isDemoUser && (
+                        <Badge variant="yellow" className="ml-2 text-[10px] uppercase tracking-wider font-bold">
+                            Demo
+                        </Badge>
+                    )}
                 </Link>
 
                 <nav className="space-y-2 overflow-y-auto flex-1 pr-2 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
@@ -76,17 +84,24 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
             {/* Main Content */}
             <div className="md:ml-64 relative z-10">
                 {/* Header */}
-                <header className="sticky top-0 z-10 border-b border-white/10 bg-black/50 backdrop-blur-xl">
+                <header className="sticky top-0 z-10 border-b border-white/10 bg-black/20 backdrop-blur-xl">
                     <div className="flex items-center justify-between px-6 py-4 gap-4">
                         {/* Mobile Menu Button */}
                         <button
                             onClick={() => setIsMobileMenuOpen(true)}
-                            className="md:hidden p-2 rounded-lg hover:bg-white/10 text-white transition-colors"
+                            className="md:hidden p-2 rounded-full hover:bg-white/10 text-white transition-colors"
                         >
                             <Menu className="w-6 h-6" />
                         </button>
 
-                        <h2 className="text-xl font-semibold text-white hidden md:block">Dashboard</h2>
+                        <div className="flex items-center gap-3">
+                            <h2 className="text-xl font-semibold text-white hidden md:block">Dashboard</h2>
+                            {isDemoUser && (
+                                <Badge variant="yellow" className="text-[10px] uppercase tracking-wider font-bold">
+                                    Demo Mode
+                                </Badge>
+                            )}
+                        </div>
                         <div className="flex-1 max-w-xl flex justify-center md:justify-start">
                             <Suspense fallback={<div className="w-full max-w-md h-10 bg-white/5 rounded-xl animate-pulse" />}>
                                 <DashboardSearch />
@@ -102,6 +117,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
                 {/* Page Content */}
                 <main className="p-6">{children}</main>
                 <AiAssistant />
+                <DemoControls />
             </div>
 
             {/* Mobile Sidebar Overlay */}
@@ -109,23 +125,28 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
                 <div className="fixed inset-0 z-50 md:hidden">
                     {/* Backdrop */}
                     <div
-                        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                        className="absolute inset-0 bg-black/60 backdrop-blur-md"
                         onClick={() => setIsMobileMenuOpen(false)}
                     />
 
                     {/* Sidebar */}
-                    <aside className="absolute left-0 top-0 h-full w-64 bg-black/90 backdrop-blur-xl border-r border-white/10 p-6 animate-in slide-in-from-left duration-300 flex flex-col">
+                    <aside className="absolute left-0 top-0 h-full w-64 bg-black/90 backdrop-blur-xl border-r border-white/10 p-6 animate-in slide-in-from-left duration-300 flex flex-col rounded-r-3xl">
                         {/* Close Button */}
                         <button
                             onClick={() => setIsMobileMenuOpen(false)}
-                            className="absolute top-4 right-4 p-2 rounded-lg hover:bg-white/10 text-white transition-colors"
+                            className="absolute top-4 right-4 p-2 rounded-full hover:bg-white/10 text-white transition-colors"
                         >
                             <X className="w-5 h-5" />
                         </button>
 
                         <Link href="/" className="flex items-center gap-3 mb-8 flex-shrink-0">
-                            <Image src="/start-it-favicon.png" alt="DFDS.io" width={32} height={32} className="rounded-lg" />
+                            <Image src="/start-it-favicon.png" alt="DFDS.io" width={32} height={32} className="rounded-2xl" />
                             <h1 className="text-2xl font-bold text-white">DFDS.io</h1>
+                            {isDemoUser && (
+                                <Badge variant="yellow" className="ml-2 text-[10px] uppercase tracking-wider font-bold">
+                                    Demo
+                                </Badge>
+                            )}
                         </Link>
 
                         <nav className="space-y-2 overflow-y-auto flex-1 pr-2">

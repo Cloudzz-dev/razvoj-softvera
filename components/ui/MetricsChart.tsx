@@ -53,12 +53,20 @@ export function MetricsChart({
     const CustomTooltip = ({ active, payload }: any) => {
         if (active && payload && payload.length) {
             return (
-                <GlassCard variant="dark" className="p-3">
+                <div
+                    style={{
+                        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                        backdropFilter: 'blur(12px)',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        borderRadius: '16px'
+                    }}
+                    className="p-3 shadow-2xl"
+                >
                     <p className="text-zinc-400 text-xs mb-1">{payload[0].payload.date}</p>
                     <p className="text-white font-semibold text-sm">
                         {valuePrefix}{payload[0].value.toLocaleString()}
                     </p>
-                </GlassCard>
+                </div>
             );
         }
         return null;

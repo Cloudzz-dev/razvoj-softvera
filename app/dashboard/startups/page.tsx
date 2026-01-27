@@ -1,10 +1,13 @@
 import { GlassCard } from "@/components/ui/GlassCard";
+import { Badge } from "@/components/ui/badge";
 import { ExternalLink } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { CreateStartupButton } from "@/components/startups/CreateStartupButton";
 import { StartupsSearch } from "@/components/startups/StartupsSearch";
 import { ConnectButton } from "@/components/startups/ConnectButton";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 // Server Action to fetch startups (can also be a cached util)
 async function getStartups(search?: string, page: number = 1) {
@@ -50,6 +53,9 @@ export default async function StartupsPage({
     const currentPage = parseInt(page || "1");
     const startups = await getStartups(search, currentPage);
 
+    const buttonStyles = "inline-flex items-center justify-center rounded-full text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/50 active:scale-[0.98]";
+    const glassVariant = "bg-white/5 border border-white/10 backdrop-blur-md hover:bg-white/10 text-white h-10 px-4 py-2";
+
     return (
         <div className="space-y-8">
             <div className="flex items-center justify-between">
@@ -80,12 +86,14 @@ export default async function StartupsPage({
                             <GlassCard key={startup.id} className="p-6 border-white/10 bg-black/40 hover:bg-white/5 transition-all">
                                 <div className="flex items-start justify-between mb-4">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-12 h-12 rounded-lg bg-indigo-600/20 flex items-center justify-center text-2xl">
+                                        <div className="w-12 h-12 rounded-2xl bg-indigo-600/20 flex items-center justify-center text-2xl">
                                             {startup.logo || "🚀"}
                                         </div>
                                         <div>
                                             <h3 className="text-xl font-bold text-white">{startup.name}</h3>
-                                            <p className="text-sm text-zinc-400">{startup.stage}</p>
+                                            <Badge variant="indigo">
+                                                {startup.stage}
+                                            </Badge>
                                         </div>
                                     </div>
                                     {startup.websiteUrl && (
@@ -93,7 +101,7 @@ export default async function StartupsPage({
                                             href={startup.websiteUrl}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
+                                            className="p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors"
                                         >
                                             <ExternalLink className="w-4 h-4 text-zinc-400" />
                                         </a>
@@ -118,7 +126,7 @@ export default async function StartupsPage({
                         {currentPage > 1 && (
                             <Link
                                 href={`/dashboard/startups?page=${currentPage - 1}${search ? `&search=${search}` : ''}`}
-                                className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-colors"
+                                className={cn(buttonStyles, glassVariant)}
                             >
                                 Previous
                             </Link>
@@ -126,7 +134,7 @@ export default async function StartupsPage({
                         {startups.length === 25 && (
                             <Link
                                 href={`/dashboard/startups?page=${currentPage + 1}${search ? `&search=${search}` : ''}`}
-                                className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-colors"
+                                className={cn(buttonStyles, glassVariant)}
                             >
                                 Next
                             </Link>

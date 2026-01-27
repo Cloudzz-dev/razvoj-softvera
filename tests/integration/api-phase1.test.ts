@@ -37,7 +37,7 @@ describe('Phase 1 API Tests', () => {
 
     describe('GET /api/health', () => {
         it('should return healthy status', async () => {
-            const response = await healthGet();
+            const response = await healthGet(new Request("http://localhost/api/health"));
             const data = await response.json();
 
             expect(response.status).toBe(200);

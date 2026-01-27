@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { GlassCard } from "@/components/ui/GlassCard";
+import { Input } from "@/components/ui/input";
 import { Lock, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -114,25 +115,23 @@ function ResetPasswordForm() {
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="space-y-2">
                         <label className="text-sm font-medium text-zinc-300">New Password</label>
-                        <input
+                        <Input
                             type="password"
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="••••••••"
-                            className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-white/20 transition-all"
                         />
                     </div>
 
                     <div className="space-y-2">
                         <label className="text-sm font-medium text-zinc-300">Confirm New Password</label>
-                        <input
+                        <Input
                             type="password"
                             required
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             placeholder="••••••••"
-                            className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-white/20 transition-all"
                         />
                     </div>
 

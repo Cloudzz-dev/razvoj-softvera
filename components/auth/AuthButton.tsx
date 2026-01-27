@@ -13,7 +13,7 @@ export function AuthButton({ children, icon }: AuthButtonProps) {
         <Link
             href="/dashboard"
             className={cn(
-                "w-full flex items-center justify-center gap-3 px-6 py-3 rounded-lg bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 transition-colors"
+                "w-full flex items-center justify-center gap-3 px-6 py-3 rounded-full bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 transition-colors"
             )}
         >
             {icon}

@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { Search, SlidersHorizontal, X } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -60,12 +62,12 @@ export function DashboardSearch() {
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <Search className="h-4 w-4 text-zinc-400 group-focus-within:text-indigo-400 transition-colors" />
                 </div>
-                <input
+                <Input
                     type="text"
                     value={query}
                     onChange={(e) => handleSearch(e.target.value)}
                     placeholder={currentFilters ? `Search by ${currentFilters.title.toLowerCase()}...` : "Search dashboard..."}
-                    className="block w-full pl-10 pr-10 py-2 rounded-xl bg-white/5 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 focus:bg-white/10 transition-all backdrop-blur-md"
+                    className="pl-10 pr-10"
                 />
                 {currentFilters && (
                     <button
@@ -82,7 +84,7 @@ export function DashboardSearch() {
 
             {/* Filter Dropdown */}
             {isOpen && currentFilters && (
-                <div className="absolute top-full left-0 right-0 mt-2 p-3 rounded-xl bg-black/80 border border-white/10 backdrop-blur-xl shadow-xl animate-in fade-in slide-in-from-top-2 z-50">
+                <div className="absolute top-full left-0 right-0 mt-2 p-3 rounded-3xl bg-black/80 border border-white/10 backdrop-blur-xl shadow-xl animate-in fade-in slide-in-from-top-2 z-50">
                     <div className="flex items-center justify-between mb-2">
                         <span className="text-xs font-medium text-zinc-400">Filter by {currentFilters.title}</span>
                         <button onClick={() => setIsOpen(false)} className="text-zinc-500 hover:text-white">
@@ -94,14 +96,17 @@ export function DashboardSearch() {
                             <button
                                 key={option}
                                 onClick={() => toggleFilter(option)}
-                                className={cn(
-                                    "px-2 py-1 rounded-md text-xs border transition-all",
-                                    query === option
-                                        ? "bg-indigo-500/20 border-indigo-500/50 text-indigo-300"
-                                        : "bg-white/5 border-white/10 text-zinc-300 hover:bg-white/10 hover:text-white"
-                                )}
+                                className="transition-all"
                             >
-                                {option}
+                                <Badge
+                                    variant={query === option ? "indigo" : "outline"}
+                                    className={cn(
+                                        "cursor-pointer",
+                                        query !== option && "hover:bg-white/10 hover:text-white"
+                                    )}
+                                >
+                                    {option}
+                                </Badge>
                             </button>
                         ))}
                     </div>

@@ -53,7 +53,7 @@ export default function DonateButton() {
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.95 }}
-                            className="relative w-full max-w-md bg-gray-900 border border-gray-800 rounded-xl shadow-2xl p-6"
+                            className="relative w-full max-w-md bg-gray-900 border border-gray-800 rounded-3xl shadow-2xl p-6"
                         >
                             <button
                                 onClick={() => setIsOpen(false)}
@@ -75,7 +75,7 @@ export default function DonateButton() {
                                 </p>
 
                                 {/* Tabs */}
-                                <div className="flex p-1 bg-gray-950 rounded-lg border border-gray-800 mb-4 w-full">
+                                <div className="flex p-1 bg-gray-950 rounded-2xl border border-gray-800 mb-4 w-full">
                                     {(Object.keys(CRYPTO_OPTIONS) as CryptoOption[]).map((option) => (
                                         <button
                                             key={option}
@@ -84,7 +84,7 @@ export default function DonateButton() {
                                                 setCopied(false);
                                             }}
                                             className={cn(
-                                                "flex-1 py-1.5 text-xs font-medium rounded-md transition-all flex items-center justify-center gap-1.5",
+                                                "flex-1 py-1.5 text-xs font-medium rounded-xl transition-all flex items-center justify-center gap-1.5",
                                                 selectedChain === option
                                                     ? "bg-gray-800 text-white shadow-sm"
                                                     : "text-gray-500 hover:text-gray-300"
@@ -96,17 +96,17 @@ export default function DonateButton() {
                                     ))}
                                 </div>
 
-                                <div className="w-full bg-gray-950 rounded-lg p-4 border border-gray-800">
+                                <div className="w-full bg-gray-950 rounded-2xl p-4 border border-gray-800">
                                     <label className="text-xs text-gray-500 uppercase tracking-tighter font-semibold mb-2 block text-left">
                                         Donate via {CRYPTO_OPTIONS[selectedChain].label}
                                     </label>
                                     <div className="flex items-center gap-2">
-                                        <code className="flex-1 bg-gray-900 p-2 rounded text-xs text-gray-300 font-mono overflow-hidden text-ellipsis text-left">
+                                        <code className="flex-1 bg-gray-900 p-2 rounded-xl text-xs text-gray-300 font-mono overflow-hidden text-ellipsis text-left">
                                             {CRYPTO_OPTIONS[selectedChain].address}
                                         </code>
                                         <button
                                             onClick={handleCopy}
-                                            className="p-2 hover:bg-gray-800 rounded text-gray-400 hover:text-white transition-colors"
+                                            className="p-2 hover:bg-gray-800 rounded-full text-gray-400 hover:text-white transition-colors"
                                             title="Copy Address"
                                         >
                                             {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}

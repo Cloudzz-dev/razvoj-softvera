@@ -30,7 +30,7 @@ export function SimulatorControls() {
                     step="100000"
                     value={preMoneyValuation}
                     onChange={(e) => setPreMoneyValuation(Number(e.target.value))}
-                    className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-indigo-500 hover:accent-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                    className="w-full h-2 bg-white/10 rounded-full appearance-none cursor-pointer accent-indigo-500 hover:accent-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
                     aria-label="Adjust Pre-Money Valuation"
                 />
                 <div className="flex justify-between text-xs text-zinc-500 px-1">
@@ -58,7 +58,7 @@ export function SimulatorControls() {
                     step="10000"
                     value={investmentAmount}
                     onChange={(e) => setInvestmentAmount(Number(e.target.value))}
-                    className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-emerald-500 hover:accent-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                    className="w-full h-2 bg-white/10 rounded-full appearance-none cursor-pointer accent-emerald-500 hover:accent-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
                     aria-label="Adjust Investment Amount"
                 />
                 <div className="flex justify-between text-xs text-zinc-500 px-1">

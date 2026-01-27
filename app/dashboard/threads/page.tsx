@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { GlassCard } from "@/components/ui/GlassCard";
+import { Input } from "@/components/ui/input";
 import { MessageCircle, Heart, Send, TrendingUp, User, Users, Calendar, Plus, Loader2, X } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import toast from "react-hot-toast";
@@ -380,12 +381,12 @@ export default function ThreadsPage() {
                                                     <User className="w-4 h-4 text-white" />
                                                 </div>
                                                 <div className="flex-1 flex gap-2">
-                                                    <input
+                                                    <Input
                                                         type="text"
                                                         value={newReply}
                                                         onChange={(e) => setNewReply(e.target.value)}
                                                         placeholder="Write a reply..."
-                                                        className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white placeholder-zinc-500 focus:outline-none focus:border-indigo-500/50 text-sm"
+                                                        className="flex-1"
                                                         onKeyDown={(e) => {
                                                             if (e.key === 'Enter' && !e.shiftKey) {
                                                                 e.preventDefault();
@@ -433,12 +434,11 @@ export default function ThreadsPage() {
                         <div className="space-y-4">
                             <div>
                                 <label className="block text-sm font-medium text-zinc-300 mb-2">Title</label>
-                                <input
+                                <Input
                                     type="text"
                                     value={newTitle}
                                     onChange={(e) => setNewTitle(e.target.value)}
                                     placeholder="What would you like to discuss?"
-                                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                 />
                             </div>
 
@@ -455,12 +455,11 @@ export default function ThreadsPage() {
 
                             <div>
                                 <label className="block text-sm font-medium text-zinc-300 mb-2">Tags (comma-separated)</label>
-                                <input
+                                <Input
                                     type="text"
                                     value={newTags}
                                     onChange={(e) => setNewTags(e.target.value)}
                                     placeholder="e.g., AI, Hiring, Advice"
-                                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                 />
                             </div>
                         </div>

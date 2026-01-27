@@ -43,7 +43,7 @@ export function CommandMenu() {
                     <Search className="mr-2 h-5 w-5 shrink-0 opacity-50 text-white" />
                     <Command.Input
                         placeholder="Type a command or search..."
-                        className="flex h-14 w-full rounded-md bg-transparent py-3 text-base outline-none placeholder:text-white/40 text-white disabled:cursor-not-allowed disabled:opacity-50"
+                        className="flex h-14 w-full rounded-2xl bg-transparent py-3 text-base outline-none placeholder:text-white/40 text-white disabled:cursor-not-allowed disabled:opacity-50"
                     />
                 </div>
                 <Command.List className="max-h-[300px] overflow-y-auto overflow-x-hidden p-2">
@@ -119,7 +119,7 @@ function CommandItem({ children, onSelect, onMouseEnter }: CommandItemProps) {
     return (
         <Command.Item
             onSelect={onSelect}
-            className="relative flex cursor-pointer select-none items-center rounded-lg px-3 py-2.5 text-sm text-white/70 outline-none hover:bg-white/10 hover:text-white data-[selected=true]:bg-white/10 data-[selected=true]:text-white transition-colors duration-150"
+            className="relative flex cursor-pointer select-none items-center rounded-2xl px-3 py-2.5 text-sm text-white/70 outline-none hover:bg-white/10 hover:text-white data-[selected=true]:bg-white/10 data-[selected=true]:text-white transition-colors duration-150"
             onPointerEnter={onMouseEnter} // Use pointer enter for hover
         >
             {children}

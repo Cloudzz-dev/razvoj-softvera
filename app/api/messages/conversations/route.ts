@@ -56,8 +56,9 @@ export async function GET() {
                     },
                 },
             },
+            take: 50,
             orderBy: {
-                updatedAt: "desc",
+                lastMessageAt: "desc",
             },
         });
 

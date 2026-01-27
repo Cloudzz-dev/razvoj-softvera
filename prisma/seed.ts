@@ -253,6 +253,10 @@ async function main() {
                 password,
                 emailVerified: new Date(),
                 role: "FOUNDER",
+                // Grant AI access for demo purposes
+                isVerifiedBuilder: true,
+                subscriptionTier: "PRO",
+                referralCount: 5,
                 profile: {
                     create: {
                         location: "Zagreb, Croatia",
@@ -260,6 +264,18 @@ async function main() {
                         skills: ["Product Management", "Growth"],
                     },
                 },
+            },
+        });
+    } else {
+        // Update existing demo user to have AI access
+        console.log("Updating Demo User with AI access...");
+        await prisma.user.update({
+            where: { email: "demo@cloudzz.dev" },
+            data: {
+                isVerifiedBuilder: true,
+                subscriptionTier: "PRO",
+                referralCount: 5,
+                emailVerified: demoUser.emailVerified || new Date(),
             },
         });
     }

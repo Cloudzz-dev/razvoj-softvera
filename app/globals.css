@@ -28,12 +28,13 @@
     --blue: 217 91% 60%;
     --green: 142 76% 36%;
 
-    --radius: 0.5rem;
+    --radius: 1.5rem;
   }
 }
 
 body {
-  background: hsl(var(--background));
+  background: radial-gradient(circle at 50% 0%, #1a1a2e, #000000);
+  min-height: 100vh;
   color: hsl(var(--foreground));
   font-feature-settings: "rlig" 1, "calt" 1;
   text-rendering: optimizeLegibility;
@@ -116,12 +117,12 @@ body {
 
 ::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
+  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
+  border-radius: 9999px;
   transition: background 0.3s;
 }
 

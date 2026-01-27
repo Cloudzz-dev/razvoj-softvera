@@ -126,7 +126,11 @@ export const env = new Proxy({} as z.infer<typeof envSchema>, {
 
     const result = propertySchema.safeParse(rawValue);
 
+    // Special handling for optional external services to avoid crashes
     if (!result.success) {
+      const isOptional = propertySchema instanceof z.ZodOptional;
+      if (isOptional) return undefined;
+
       // In production, we ONLY throw if it's a required variable (not optional) and missing
       if (process.env.NODE_ENV === 'production') {
         // Check if value is truly required (not optional)

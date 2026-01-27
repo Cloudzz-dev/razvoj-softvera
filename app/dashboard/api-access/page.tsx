@@ -1,8 +1,11 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { cn } from "@/lib/utils";
 import { useSession } from "next-auth/react";
 import { GlassCard } from "@/components/ui/GlassCard";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import {
     Copy, Check, Terminal, Code, Server, Play, Key, Plus, Trash2,
     Edit2, RefreshCw, Shield, Clock, AlertCircle, Book, ChevronDown, ChevronUp
@@ -289,16 +292,16 @@ export default function ApiPage() {
 
                 {loading ? (
                     <div className="space-y-3">
-                        {[1, 2].map(i => <div key={i} className="h-20 bg-white/5 rounded-xl animate-pulse" />)}
+                        {[1, 2].map(i => <div key={i} className="h-20 bg-white/5 rounded-2xl animate-pulse" />)}
                     </div>
                 ) : apiKeys.length === 0 ? (
-                    <GlassCard className="p-8 text-center border-white/10 bg-black/40">
+                    <GlassCard className="p-8 text-center border-white/10 bg-black/40 rounded-2xl">
                         <Key className="w-12 h-12 text-zinc-500 mx-auto mb-4" />
                         <h3 className="text-xl font-bold text-white mb-2">No API Keys</h3>
                         <p className="text-zinc-400 mb-4">Create your first API key to start using the API</p>
                         <button
                             onClick={() => setShowNewKeyModal(true)}
-                            className="px-4 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors"
+                            className="px-4 py-2 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors"
                         >
                             Create API Key
                         </button>
@@ -308,14 +311,14 @@ export default function ApiPage() {
                         {apiKeys.map((apiKey) => (
                             <GlassCard
                                 key={apiKey.id}
-                                className={`p-4 border-white/10 bg-black/40 transition-all ${selectedKey === apiKey.key ? "ring-2 ring-indigo-500/50" : ""
+                                className={`p-4 border-white/10 bg-black/40 transition-all rounded-2xl ${selectedKey === apiKey.key ? "ring-2 ring-indigo-500/50" : ""
                                     }`}
                             >
                                 <div className="flex items-center justify-between gap-4">
                                     <div className="flex-1 min-w-0">
                                         <div className="flex items-center gap-2 mb-1">
                                             {editingKeyId === apiKey.id ? (
-                                                <input
+                                                <Input
                                                     type="text"
                                                     value={editingName}
                                                     onChange={(e) => setEditingName(e.target.value)}
@@ -333,7 +336,7 @@ export default function ApiPage() {
                                                             setEditingKeyId(null);
                                                         }
                                                     }}
-                                                    className="bg-black/50 border border-indigo-500 rounded px-2 py-1 text-white text-sm focus:outline-none"
+                                                    className="h-8 py-1"
                                                     autoFocus
                                                 />
                                             ) : (
@@ -351,9 +354,9 @@ export default function ApiPage() {
                                                 </>
                                             )}
                                             {apiKey.isActive ? (
-                                                <span className="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded">Active</span>
+                                                <Badge variant="green">Active</Badge>
                                             ) : (
-                                                <span className="text-xs bg-red-500/20 text-red-400 px-2 py-0.5 rounded">Inactive</span>
+                                                <Badge variant="red">Inactive</Badge>
                                             )}
                                         </div>
                                         <div className="flex items-center gap-2">
@@ -388,7 +391,7 @@ export default function ApiPage() {
                                     <div className="flex items-center gap-2">
                                         <button
                                             onClick={() => setSelectedKey(apiKey.key)}
-                                            className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${selectedKey === apiKey.key
+                                            className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${selectedKey === apiKey.key
                                                 ? "bg-indigo-600 text-white"
                                                 : "bg-white/5 text-zinc-400 hover:bg-white/10"
                                                 }`}
@@ -397,7 +400,7 @@ export default function ApiPage() {
                                         </button>
                                         <button
                                             onClick={() => deleteApiKey(apiKey.id)}
-                                            className="p-2 hover:bg-red-500/10 rounded-lg text-red-400 transition-colors"
+                                            className="p-2 hover:bg-red-500/10 rounded-xl text-red-400 transition-colors"
                                         >
                                             <Trash2 className="w-4 h-4" />
                                         </button>
@@ -405,7 +408,7 @@ export default function ApiPage() {
                                 </div>
 
                                 {apiKey.fullKey && (
-                                    <div className="mt-3 p-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
+                                    <div className="mt-3 p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30">
                                         <div className="flex items-start gap-2">
                                             <AlertCircle className="w-4 h-4 text-amber-400 mt-0.5 flex-shrink-0" />
                                             <div className="text-sm">
@@ -433,13 +436,13 @@ export default function ApiPage() {
                     {docs ? (
                         <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2">
                             {/* Auth Info */}
-                            <GlassCard className="p-4 border-white/10 bg-black/40">
+                            <GlassCard className="p-4 border-white/10 bg-black/40 rounded-2xl">
                                 <h3 className="text-sm font-semibold text-white mb-2 flex items-center gap-2">
                                     <Shield className="w-4 h-4 text-indigo-400" />
                                     Authentication
                                 </h3>
                                 <p className="text-sm text-zinc-400 mb-2">{docs.authentication.description}</p>
-                                <code className="text-xs text-indigo-300 bg-black/50 px-2 py-1 rounded">
+                                <code className="text-xs text-indigo-300 bg-black/50 px-2 py-1 rounded-lg">
                                     Authorization: Bearer {selectedKey || "YOUR_API_KEY"}
                                 </code>
                             </GlassCard>
@@ -455,15 +458,15 @@ export default function ApiPage() {
                                         const isExpanded = expandedEndpoints.has(endpointId);
 
                                         return (
-                                            <GlassCard key={idx} className="p-4 border-white/10 bg-black/40 mb-2">
+                                            <GlassCard key={idx} className="p-4 border-white/10 bg-black/40 mb-2 rounded-2xl">
                                                 <div
                                                     className="flex items-center justify-between cursor-pointer"
                                                     onClick={() => toggleEndpoint(endpointId)}
                                                 >
                                                     <div className="flex items-center gap-3">
-                                                        <span className={`px-2 py-1 rounded text-xs font-bold border ${methodColors[route.method]}`}>
+                                                        <Badge variant="outline" className={cn("font-bold border", methodColors[route.method].split(' ').slice(1).join(' '))}>
                                                             {route.method}
-                                                        </span>
+                                                        </Badge>
                                                         <code className="text-sm text-white">{route.path}</code>
                                                     </div>
                                                     <div className="flex items-center gap-2">
@@ -472,7 +475,7 @@ export default function ApiPage() {
                                                                 e.stopPropagation();
                                                                 testEndpoint(route.path, route.method);
                                                             }}
-                                                            className="p-1.5 hover:bg-indigo-500/20 rounded transition-colors"
+                                                            className="p-1.5 hover:bg-indigo-500/20 rounded-lg transition-colors"
                                                             title="Test this endpoint"
                                                         >
                                                             <Play className="w-4 h-4 text-indigo-400" />
@@ -492,7 +495,7 @@ export default function ApiPage() {
                                                         <div>
                                                             <p className="text-xs text-zinc-500 uppercase font-semibold mb-1">Example Request</p>
                                                             <div className="relative">
-                                                                <pre className="p-3 rounded-lg bg-black/50 border border-white/10 text-xs text-zinc-300 overflow-x-auto">
+                                                                <pre className="p-3 rounded-xl bg-black/50 border border-white/10 text-xs text-zinc-300 overflow-x-auto">
                                                                     {`curl -X ${route.method} ${docs.baseUrl}${route.path} \\
   -H "Authorization: Bearer ${selectedKey || "YOUR_API_KEY"}"`}
                                                                 </pre>
@@ -501,7 +504,7 @@ export default function ApiPage() {
                                                                         `curl -X ${route.method} ${docs.baseUrl}${route.path} -H "Authorization: Bearer ${selectedKey || "YOUR_API_KEY"}"`,
                                                                         `curl-${endpointId}`
                                                                     )}
-                                                                    className="absolute top-2 right-2 p-1 hover:bg-white/10 rounded"
+                                                                    className="absolute top-2 right-2 p-1 hover:bg-white/10 rounded-lg"
                                                                 >
                                                                     {copiedId === `curl-${endpointId}` ? (
                                                                         <Check className="w-3 h-3 text-green-400" />
@@ -515,7 +518,7 @@ export default function ApiPage() {
                                                         {route.response && (
                                                             <div>
                                                                 <p className="text-xs text-zinc-500 uppercase font-semibold mb-1">Response</p>
-                                                                <pre className="p-3 rounded-lg bg-black/50 border border-white/10 text-xs text-green-400 overflow-x-auto">
+                                                                <pre className="p-3 rounded-xl bg-black/50 border border-white/10 text-xs text-green-400 overflow-x-auto">
                                                                     {JSON.stringify(route.response, null, 2)}
                                                                 </pre>
                                                             </div>
@@ -529,7 +532,7 @@ export default function ApiPage() {
                             ))}
 
                             {/* Rate Limits */}
-                            <GlassCard className="p-4 border-white/10 bg-black/40">
+                            <GlassCard className="p-4 border-white/10 bg-black/40 rounded-2xl">
                                 <h3 className="text-sm font-semibold text-white mb-2">Rate Limits</h3>
                                 <p className="text-sm text-zinc-400">
                                     {docs.rateLimit.requests} requests per {docs.rateLimit.period}
@@ -548,7 +551,7 @@ export default function ApiPage() {
                         Live Console
                     </h2>
 
-                    <GlassCard className="h-[600px] flex flex-col p-0 border-white/10 bg-black/40 overflow-hidden">
+                    <GlassCard className="h-[600px] flex flex-col p-0 border-white/10 bg-black/40 overflow-hidden rounded-2xl">
                         <div className="p-4 border-b border-white/10 bg-white/5 flex items-center justify-between">
                             <div className="flex items-center gap-2">
                                 <Terminal className="w-4 h-4 text-zinc-400" />
@@ -557,7 +560,7 @@ export default function ApiPage() {
                             <button
                                 onClick={() => testEndpoint("/api/v1/startups", "GET")}
                                 disabled={isLoading || !selectedKey}
-                                className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-indigo-600 text-xs font-semibold text-white hover:bg-indigo-700 transition-colors disabled:opacity-50"
+                                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-600 text-xs font-semibold text-white hover:bg-indigo-700 transition-colors disabled:opacity-50"
                             >
                                 {isLoading ? (
                                     <RefreshCw className="w-3 h-3 animate-spin" />
@@ -593,12 +596,11 @@ export default function ApiPage() {
                         <div className="space-y-4">
                             <div>
                                 <label className="text-sm font-medium text-zinc-300 mb-1 block">Key Name</label>
-                                <input
+                                <Input
                                     type="text"
                                     value={newKeyName}
                                     onChange={(e) => setNewKeyName(e.target.value)}
                                     placeholder="e.g., Production, Development, Testing"
-                                    className="w-full px-4 py-2 rounded-lg bg-black/50 border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                     autoFocus
                                 />
                             </div>

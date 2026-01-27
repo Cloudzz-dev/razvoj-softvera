@@ -5,19 +5,27 @@ export const getDashboardStats = unstable_cache(
     async (userId: string) => {
         const user = await prisma.user.findUnique({
             where: { id: userId },
-            include: {
-                followers: true,
-                following: true,
-                startups: true,
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                role: true,
                 profile: true,
+                _count: {
+                    select: {
+                        followers: true,
+                        following: true,
+                        startups: true,
+                    }
+                }
             },
         });
 
         if (!user) return null;
 
         // Calculate stats
-        const connections = user.followers.length + user.following.length;
-        const startupsCount = user.startups.length;
+        const connections = user._count.followers + user._count.following;
+        const startupsCount = user._count.startups;
 
         // Count investors (users with INVESTOR role that this user follows)
         const investors = await prisma.user.count({
@@ -95,136 +103,143 @@ export const getRecentActivity = unstable_cache(
 
 export const getGrowthMetrics = unstable_cache(
     async (timeRange: string = "month", userId: string) => {
-        // 1. Fetch User-Scoped Data
-        const [users, connections, transactions, activeUsersMetrics] = await Promise.all([
-            // "Users" = Members of startups founded by this user
-            prisma.startupMembership.findMany({
-                where: {
-                    startup: {
-                        founderId: userId
-                    }
-                },
-                select: { joinedAt: true },
-                orderBy: { joinedAt: "asc" }
-            }),
-            // "Connections" = Followers or Following
-            prisma.connection.findMany({
-                where: {
-                    OR: [
-                        { followerId: userId },
-                        { followingId: userId }
-                    ]
-                },
-                select: { createdAt: true },
-                orderBy: { createdAt: "asc" }
-            }),
-            // "Revenue" = Transactions received by this user
-            prisma.transaction.findMany({
-                where: {
-                    receiverId: userId,
-                    status: "COMPLETED" // Only count completed transactions
-                },
-                select: { createdAt: true, amount: true },
-                orderBy: { createdAt: "asc" }
-            }),
-            // "Active Users" = Ingested metrics with type 'active_users'
-            prisma.metric.findMany({
-                where: {
-                    userId: userId,
-                    type: "active_users"
-                },
-                select: { createdAt: true, value: true },
-                orderBy: { createdAt: "asc" }
-            }),
-        ]);
-
         // Determine date range
         const now = new Date();
-        let startDate = new Date();
-        startDate.setHours(0, 0, 0, 0); // Start of today
+        const startDate = new Date();
+        startDate.setHours(0, 0, 0, 0);
 
         if (timeRange === "week") startDate.setDate(now.getDate() - 7);
         else if (timeRange === "month") startDate.setMonth(now.getMonth() - 1);
         else if (timeRange === "quarter") startDate.setMonth(now.getMonth() - 3);
         else if (timeRange === "year") startDate.setFullYear(now.getFullYear() - 1);
 
+        // 1. Fetch data efficiently
+        const [
+            initialUserCount,
+            recentUsers,
+            initialConnectionCount,
+            recentConnections,
+            initialRevenueSum,
+            recentTransactions,
+            activeUsersMetrics
+        ] = await Promise.all([
+            // Users count before startDate
+            prisma.startupMembership.count({
+                where: {
+                    startup: { founderId: userId },
+                    joinedAt: { lt: startDate }
+                }
+            }),
+            // Users within range
+            prisma.startupMembership.findMany({
+                where: {
+                    startup: { founderId: userId },
+                    joinedAt: { gte: startDate }
+                },
+                select: { joinedAt: true },
+                orderBy: { joinedAt: "asc" }
+            }),
+            // Connections count before startDate
+            prisma.connection.count({
+                where: {
+                    OR: [{ followerId: userId }, { followingId: userId }],
+                    createdAt: { lt: startDate }
+                }
+            }),
+            // Connections within range
+            prisma.connection.findMany({
+                where: {
+                    OR: [{ followerId: userId }, { followingId: userId }],
+                    createdAt: { gte: startDate }
+                },
+                select: { createdAt: true },
+                orderBy: { createdAt: "asc" }
+            }),
+            // Revenue sum before startDate
+            prisma.transaction.aggregate({
+                where: {
+                    receiverId: userId,
+                    status: "COMPLETED",
+                    createdAt: { lt: startDate }
+                },
+                _sum: { amount: true }
+            }),
+            // Transactions within range
+            prisma.transaction.findMany({
+                where: {
+                    receiverId: userId,
+                    status: "COMPLETED",
+                    createdAt: { gte: startDate }
+                },
+                select: { createdAt: true, amount: true },
+                orderBy: { createdAt: "asc" }
+            }),
+            // Active Users metrics within range
+            prisma.metric.findMany({
+                where: {
+                    userId: userId,
+                    type: "active_users",
+                    createdAt: { gte: startDate }
+                },
+                select: { createdAt: true, value: true },
+                orderBy: { createdAt: "asc" },
+                take: 100 // Cap metrics to prevent memory issues
+            }),
+        ]);
+
         // Helper to generate daily data points
         const generateTimeSeries = (
             data: any[],
+            initialValue: number = 0,
             getValue: (item: any) => number = () => 1,
             isCumulative: boolean = true,
             dateField: string = "createdAt"
         ) => {
             const points: { date: string; value: number }[] = [];
-            let currentDate = new Date(startDate);
-            let cumulativeValue = 0;
+            let currentCumulative = initialValue;
 
-            // Calculate initial value before start date
-            if (isCumulative) {
-                cumulativeValue = data
-                    .filter((item) => {
-                        const d = new Date(item[dateField] || item.joinedAt);
-                        return d < startDate;
-                    })
-                    .reduce((sum, item) => sum + getValue(item), 0);
-            }
-
-            // Optimization: Filter data once for the range
-            const rangeData = data.filter((item) => {
+            const dailyMap = new Map<string, number>();
+            data.forEach(item => {
                 const d = new Date(item[dateField] || item.joinedAt);
-                return d >= startDate && d <= now;
+                const dateKey = d.toISOString().split('T')[0];
+                dailyMap.set(dateKey, (dailyMap.get(dateKey) || 0) + getValue(item));
             });
 
+            let currentDate = new Date(startDate);
             while (currentDate <= now) {
-                const nextDate = new Date(currentDate);
-                nextDate.setDate(currentDate.getDate() + 1);
-
-                const dailyValue = rangeData
-                    .filter((item) => {
-                        const d = new Date(item[dateField] || item.joinedAt);
-                        return d >= currentDate && d < nextDate;
-                    })
-                    .reduce((sum, item) => sum + getValue(item), 0);
+                const dateKey = currentDate.toISOString().split('T')[0];
+                const dayValue = dailyMap.get(dateKey) || 0;
 
                 if (isCumulative) {
-                    cumulativeValue += dailyValue;
+                    currentCumulative += dayValue;
                     points.push({
                         date: currentDate.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
-                        value: cumulativeValue,
+                        value: currentCumulative,
                     });
                 } else {
                     points.push({
                         date: currentDate.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
-                        value: dailyValue,
+                        value: dayValue,
                     });
                 }
-
-
                 currentDate.setDate(currentDate.getDate() + 1);
             }
             return points;
         };
 
-        // For active users (metrics), we likely want non-cumulative (daily max/sum) or cumulative?
-        // Usually "Active Users" (DAU) is daily count.
-        // If the ingestion sends DAU, we should just show that value for the day.
-        // Let's assume non-cumulative for metrics for now, or just sum them up for the day.
-        // The implementation below sums them up.
-
         return {
-            users: generateTimeSeries(users),
-            connections: generateTimeSeries(connections),
-            revenue: generateTimeSeries(transactions, (t) => t.amount),
-            active_users: generateTimeSeries(activeUsersMetrics, (m) => m.value, false), // Non-cumulative for DAU
+            users: generateTimeSeries(recentUsers, initialUserCount),
+            connections: generateTimeSeries(recentConnections, initialConnectionCount),
+            revenue: generateTimeSeries(recentTransactions, initialRevenueSum._sum.amount || 0, (t) => t.amount),
+            active_users: generateTimeSeries(activeUsersMetrics, 0, (m) => m.value, false),
         };
     },
     ['growth-metrics'],
-    { revalidate: 30, tags: ['growth-metrics'] } // Lower revalidate for faster testing
+    { revalidate: 30, tags: ['growth-metrics'] }
 );
 
 export const getFounderStats = unstable_cache(
     async (userId: string) => {
-        // 1. Get the startup where user is Founder
         const startup = await prisma.startup.findFirst({
             where: { founderId: userId },
             include: {
@@ -238,7 +253,6 @@ export const getFounderStats = unstable_cache(
 
         if (!startup) return null;
 
-        // 2. Get Real-time User Metrics using Metric model
         const latestActiveUsers = await prisma.metric.findFirst({
             where: {
                 userId: userId,
@@ -247,11 +261,7 @@ export const getFounderStats = unstable_cache(
             orderBy: { createdAt: "desc" }
         });
 
-        // 3. Get Revenue/Burn from Transactions (Simulated or Real)
-        // For now, we will use the 'raised' string from startup profile as "Funds"
-        // and simulate burn based on team size if no transaction data.
-
-        const burnRate = (startup.teamSize || 0) * 5000; // Estimated $5k/employee burn
+        const burnRate = (startup.teamSize || 0) * 5000;
 
         return {
             companyName: startup.name,
@@ -260,7 +270,7 @@ export const getFounderStats = unstable_cache(
             teamSize: startup.teamSize || startup.team?.members.length || 0,
             activeUsers: latestActiveUsers?.value || 0,
             burnRate: burnRate,
-            runway: "12 months", // Mock calculation for now
+            runway: "12 months",
         };
     },
     ['founder-stats'],

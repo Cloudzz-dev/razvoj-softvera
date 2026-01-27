@@ -1,6 +1,8 @@
 "use client";
 
 import { GlassCard } from "@/components/ui/GlassCard";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 
@@ -106,7 +108,9 @@ export function InvestorGrid({ initialInvestors, searchQuery, initialNextCursor 
                             </div>
                             <div className="flex-1">
                                 <h3 className="text-xl font-bold text-white mb-1">{investor.name || "Anonymous"}</h3>
-                                <p className="text-sm text-indigo-400 font-medium mb-1">Investor</p>
+                                <Badge variant="indigo" className="mb-2">
+                                    Investor
+                                </Badge>
                                 <p className="text-sm text-zinc-400">{investor.profile?.location || "Location not specified"}</p>
                             </div>
                         </div>
@@ -116,17 +120,17 @@ export function InvestorGrid({ initialInvestors, searchQuery, initialNextCursor 
                         )}
 
                         <div className="space-y-3 mb-4">
-                            <div className="flex items-center justify-between p-3 rounded-lg bg-white/5">
+                            <div className="flex items-center justify-between p-3 rounded-2xl bg-white/5">
                                 <span className="text-sm text-zinc-400">Connections</span>
                                 <span className="text-white font-semibold">{investor._count.followers}</span>
                             </div>
                         </div>
 
-                        <button
+                        <Button
                             type="button"
                             onClick={() => handleMessage(investor.id)}
                             disabled={connectingId === investor.id || isPending}
-                            className="w-full px-4 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                            className="w-full rounded-full flex items-center justify-center gap-2"
                         >
                             {connectingId === investor.id ? (
                                 <>
@@ -136,17 +140,18 @@ export function InvestorGrid({ initialInvestors, searchQuery, initialNextCursor 
                             ) : (
                                 "Message"
                             )}
-                        </button>
+                        </Button>
                     </GlassCard>
                 ))}
             </div>
 
             {nextCursor && !searchQuery && (
                 <div className="flex justify-center">
-                    <button
+                    <Button
+                        variant="glass"
                         onClick={handleLoadMore}
                         disabled={loadingMore}
-                        className="px-8 py-3 rounded-lg bg-white/5 border border-white/10 text-white font-semibold hover:bg-white/10 transition-all flex items-center gap-2 disabled:opacity-50"
+                        className="px-8 rounded-full flex items-center gap-2"
                     >
                         {loadingMore ? (
                             <>
@@ -156,7 +161,7 @@ export function InvestorGrid({ initialInvestors, searchQuery, initialNextCursor 
                         ) : (
                             "Load More"
                         )}
-                    </button>
+                    </Button>
                 </div>
             )}
         </div>

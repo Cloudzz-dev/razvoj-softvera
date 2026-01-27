@@ -3,6 +3,9 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { X, Search } from "lucide-react";
 import { useState, useTransition } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 interface NetworkSearchProps {
     initialSearch?: string;
@@ -37,24 +40,27 @@ export function NetworkSearch({ initialSearch }: NetworkSearchProps) {
             <form onSubmit={handleSearch} className="flex-1 max-w-md">
                 <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
-                    <input
+                    <Input
                         type="text"
                         value={searchValue}
                         onChange={(e) => setSearchValue(e.target.value)}
                         placeholder="Search by name or skill..."
-                        className="w-full pl-10 pr-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                        className="pl-10"
                     />
                 </div>
             </form>
             {initialSearch && (
-                <button
+                <Button
+                    variant="ghost"
                     onClick={handleClear}
                     disabled={isPending}
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-zinc-300 hover:bg-white/10 transition-colors disabled:opacity-50"
+                    className="p-0 h-auto hover:bg-transparent"
                 >
-                    <X className="w-4 h-4" />
-                    Clear: "{initialSearch}"
-                </button>
+                    <Badge variant="outline" className="flex items-center gap-2 cursor-pointer group-hover:bg-white/10 transition-colors">
+                        <X className="w-4 h-4" />
+                        Clear: "{initialSearch}"
+                    </Badge>
+                </Button>
             )}
         </div>
     );

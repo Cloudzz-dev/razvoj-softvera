@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Search, Loader2, Check, User, X } from "lucide-react";
+import { Search, Loader2, Check, X } from "lucide-react";
 import { useDebounce } from "@/hooks/use-debounce";
 import { AnimatePresence, motion } from "framer-motion";
+import { Avatar } from "@/components/ui/Avatar";
 
 interface UserSearchProps {
     onSelect: (user: any) => void;
@@ -68,7 +69,7 @@ export function UserSearch({ onSelect, selectedUserId }: UserSearchProps) {
             {/* Input Container with animated glow border */}
             <div className={`
                 relative flex items-center transition-all duration-300
-                rounded-xl bg-white/5 border border-white/10
+                rounded-full bg-white/5 border border-white/10
                 focus-within:bg-white/10 focus-within:border-indigo-500/50 focus-within:ring-1 focus-within:ring-indigo-500/50
                 group-hover:border-white/20
             `}>
@@ -112,7 +113,7 @@ export function UserSearch({ onSelect, selectedUserId }: UserSearchProps) {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.98 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute z-50 mt-2 w-full overflow-hidden rounded-xl border border-white/10 bg-black/60 shadow-2xl backdrop-blur-xl ring-1 ring-black/5"
+                        className="absolute z-50 mt-2 w-full overflow-hidden rounded-3xl border border-white/10 bg-black/60 shadow-2xl backdrop-blur-xl ring-1 ring-black/5"
                     >
                         <div className="max-h-[300px] overflow-y-auto p-2 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
                             {users.length === 0 && !loading ? (
@@ -137,7 +138,7 @@ export function UserSearch({ onSelect, selectedUserId }: UserSearchProps) {
                                                 setOpen(false);
                                             }}
                                             className={`
-                                                w-full flex items-center gap-4 rounded-lg px-3 py-3 text-sm transition-all
+                                                w-full flex items-center gap-4 rounded-2xl px-3 py-3 text-sm transition-all
                                                 hover:bg-white/10 group/item relative overflow-hidden
                                                 ${selectedUserId === user.id ? "bg-indigo-500/20 border border-indigo-500/30" : "transparent"}
                                             `}
@@ -153,13 +154,12 @@ export function UserSearch({ onSelect, selectedUserId }: UserSearchProps) {
                                             )}
 
                                             <div className="relative">
-                                                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500/20 to-purple-500/20 ring-1 ring-white/10 group-hover/item:ring-white/30 transition-all">
-                                                    {user.profile?.avatarUrl ? (
-                                                        <img src={user.profile.avatarUrl} alt={user.name} className="h-10 w-10 rounded-full object-cover" />
-                                                    ) : (
-                                                        <User className="h-5 w-5 text-indigo-400" />
-                                                    )}
-                                                </div>
+                                                <Avatar
+                                                    name={user.name || user.email}
+                                                    role={user.role}
+                                                    size="md"
+                                                    className="ring-1 ring-white/10 group-hover/item:ring-white/30 transition-all"
+                                                />
                                             </div>
 
                                             <div className="flex flex-col items-start flex-1 min-w-0">

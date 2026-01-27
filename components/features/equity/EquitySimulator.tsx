@@ -53,7 +53,7 @@ export function EquitySimulator() {
                         <h2 className="text-2xl font-bold text-white">Equity Calculator</h2>
                         <button
                             onClick={copyShareLink}
-                            className="p-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors"
+                            className="p-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors"
                             aria-label="Share Simulation"
                         >
                             <Share2 className="w-5 h-5" />
