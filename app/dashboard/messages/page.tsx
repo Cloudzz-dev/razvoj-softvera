@@ -15,10 +15,10 @@ function MessagesContent() {
     const [selectedConversationId, setSelectedConversationId] = useState<string | undefined>(conversationId || undefined);
 
     return (
-        <div className="h-[calc(100vh-120px)]">
-            <h1 className="text-3xl font-bold text-white mb-6">Messages</h1>
+        <div className="h-[calc(100dvh-120px)]">
+            <h1 className="text-2xl md:text-3xl font-bold text-white mb-4 md:mb-6">Messages</h1>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100%-60px)]">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 h-[calc(100%-52px)] md:h-[calc(100%-60px)]">
                 {/* Inbox */}
                 <div className="lg:col-span-1">
                     <MessageInbox

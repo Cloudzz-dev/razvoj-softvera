@@ -314,12 +314,12 @@ export function ConversationView({
                 </div>
 
                 {/* Input Area */}
-                <div className="p-4 border-t border-white/10 bg-black/40 backdrop-blur-xl z-20">
-                    <div className="flex items-end gap-3 max-w-4xl mx-auto">
-                        <button type="button" aria-label="Attach file" className="p-3 rounded-full text-zinc-400 hover:text-white hover:bg-white/10 transition-colors active:scale-95">
+                <div className="p-4 pb-[max(1rem,env(safe-area-inset-bottom))] border-t border-white/10 bg-black/40 backdrop-blur-xl z-20">
+                    <div className="flex items-end gap-2 md:gap-3 max-w-4xl mx-auto">
+                        <button type="button" aria-label="Attach file" className="p-3 rounded-full text-zinc-400 hover:text-white hover:bg-white/10 transition-colors active:scale-95 min-w-[44px] min-h-[44px] flex items-center justify-center flex-shrink-0">
                             <Paperclip className="w-5 h-5" />
                         </button>
-                        <div className="flex-1 relative group">
+                        <div className="flex-1 relative group min-w-0">
                             <Textarea
                                 value={newMessage}
                                 onChange={(e) => {
@@ -330,9 +330,9 @@ export function ConversationView({
                                 placeholder="Type a message..."
                                 aria-label="Message input"
                                 rows={1}
-                                className="w-full px-5 py-3.5 rounded-3xl bg-black/20 border border-white/10 backdrop-blur-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:bg-black/50 resize-none transition-all"
+                                className="w-full px-4 py-3 rounded-3xl bg-black/20 border border-white/10 backdrop-blur-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:bg-black/50 resize-none transition-all text-base"
                             />
-                            <div className="absolute right-3 bottom-3 text-[10px] text-zinc-600 font-mono opacity-0 group-focus-within:opacity-100 transition-opacity">
+                            <div className="absolute right-3 bottom-3 text-[10px] text-zinc-600 font-mono opacity-0 group-focus-within:opacity-100 transition-opacity hidden md:block">
                                 ⏎ to send
                             </div>
                         </div>
@@ -340,7 +340,7 @@ export function ConversationView({
                             onClick={() => handleSend()}
                             disabled={!newMessage.trim()}
                             aria-label="Send message"
-                            className="p-3.5 rounded-full bg-indigo-600 text-white shadow-lg shadow-indigo-600/20 hover:bg-indigo-500 hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                            className="p-3 rounded-full bg-indigo-600 text-white shadow-lg shadow-indigo-600/20 hover:bg-indigo-500 hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 min-w-[44px] min-h-[44px] flex items-center justify-center flex-shrink-0"
                         >
                             <Send className="w-5 h-5" />
                         </button>
