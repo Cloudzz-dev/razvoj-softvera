@@ -98,7 +98,7 @@ export function MessageInbox({ onSelectConversation, selectedConversationId, ini
                 </div>
             </div>
 
-            <div className="space-y-2 overflow-y-auto max-h-[calc(100vh-250px)] pr-1 custom-scrollbar">
+            <div className="space-y-2 overflow-y-auto flex-1 pr-1 custom-scrollbar">
                 {isLoading ? (
                     <div className="flex flex-col items-center justify-center py-12 text-zinc-500 space-y-3">
                         <div className="w-6 h-6 border-2 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin" />
@@ -133,7 +133,7 @@ export function MessageInbox({ onSelectConversation, selectedConversationId, ini
                                             <p className={`font-semibold truncate flex items-center gap-2 ${isSelected ? 'text-white' : 'text-zinc-200'}`}>
                                                 {otherParticipant.name || "Anonymous"}
                                                 {otherParticipant.id === initialReceiverId && (
-                                                    <Badge variant="indigo" className="text-[10px] uppercase tracking-wider font-bold">
+                                                    <Badge variant="indigo" className="text-xs uppercase tracking-wider font-bold">
                                                         You
                                                     </Badge>
                                                 )}
@@ -145,11 +145,11 @@ export function MessageInbox({ onSelectConversation, selectedConversationId, ini
                                             )}
                                         </div>
                                         <div className="flex items-center gap-2 mb-1.5">
-                                            <Badge variant="outline" className="text-[10px] uppercase tracking-wide font-medium">
+                                            <Badge variant="outline" className="text-xs uppercase tracking-wide font-medium">
                                                 {otherParticipant.role}
                                             </Badge>
-                                            <span className="text-[10px] text-zinc-600">•</span>
-                                            <span className="text-[10px] text-zinc-500">
+                                            <span className="text-xs text-zinc-600">•</span>
+                                            <span className="text-xs text-zinc-500">
                                                 {conv.lastMessage?.createdAt
                                                     ? new Date(conv.lastMessage.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
                                                     : "Just now"}
