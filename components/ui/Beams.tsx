@@ -356,8 +356,14 @@ const MergedPlanes = forwardRef<
   );
   useFrame((state, delta) => {
     mesh.current.material.uniforms.time.value += 0.1 * delta;
+    
     if (typeof window !== 'undefined') {
-      mesh.current.material.uniforms.scrollY.value = window.scrollY;
+      const isMobile = window.innerWidth < 1024 || window.matchMedia('(hover: none)').matches;
+      if (!isMobile) {
+        mesh.current.material.uniforms.scrollY.value = window.scrollY;
+      } else {
+        mesh.current.material.uniforms.scrollY.value = 0;
+      }
     }
   });
   return <mesh ref={mesh} geometry={geometry} material={material} />;

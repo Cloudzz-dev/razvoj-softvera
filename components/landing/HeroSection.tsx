@@ -69,7 +69,7 @@ export function HeroSection() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
-                    className="text-lg md:text-xl text-zinc-400 max-w-2xl text-balance"
+                    className="text-lg md:text-xl font-medium text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-blue-600 to-indigo-800 max-w-2xl text-balance"
                 >
                     DFDS connects visionary founders with elite developers and investors.
                     Stop searching, start building.
