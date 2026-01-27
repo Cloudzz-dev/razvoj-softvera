@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
-import { Send, Paperclip } from "lucide-react";
+import { Send, Paperclip, Check, CheckCheck } from "lucide-react";
 import { format } from "date-fns";
 import toast from "react-hot-toast";
 import posthog from "posthog-js";
@@ -191,6 +191,7 @@ export function ConversationView({
                 senderName: "You",
                 content: savedMessage.content,
                 timestamp: savedMessage.createdAt,
+                read: savedMessage.read // Ensure read status is passed
             };
 
             updateMessage(tempId, formattedSavedMessage);
@@ -225,33 +226,36 @@ export function ConversationView({
         <>
             <GlassCard variant="medium" className="h-full flex flex-col rounded-3xl overflow-hidden border-white/10 shadow-2xl">
                 {/* Header */}
-                <div className="p-6 border-b border-white/5 bg-white/5 backdrop-blur-md flex items-center justify-between z-10">
+                <div className="p-4 md:p-6 border-b border-white/5 bg-white/5 backdrop-blur-md flex items-center justify-between z-10 shrink-0">
                     <div className="flex items-center gap-4">
                         <div className="relative">
-                            <div className="text-3xl w-14 h-14 rounded-full flex items-center justify-center bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-white/10 shadow-inner">
+                            <div className="text-2xl md:text-3xl w-10 h-10 md:w-14 md:h-14 rounded-full flex items-center justify-center bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-white/10 shadow-inner">
                                 {otherParticipant.avatar}
                             </div>
-                            <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-2 border-black rounded-full shadow-lg" />
+                            <div className="absolute -bottom-1 -right-1 w-3 h-3 md:w-4 md:h-4 bg-green-500 border-2 border-black rounded-full shadow-lg" />
                         </div>
                         <div>
-                            <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                            <h3 className="text-base md:text-lg font-bold text-white flex items-center gap-2">
                                 {otherParticipant.name}
                             </h3>
                             <div className="flex items-center gap-2">
-                                <Badge variant="indigo" className="text-[10px] uppercase tracking-wider">
+                                <Badge variant="indigo" className="text-[10px] md:text-xs uppercase tracking-wider">
                                     {otherParticipant.role}
                                 </Badge>
-                                <span className="text-zinc-600 text-[10px]">•</span>
-                                <span className="text-zinc-500 text-xs">Active now</span>
+                                <span className="text-zinc-600 text-xs">•</span>
+                                <span className="text-zinc-500 text-xs hidden md:inline">Active now</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 {/* Messages Area */}
-                <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-black/20 custom-scrollbar">
+                <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-1 bg-black/20 custom-scrollbar relative">
+                    {/* Background Pattern */}
+                    <div className="absolute inset-0 bg-grid-small-white/[0.05] pointer-events-none" />
+                    
                     {hasMore && !isLoading && (
-                        <div className="flex justify-center mb-6">
+                        <div className="flex justify-center mb-6 relative z-10">
                             <button
                                 onClick={loadMoreMessages}
                                 disabled={isLoadingMore}
@@ -262,34 +266,60 @@ export function ConversationView({
                         </div>
                     )}
                     {isLoading ? (
-                        <div className="flex flex-col items-center justify-center h-full space-y-4 opacity-50">
+                        <div className="flex flex-col items-center justify-center h-full space-y-4 opacity-50 relative z-10">
                             <div className="w-8 h-8 border-2 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin" />
                             <p className="text-sm text-zinc-500">Decrypting messages...</p>
                         </div>
                     ) : (
                         messages.map((message, idx) => {
                             const isOwnMessage = message.senderId === userId;
-                            const showAvatar = idx === 0 || messages[idx - 1].senderId !== message.senderId;
+                            const prevMessage = messages[idx - 1];
+                            const isSameSender = prevMessage && prevMessage.senderId === message.senderId;
+                            const showAvatar = !isSameSender || !prevMessage;
+                            
+                            // Group spacing
+                            const marginTop = isSameSender ? "mt-1" : "mt-4";
+
                             return (
-                                <div key={message.id} className={`flex gap-4 ${isOwnMessage ? "flex-row-reverse" : "flex-row"} group`}>
-                                    {showAvatar ? (
-                                        <div className="w-10 h-10 flex-shrink-0 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-lg mt-1">
-                                            {isOwnMessage ? "👤" : otherParticipant.avatar}
-                                        </div>
-                                    ) : (
-                                        <div className="w-10 flex-shrink-0" />
-                                    )}
-                                    <div className={`flex flex-col ${isOwnMessage ? "items-end" : "items-start"} max-w-[70%]`}>
-                                        {showAvatar && (
-                                            <span className={`text-[10px] text-zinc-500 mb-1 px-1 ${isOwnMessage ? "text-right" : "text-left"}`}>
-                                                {message.senderName} • {format(new Date(message.timestamp), "HH:mm")}
-                                            </span>
+                                <div key={message.id} className={`relative z-10 flex w-full ${marginTop} ${isOwnMessage ? "justify-end" : "justify-start"}`}>
+                                    <div className={`flex max-w-[85%] md:max-w-[70%] ${isOwnMessage ? "flex-row-reverse" : "flex-row"} items-end gap-2`}>
+                                        
+                                        {/* Avatar (only for other users) */}
+                                        {!isOwnMessage && (
+                                            <div className={`w-8 h-8 flex-shrink-0 flex items-end ${showAvatar ? "opacity-100" : "opacity-0"}`}>
+                                                 {showAvatar && (
+                                                    <div className="w-8 h-8 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-sm">
+                                                        {otherParticipant.avatar}
+                                                    </div>
+                                                 )}
+                                            </div>
                                         )}
-                                        <div className={`px-5 py-3 rounded-3xl shadow-sm text-[15px] leading-relaxed transition-all ${isOwnMessage
-                                            ? "bg-indigo-600 text-white rounded-tr-none shadow-indigo-900/20 hover:bg-indigo-500"
-                                            : "bg-white/10 text-zinc-100 rounded-tl-none border border-white/5 hover:bg-white/15"
-                                            }`}>
-                                            <p>{message.content}</p>
+
+                                        {/* Message Bubble */}
+                                        <div 
+                                            className={`
+                                                relative px-4 py-2 shadow-sm text-[15px] leading-relaxed break-words
+                                                ${isOwnMessage 
+                                                    ? "bg-indigo-600 text-white rounded-2xl rounded-tr-none" 
+                                                    : "bg-zinc-800 text-zinc-100 rounded-2xl rounded-tl-none border border-white/5"
+                                                }
+                                            `}
+                                        >
+                                            <p className="mb-1">{message.content}</p>
+                                            
+                                            {/* Meta: Time + Status */}
+                                            <div className={`flex items-center gap-1 text-[10px] ${isOwnMessage ? "text-indigo-200 justify-end" : "text-zinc-400 justify-start"}`}>
+                                                <span>{format(new Date(message.timestamp), "HH:mm")}</span>
+                                                {isOwnMessage && (
+                                                    <span>
+                                                        {message.read ? (
+                                                            <CheckCheck className="w-3.5 h-3.5 text-blue-300" />
+                                                        ) : (
+                                                            <Check className="w-3.5 h-3.5 text-indigo-300" />
+                                                        )}
+                                                    </span>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -297,15 +327,15 @@ export function ConversationView({
                         })
                     )}
                     {isOtherUserTyping && (
-                        <div className="flex gap-4 flex-row items-end">
-                            <div className="w-10 h-10 flex-shrink-0 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-lg">
+                        <div className="flex gap-4 flex-row items-end mt-4 relative z-10">
+                            <div className="w-8 h-8 flex-shrink-0 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-sm">
                                 {otherParticipant.avatar}
                             </div>
-                            <div className="px-5 py-4 rounded-3xl rounded-tl-none bg-white/5 border border-white/10">
+                            <div className="px-4 py-3 rounded-2xl rounded-tl-none bg-zinc-800 border border-white/5">
                                 <div className="flex gap-1.5">
-                                    <span className="w-2 h-2 bg-zinc-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
-                                    <span className="w-2 h-2 bg-zinc-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
-                                    <span className="w-2 h-2 bg-zinc-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+                                    <span className="w-1.5 h-1.5 bg-zinc-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
+                                    <span className="w-1.5 h-1.5 bg-zinc-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
+                                    <span className="w-1.5 h-1.5 bg-zinc-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
                                 </div>
                             </div>
                         </div>
@@ -314,8 +344,8 @@ export function ConversationView({
                 </div>
 
                 {/* Input Area */}
-                <div className="p-4 border-t border-white/10 bg-black/40 backdrop-blur-xl z-20">
-                    <div className="flex items-end gap-3 max-w-4xl mx-auto">
+                <div className="p-3 md:p-4 border-t border-white/10 bg-black/40 backdrop-blur-xl z-20 shrink-0">
+                    <div className="flex items-end gap-2 md:gap-3 max-w-4xl mx-auto">
                         <button type="button" aria-label="Attach file" className="p-3 rounded-full text-zinc-400 hover:text-white hover:bg-white/10 transition-colors active:scale-95">
                             <Paperclip className="w-5 h-5" />
                         </button>
@@ -330,19 +360,16 @@ export function ConversationView({
                                 placeholder="Type a message..."
                                 aria-label="Message input"
                                 rows={1}
-                                className="w-full px-5 py-3.5 rounded-3xl bg-black/20 border border-white/10 backdrop-blur-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:bg-black/50 resize-none transition-all"
+                                className="w-full px-5 py-3 rounded-3xl bg-zinc-900/50 border border-white/10 backdrop-blur-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 resize-none transition-all min-h-[46px] max-h-[120px]"
                             />
-                            <div className="absolute right-3 bottom-3 text-[10px] text-zinc-600 font-mono opacity-0 group-focus-within:opacity-100 transition-opacity">
-                                ⏎ to send
-                            </div>
                         </div>
                         <button
                             onClick={() => handleSend()}
                             disabled={!newMessage.trim()}
                             aria-label="Send message"
-                            className="p-3.5 rounded-full bg-indigo-600 text-white shadow-lg shadow-indigo-600/20 hover:bg-indigo-500 hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                            className="p-3 rounded-full bg-indigo-600 text-white shadow-lg shadow-indigo-600/20 hover:bg-indigo-500 hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center w-[46px] h-[46px]"
                         >
-                            <Send className="w-5 h-5" />
+                            <Send className="w-5 h-5 ml-0.5" />
                         </button>
                     </div>
                 </div>
