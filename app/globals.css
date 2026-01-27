@@ -34,7 +34,7 @@
 
 body {
   background: radial-gradient(circle at 50% 0%, #1a1a2e, #000000);
-  min-height: 100vh;
+  min-height: 100dvh;
   color: hsl(var(--foreground));
   font-feature-settings: "rlig" 1, "calt" 1;
   text-rendering: optimizeLegibility;
@@ -45,6 +45,7 @@ body {
 /* Smooth transitions */
 * {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Focus styles for accessibility */
