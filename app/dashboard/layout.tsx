@@ -116,14 +116,14 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
                 </header>
 
                 {/* Page Content */}
-                <main className="p-6">{children}</main>
+                <main className="p-3 md:p-6">{children}</main>
                 <AiAssistant />
                 <DemoControls />
             </div>
 
             {/* Mobile Sidebar Overlay */}
             {isMobileMenuOpen && (
-                <div className="fixed inset-0 z-50 md:hidden">
+                <div className="fixed inset-0 z-50 md:hidden touch-none">
                     {/* Backdrop */}
                     <div
                         className="absolute inset-0 bg-black/60 backdrop-blur-md"
@@ -131,7 +131,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
                     />
 
                     {/* Sidebar */}
-                    <aside className="absolute left-0 top-0 h-full w-64 bg-black/90 backdrop-blur-xl border-r border-white/10 p-6 animate-in slide-in-from-left duration-300 flex flex-col rounded-r-3xl">
+                    <aside className="absolute left-0 top-0 h-full w-64 bg-black/90 backdrop-blur-xl border-r border-white/10 p-6 animate-in slide-in-from-left duration-300 flex flex-col rounded-r-3xl shadow-2xl">
                         {/* Close Button */}
                         <button
                             onClick={() => setIsMobileMenuOpen(false)}

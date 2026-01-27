@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { env } from "@/lib/env";
@@ -10,10 +10,20 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { DynamicBackground } from "@/components/ui/DynamicBackground";
 import { AuthProvider } from "@/components/providers/AuthProvider";
 import { PostHogProvider } from "@/components/providers/PostHogProvider";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { CookieConsent } from "@/components/ui/CookieConsent";
 import { CommandMenu } from "@/components/ui/CommandMenu";
 
 const inter = Inter({ subsets: ["latin"] });
+
+export const viewport: Viewport = {
+  themeColor: "#000000",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  interactiveWidget: "resizes-content",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXTAUTH_URL?.startsWith("http") ? env.NEXTAUTH_URL : `https://${env.NEXTAUTH_URL || "dfds.dev"}`),
@@ -65,27 +75,29 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="overflow-x-hidden">
+    <html lang="en" className="overflow-x-hidden" suppressHydrationWarning>
       <body className={`${inter.className} overflow-x-hidden`}>
         <AuthProvider>
           <PostHogProvider>
-            <DynamicBackground />
-            <CommandMenu />
-            {children}
-            <SpeedInsights />
-            <CookieConsent />
-            <Toaster
-              position="top-right"
-              toastOptions={{
-                style: {
-                  background: "rgba(0, 0, 0, 0.8)",
-                  color: "#fff",
-                  border: "1px solid rgba(255, 255, 255, 0.1)",
-                  backdropFilter: "blur(10px)",
-                  borderRadius: "9999px",
-                },
-              }}
-            />
+            <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+              <DynamicBackground />
+              <CommandMenu />
+              {children}
+              <SpeedInsights />
+              <CookieConsent />
+              <Toaster
+                position="top-right"
+                toastOptions={{
+                  style: {
+                    background: "rgba(0, 0, 0, 0.8)",
+                    color: "#fff",
+                    border: "1px solid rgba(255, 255, 255, 0.1)",
+                    backdropFilter: "blur(10px)",
+                    borderRadius: "9999px",
+                  },
+                }}
+              />
+            </ThemeProvider>
           </PostHogProvider>
         </AuthProvider>
       </body>

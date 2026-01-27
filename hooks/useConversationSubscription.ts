@@ -9,6 +9,7 @@ export interface Message {
     senderName: string;
     content: string;
     timestamp: string;
+    read?: boolean;
 }
 
 /**
@@ -60,6 +61,7 @@ export function useConversationSubscription(
                 senderName: msg.sender.name,
                 content: msg.content,
                 timestamp: msg.createdAt,
+                read: msg.read,
             }));
 
             setMessages(formattedMessages);

@@ -5,7 +5,7 @@ const apiDocs = {
     version: "1.1.0",
     title: "DFDS.io API Documentation",
     description: "Complete API reference for the DFDS.io platform",
-    baseUrl: "https://dfds.cloudzz.dev/api",
+    baseUrl: "https://dfds.cloudzz.dev",
     authentication: {
         type: "Bearer Token",
         description: "Include your API key in the Authorization header",

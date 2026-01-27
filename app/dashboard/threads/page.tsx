@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Input } from "@/components/ui/input";
+import { MicroExpander } from "@/components/ui/MicroExpander";
 import { MessageCircle, Heart, Send, TrendingUp, User, Users, Calendar, Plus, Loader2, X } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import toast from "react-hot-toast";
@@ -232,13 +233,12 @@ export default function ThreadsPage() {
                         </h1>
                         <p className="text-zinc-400">Connect, discuss, and collaborate with the startup community</p>
                     </div>
-                    <button
+                    <MicroExpander
+                        text="New Thread"
+                        icon={<Plus className="w-5 h-5" />}
                         onClick={() => setShowCreateModal(true)}
-                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors"
-                    >
-                        <Plus className="w-4 h-4" />
-                        New Thread
-                    </button>
+                        className="bg-indigo-600 hover:bg-indigo-700 text-white border-none"
+                    />
                 </div>
 
                 {/* Stats */}

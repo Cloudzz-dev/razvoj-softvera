@@ -155,7 +155,7 @@ export default function JoinPage() {
     };
 
     return (
-        <div className="min-h-screen bg-black flex items-center justify-center p-4 relative overflow-hidden">
+        <div className="min-h-dvh bg-black flex items-center justify-center p-4 relative overflow-hidden">
             {/* Background Gradients */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
                 <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] rounded-full bg-indigo-900/20 blur-[100px]" />
@@ -271,6 +271,8 @@ export default function JoinPage() {
                                                         onChange={(e) => setName(e.target.value)}
                                                         required
                                                         placeholder="John Doe"
+                                                        autoComplete="name"
+                                                        inputMode="text"
                                                     />
                                             </div>
                                             <div>
@@ -281,6 +283,8 @@ export default function JoinPage() {
                                                         onChange={(e) => setEmail(e.target.value)}
                                                         required
                                                         placeholder="john@example.com"
+                                                        autoComplete="email"
+                                                        inputMode="email"
                                                     />
                                             </div>
                                         </div>
@@ -295,6 +299,7 @@ export default function JoinPage() {
                                                         required
                                                         minLength={8}
                                                         placeholder="Min. 8 characters"
+                                                        autoComplete="new-password"
                                                     />
                                             </div>
                                             <div>
@@ -367,6 +372,7 @@ export default function JoinPage() {
                                                         value={firm}
                                                         onChange={(e) => setFirm(e.target.value)}
                                                         placeholder="Acme Ventures (Optional)"
+                                                        autoComplete="organization"
                                                     />
                                                 </div>
                                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -442,6 +448,8 @@ export default function JoinPage() {
                                                             value={websiteUrl}
                                                             onChange={(e) => setWebsiteUrl(e.target.value)}
                                                             placeholder="https://"
+                                                            inputMode="url"
+                                                            autoComplete="url"
                                                         />
                                                     </div>
                                                 </div>
