@@ -56,9 +56,9 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
     );
 
     return (
-        <div className="min-h-screen relative bg-black selection:bg-indigo-500/30">
+        <div className="h-screen w-full overflow-hidden relative bg-black selection:bg-indigo-500/30">
             {/* Vibrant Background */}
-            <div className="fixed inset-0 z-0 pointer-events-none">
+            <div className="absolute inset-0 z-0 pointer-events-none">
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900/20 via-black to-black" />
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
             </div>
@@ -82,7 +82,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
             </aside>
 
             {/* Main Content */}
-            <div className="md:ml-64 relative z-10">
+            <div className="md:ml-64 relative z-10 h-full overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
                 {/* Header */}
                 <header className="sticky top-0 z-10 border-b border-white/10 bg-black/20 backdrop-blur-xl">
                     <div className="flex items-center justify-between px-6 py-4 gap-4">
