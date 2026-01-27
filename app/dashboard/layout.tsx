@@ -56,7 +56,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
     );
 
     return (
-        <div className="h-screen w-full overflow-hidden relative bg-black selection:bg-indigo-500/30">
+        <div className="h-[100dvh] w-full overflow-hidden relative bg-black selection:bg-indigo-500/30">
             {/* Vibrant Background */}
             <div className="absolute inset-0 z-0 pointer-events-none">
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900/20 via-black to-black" />
@@ -89,7 +89,8 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
                         {/* Mobile Menu Button */}
                         <button
                             onClick={() => setIsMobileMenuOpen(true)}
-                            className="md:hidden p-2 rounded-full hover:bg-white/10 text-white transition-colors"
+                            className="md:hidden p-3 rounded-full hover:bg-white/10 text-white transition-colors"
+                            aria-label="Open menu"
                         >
                             <Menu className="w-6 h-6" />
                         </button>
@@ -115,14 +116,14 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
                 </header>
 
                 {/* Page Content */}
-                <main className="p-6">{children}</main>
+                <main className="p-3 md:p-6">{children}</main>
                 <AiAssistant />
                 <DemoControls />
             </div>
 
             {/* Mobile Sidebar Overlay */}
             {isMobileMenuOpen && (
-                <div className="fixed inset-0 z-50 md:hidden">
+                <div className="fixed inset-0 z-50 md:hidden touch-none">
                     {/* Backdrop */}
                     <div
                         className="absolute inset-0 bg-black/60 backdrop-blur-md"
@@ -130,11 +131,12 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
                     />
 
                     {/* Sidebar */}
-                    <aside className="absolute left-0 top-0 h-full w-64 bg-black/90 backdrop-blur-xl border-r border-white/10 p-6 animate-in slide-in-from-left duration-300 flex flex-col rounded-r-3xl">
+                    <aside className="absolute left-0 top-0 h-full w-64 bg-black/90 backdrop-blur-xl border-r border-white/10 p-6 animate-in slide-in-from-left duration-300 flex flex-col rounded-r-3xl shadow-2xl">
                         {/* Close Button */}
                         <button
                             onClick={() => setIsMobileMenuOpen(false)}
-                            className="absolute top-4 right-4 p-2 rounded-full hover:bg-white/10 text-white transition-colors"
+                            className="absolute top-6 right-6 p-3 rounded-full hover:bg-white/10 text-white transition-colors"
+                            aria-label="Close menu"
                         >
                             <X className="w-5 h-5" />
                         </button>

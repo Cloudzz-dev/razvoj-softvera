@@ -129,7 +129,7 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="min-h-screen bg-black flex items-center justify-center p-4 relative overflow-hidden">
+        <div className="min-h-dvh bg-black flex items-center justify-center p-4 relative overflow-hidden">
             {/* Background effects */}
             <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:50px_50px]" />
             <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-500/20 rounded-full blur-[128px]" />
@@ -163,6 +163,7 @@ export default function LoginPage() {
                                         onChange={(e) => setEmail(e.target.value)}
                                         required
                                         autoComplete="email"
+                                        inputMode="email"
                                         placeholder="team@cloudzz.dev"
                                     />
                                 </div>
@@ -179,7 +180,7 @@ export default function LoginPage() {
                                                 setError("");
                                                 setResetMessage("");
                                             }}
-                                            className="text-xs text-indigo-400 hover:text-indigo-300"
+                                            className="text-sm text-indigo-400 hover:text-indigo-300 py-1 px-2 -mr-2 min-h-[44px] flex items-center"
                                         >
                                             Forgot Password?
                                         </button>
@@ -240,6 +241,8 @@ export default function LoginPage() {
                                         onChange={(e) => setResetEmail(e.target.value)}
                                         required
                                         placeholder="Enter your email"
+                                        autoComplete="email"
+                                        inputMode="email"
                                     />
                                 </div>
 
