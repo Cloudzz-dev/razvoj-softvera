@@ -2,12 +2,35 @@
 
 import React, { useEffect, useState } from "react";
 import { Command } from "cmdk";
-import { Search, Monitor, User, Settings, LayoutDashboard, Map, Home } from "lucide-react";
+import {
+    Search,
+    Home,
+    LogOut,
+    Plus,
+    Copy,
+    ExternalLink,
+    Moon,
+    Sun,
+    Laptop,
+    FileText,
+    Info,
+    Mail,
+    Briefcase,
+    LogIn,
+    UserPlus,
+    LayoutDashboard
+} from "lucide-react";
 import { useRouter } from "next/navigation";
+import { dashboardNav } from "@/config/nav";
+import { signOut, useSession, signIn } from "next-auth/react";
+import { toast } from "react-hot-toast";
+import { useTheme } from "next-themes";
 
 export function CommandMenu() {
     const [open, setOpen] = useState(false);
     const router = useRouter();
+    const { setTheme } = useTheme();
+    const { data: session } = useSession();
 
     useEffect(() => {
         const down = (e: KeyboardEvent) => {
@@ -25,6 +48,11 @@ export function CommandMenu() {
         setOpen(false);
         command();
     }, []);
+
+    const copyUrl = () => {
+        navigator.clipboard.writeText(window.location.href);
+        toast.success("URL copied to clipboard");
+    };
 
     if (!open) return null;
 
@@ -54,55 +82,130 @@ export function CommandMenu() {
                     <Command.Group heading="Navigation" className="text-xs font-medium text-white/40 px-2 py-1.5 mb-2">
                         <CommandItem
                             onSelect={() => runCommand(() => router.push("/"))}
-                            onMouseEnter={() => router.prefetch("/")}
                         >
                             <Home className="mr-2 h-4 w-4" />
                             <span>Home</span>
                         </CommandItem>
-                        <CommandItem
-                            onSelect={() => runCommand(() => router.push("/dashboard"))}
-                            onMouseEnter={() => router.prefetch("/dashboard")}
-                        >
-                            <LayoutDashboard className="mr-2 h-4 w-4" />
-                            <span>Dashboard</span>
+
+                        {session?.user ? (
+                            <>
+                                <CommandItem
+                                    onSelect={() => runCommand(() => router.push("/dashboard"))}
+                                >
+                                    <LayoutDashboard className="mr-2 h-4 w-4" />
+                                    <span>Dashboard</span>
+                                </CommandItem>
+                                {dashboardNav.map((item) => {
+                                    const Icon = item.icon;
+                                    return (
+                                        <CommandItem
+                                            key={item.href}
+                                            onSelect={() => runCommand(() => router.push(item.href))}
+                                        >
+                                            <Icon className="mr-2 h-4 w-4" />
+                                            <span>{item.name}</span>
+                                        </CommandItem>
+                                    );
+                                })}
+                            </>
+                        ) : (
+                            <>
+                                <CommandItem
+                                    onSelect={() => runCommand(() => router.push("/login"))}
+                                >
+                                    <LogIn className="mr-2 h-4 w-4" />
+                                    <span>Login</span>
+                                </CommandItem>
+                                <CommandItem
+                                    onSelect={() => runCommand(() => router.push("/register"))}
+                                >
+                                    <UserPlus className="mr-2 h-4 w-4" />
+                                    <span>Register</span>
+                                </CommandItem>
+                            </>
+                        )}
+                    </Command.Group>
+
+                    <Command.Group heading="General" className="text-xs font-medium text-white/40 px-2 py-1.5 mb-2">
+                        <CommandItem onSelect={() => runCommand(() => router.push("/about"))}>
+                            <Info className="mr-2 h-4 w-4" />
+                            <span>About Us</span>
                         </CommandItem>
-                        <CommandItem
-                            onSelect={() => runCommand(() => router.push("/roadmap"))}
-                            onMouseEnter={() => router.prefetch("/roadmap")}
-                        >
-                            <Map className="mr-2 h-4 w-4" />
-                            <span>Roadmap</span>
+                        <CommandItem onSelect={() => runCommand(() => router.push("/blog"))}>
+                            <FileText className="mr-2 h-4 w-4" />
+                            <span>Blog</span>
+                        </CommandItem>
+                        <CommandItem onSelect={() => runCommand(() => router.push("/careers"))}>
+                            <Briefcase className="mr-2 h-4 w-4" />
+                            <span>Careers</span>
+                        </CommandItem>
+                        <CommandItem onSelect={() => runCommand(() => router.push("/contact"))}>
+                            <Mail className="mr-2 h-4 w-4" />
+                            <span>Contact</span>
                         </CommandItem>
                     </Command.Group>
 
-                    <Command.Group heading="Settings" className="text-xs font-medium text-white/40 px-2 py-1.5 mb-2">
+                    <Command.Group heading="Theme" className="text-xs font-medium text-white/40 px-2 py-1.5 mb-2">
+                        <CommandItem onSelect={() => runCommand(() => setTheme("light"))}>
+                            <Sun className="mr-2 h-4 w-4" />
+                            <span>Light Mode</span>
+                        </CommandItem>
+                        <CommandItem onSelect={() => runCommand(() => setTheme("dark"))}>
+                            <Moon className="mr-2 h-4 w-4" />
+                            <span>Dark Mode</span>
+                        </CommandItem>
+                        <CommandItem onSelect={() => runCommand(() => setTheme("system"))}>
+                            <Laptop className="mr-2 h-4 w-4" />
+                            <span>System Theme</span>
+                        </CommandItem>
+                    </Command.Group>
+
+                    <Command.Group heading="Actions" className="text-xs font-medium text-white/40 px-2 py-1.5 mb-2">
+                        {session?.user && (
+                            <CommandItem
+                                onSelect={() => runCommand(() => router.push("/dashboard/startups?action=new"))}
+                            >
+                                <Plus className="mr-2 h-4 w-4" />
+                               <span>Create New Startup</span>
+                            </CommandItem>
+                        )}
                         <CommandItem
-                            onSelect={() => runCommand(() => router.push("/profile"))}
-                            onMouseEnter={() => router.prefetch("/profile")}
+                            onSelect={() => runCommand(() => copyUrl())}
                         >
-                            <User className="mr-2 h-4 w-4" />
-                            <span>Profile</span>
+                            <Copy className="mr-2 h-4 w-4" />
+                            <span>Copy Current URL</span>
                         </CommandItem>
                         <CommandItem
-                            onSelect={() => runCommand(() => router.push("/settings"))}
-                            onMouseEnter={() => router.prefetch("/settings")}
+                            onSelect={() => runCommand(() => window.open("https://github.com/team-cloudzz/dfds", "_blank"))}
                         >
-                            <Settings className="mr-2 h-4 w-4" />
-                            <span>Settings</span>
+                            <ExternalLink className="mr-2 h-4 w-4" />
+                            <span>View Source Code</span>
                         </CommandItem>
-                        <CommandItem
-                            onSelect={() => runCommand(() => console.log("Toggle Theme"))}
-                        >
-                            <Monitor className="mr-2 h-4 w-4" />
-                            <span>Toggle Theme</span>
-                        </CommandItem>
+
+                        {session?.user && (
+                            <CommandItem
+                                onSelect={() => runCommand(() => signOut({ callbackUrl: "/" }))}
+                            >
+                                <LogOut className="mr-2 h-4 w-4" />
+                                <span>Sign Out</span>
+                            </CommandItem>
+                        )}
                     </Command.Group>
                 </Command.List>
 
-                <div className="border-t border-white/5 py-2 px-4 flex justify-end">
-                    <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded bg-white/10 px-1.5 font-mono text-[10px] font-medium text-white opacity-100">
-                        <span className="text-xs">ESC</span>
-                    </kbd>
+                <div className="border-t border-white/5 py-2 px-4 flex justify-between items-center text-white/40">
+                    <span className="text-[10px]">DFDS Command Menu</span>
+                    <div className="flex gap-2">
+                        <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded bg-white/10 px-1.5 font-mono text-[10px] font-medium text-white opacity-100">
+                            <span className="text-xs">↑↓</span>
+                        </kbd>
+                        <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded bg-white/10 px-1.5 font-mono text-[10px] font-medium text-white opacity-100">
+                            <span className="text-xs">ENTER</span>
+                        </kbd>
+                        <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded bg-white/10 px-1.5 font-mono text-[10px] font-medium text-white opacity-100">
+                            <span className="text-xs">ESC</span>
+                        </kbd>
+                    </div>
                 </div>
             </div>
         </Command.Dialog>
@@ -112,15 +215,13 @@ export function CommandMenu() {
 interface CommandItemProps {
     children: React.ReactNode;
     onSelect?: () => void;
-    onMouseEnter?: () => void;
 }
 
-function CommandItem({ children, onSelect, onMouseEnter }: CommandItemProps) {
+function CommandItem({ children, onSelect }: CommandItemProps) {
     return (
         <Command.Item
             onSelect={onSelect}
-            className="relative flex cursor-pointer select-none items-center rounded-2xl px-3 py-2.5 text-sm text-white/70 outline-none hover:bg-white/10 hover:text-white data-[selected=true]:bg-white/10 data-[selected=true]:text-white transition-colors duration-150"
-            onPointerEnter={onMouseEnter} // Use pointer enter for hover
+            className="relative flex cursor-pointer select-none items-center rounded-xl px-3 py-2.5 text-sm text-white/70 outline-none hover:bg-white/10 hover:text-white aria-selected:bg-white/10 aria-selected:text-white transition-colors duration-150 data-[disabled]:opacity-50"
         >
             {children}
         </Command.Item>
