@@ -95,6 +95,7 @@ export function AiAssistant() {
         return () => {
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('mouseup', handleMouseUp);
+            document.body.style.cursor = 'default';
         };
     }, []);
 

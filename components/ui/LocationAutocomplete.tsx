@@ -196,7 +196,7 @@ export function LocationAutocomplete({
 
             {/* Suggestions dropdown */}
             {isOpen && suggestions.length > 0 && (
-                <div className="absolute z-[9999] w-full mt-1 p-1 bg-zinc-900/95 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl max-h-60 overflow-auto">
+                <div className="absolute z-50 w-full mt-1 p-1 bg-zinc-900/95 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl max-h-60 overflow-auto">
                     {suggestions.map((suggestion, index) => (
                         <button
                             key={suggestion.place_id}
@@ -218,7 +218,7 @@ export function LocationAutocomplete({
 
             {/* No results message */}
             {isOpen && !isLoading && query.length >= 2 && suggestions.length === 0 && (
-                <div className="absolute z-[9999] w-full mt-1 py-3 px-4 bg-zinc-900/95 backdrop-blur-xl border border-white/10 rounded-2xl text-sm text-zinc-400 text-center shadow-xl">
+                <div className="absolute z-50 w-full mt-1 py-3 px-4 bg-zinc-900/95 backdrop-blur-xl border border-white/10 rounded-2xl text-sm text-zinc-400 text-center shadow-xl">
                     No locations found
                 </div>
             )}
