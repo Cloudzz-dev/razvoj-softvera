@@ -67,11 +67,13 @@ export function DashboardSearch() {
                     value={query}
                     onChange={(e) => handleSearch(e.target.value)}
                     placeholder={currentFilters ? `Search by ${currentFilters.title.toLowerCase()}...` : "Search dashboard..."}
+                    aria-label="Search dashboard"
                     className="pl-10 pr-10"
                 />
                 {currentFilters && (
                     <button
                         onClick={() => setIsOpen(!isOpen)}
+                        aria-label="Toggle filters"
                         className={cn(
                             "absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer hover:text-white transition-colors",
                             isOpen ? "text-indigo-400" : "text-zinc-400"
@@ -87,7 +89,7 @@ export function DashboardSearch() {
                 <div className="absolute top-full left-0 right-0 mt-2 p-3 rounded-3xl bg-black/80 border border-white/10 backdrop-blur-xl shadow-xl animate-in fade-in slide-in-from-top-2 z-50">
                     <div className="flex items-center justify-between mb-2">
                         <span className="text-xs font-medium text-zinc-400">Filter by {currentFilters.title}</span>
-                        <button onClick={() => setIsOpen(false)} className="text-zinc-500 hover:text-white">
+                        <button onClick={() => setIsOpen(false)} aria-label="Close filters" className="text-zinc-500 hover:text-white">
                             <X className="w-3 h-3" />
                         </button>
                     </div>

@@ -92,6 +92,7 @@ export function MessageInbox({ onSelectConversation, selectedConversationId, ini
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search conversations..."
+                        aria-label="Search conversations"
                         className="pl-10 py-6"
                     />
                 </div>
