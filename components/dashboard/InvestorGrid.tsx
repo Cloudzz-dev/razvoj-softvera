@@ -101,46 +101,48 @@ export function InvestorGrid({ initialInvestors, searchQuery, initialNextCursor 
         <div className="space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {filteredInvestors.map((investor) => (
-                    <GlassCard key={investor.id} className="p-6 border-white/10 bg-black/40 hover:bg-white/5 transition-all">
-                        <div className="flex items-start gap-4 mb-4">
-                            <div className="w-16 h-16 rounded-full bg-indigo-600/20 flex items-center justify-center text-2xl">
-                                👨‍💼
-                            </div>
-                            <div className="flex-1">
-                                <h3 className="text-xl font-bold text-white mb-1">{investor.name || "Anonymous"}</h3>
-                                <Badge variant="indigo" className="mb-2">
+                    <GlassCard 
+                        key={investor.id} 
+                        className="group relative aspect-square p-6 border-white/10 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-center text-center overflow-hidden"
+                    >
+                        <div className="flex-1 flex flex-col justify-center">
+                            <h3 className="text-2xl font-bold text-white mb-2">{investor.name || "Anonymous"}</h3>
+                            <div className="flex flex-col items-center gap-2 mb-4">
+                                <Badge variant="indigo">
                                     Investor
                                 </Badge>
                                 <p className="text-sm text-zinc-400">{investor.profile?.location || "Location not specified"}</p>
                             </div>
-                        </div>
 
-                        {investor.profile?.bio && (
-                            <p className="text-sm text-zinc-300 mb-4">{investor.profile.bio}</p>
-                        )}
+                            {investor.profile?.bio && (
+                                <p className="text-sm text-zinc-400 line-clamp-2 mb-4 italic">"{investor.profile.bio}"</p>
+                            )}
 
-                        <div className="space-y-3 mb-4">
-                            <div className="flex items-center justify-between p-3 rounded-2xl bg-white/5">
-                                <span className="text-sm text-zinc-400">Connections</span>
-                                <span className="text-white font-semibold">{investor._count.followers}</span>
+                            <div className="flex items-center justify-center gap-4 py-3 border-y border-white/5 bg-white/5 rounded-2xl">
+                                <div className="text-center">
+                                    <p className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold">Connections</p>
+                                    <p className="text-xl font-bold text-white">{investor._count.followers}</p>
+                                </div>
                             </div>
                         </div>
 
-                        <Button
-                            type="button"
-                            onClick={() => handleMessage(investor.id)}
-                            disabled={connectingId === investor.id || isPending}
-                            className="w-full rounded-full flex items-center justify-center gap-2"
-                        >
-                            {connectingId === investor.id ? (
-                                <>
-                                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                    Starting Chat...
-                                </>
-                            ) : (
-                                "Message"
-                            )}
-                        </Button>
+                        <div className="absolute inset-x-0 bottom-0 p-6 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-gradient-to-t from-black via-black/80 to-transparent">
+                            <button
+                                type="button"
+                                onClick={() => handleMessage(investor.id)}
+                                disabled={connectingId === investor.id || isPending}
+                                className="w-full px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition-all shadow-lg shadow-emerald-900/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                            >
+                                {connectingId === investor.id ? (
+                                    <>
+                                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                        Connecting...
+                                    </>
+                                ) : (
+                                    "Message"
+                                )}
+                            </button>
+                        </div>
                     </GlassCard>
                 ))}
             </div>

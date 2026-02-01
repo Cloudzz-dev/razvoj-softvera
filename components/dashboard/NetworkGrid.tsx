@@ -101,60 +101,67 @@ export function NetworkGrid({ initialUsers, searchQuery, initialHasMore }: Netwo
                     const isCurrentUser = session?.user?.email === developer.email;
 
                     return (
-                        <GlassCard key={developer.id} className="p-6 border-white/10 bg-black/40 hover:bg-white/5 transition-all">
-                            <div className="text-center mb-4">
-                                <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-indigo-600/20 flex items-center justify-center text-2xl">
-                                    👨‍💻
-                                </div>
+                        <GlassCard 
+                            key={developer.id} 
+                            className="group relative aspect-square p-6 border-white/10 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-center text-center overflow-hidden"
+                        >
+                            <div className="flex-1 flex flex-col justify-center">
                                 <div className="flex items-center justify-center gap-2 mb-1">
-                                    <h3 className="text-lg font-bold text-white">{developer.name || "Anonymous"}</h3>
+                                    <h3 className="text-xl font-bold text-white">{developer.name || "Anonymous"}</h3>
                                     {isCurrentUser && (
                                         <Badge variant="indigo">
                                             You
                                         </Badge>
                                     )}
                                 </div>
-                                <Badge variant="indigo" className="mb-2">
-                                    Developer
-                                </Badge>
-                                <div className="mb-2">
+                                <div className="flex flex-col items-center gap-2 mb-4">
+                                    <Badge variant="indigo">
+                                        Developer
+                                    </Badge>
                                     <Badge variant="green" dot>
                                         Available
                                     </Badge>
                                 </div>
-                            </div>
 
-                            <div className="space-y-3 mb-4">
-                                <div className="flex items-center gap-2 text-sm text-zinc-400">
-                                    <MapPin className="w-4 h-4" />
-                                    <span>{developer.profile?.location || "Location not specified"}</span>
+                                <div className="space-y-3 mb-4">
+                                    <div className="flex items-center justify-center gap-2 text-sm text-zinc-400">
+                                        <MapPin className="w-4 h-4" />
+                                        <span>{developer.profile?.location || "Location not specified"}</span>
+                                    </div>
                                 </div>
-                            </div>
 
-                            {developer.profile?.skills && developer.profile.skills.length > 0 && (
-                                <div className="mb-4">
-                                    <p className="text-xs text-zinc-500 mb-2">Skills</p>
-                                    <div className="flex flex-wrap gap-2">
-                                        {developer.profile.skills.slice(0, 4).map((skill) => (
+                                {developer.profile?.skills && developer.profile.skills.length > 0 && (
+                                    <div className="flex flex-wrap justify-center gap-2">
+                                        {developer.profile.skills.slice(0, 3).map((skill) => (
                                             <Badge
                                                 key={skill}
-                                                variant={searchQuery && skill.toLowerCase().includes(searchQuery.toLowerCase()) ? "indigo" : "outline"}
+                                                variant="outline"
+                                                className="text-[10px] opacity-60"
                                             >
                                                 {skill}
                                             </Badge>
                                         ))}
                                     </div>
-                                </div>
-                            )}
+                                )}
+                            </div>
 
-                            <button
-                                type="button"
-                                onClick={() => handleSendMessage(developer.id)}
-                                disabled={sendingId === developer.id || isPending || isCurrentUser}
-                                className="w-full px-4 py-2 rounded-full bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                {isCurrentUser ? "It's You" : sendingId === developer.id ? "Opening..." : "Send Message"}
-                            </button>
+                            <div className="absolute inset-x-0 bottom-0 p-6 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-gradient-to-t from-black via-black/80 to-transparent">
+                                <button
+                                    type="button"
+                                    onClick={() => handleSendMessage(developer.id)}
+                                    disabled={sendingId === developer.id || isPending || isCurrentUser}
+                                    className="w-full px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition-all shadow-lg shadow-emerald-900/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                >
+                                    {isCurrentUser ? "It's You" : sendingId === developer.id ? (
+                                        <>
+                                            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                            Opening...
+                                        </>
+                                    ) : (
+                                        "Message"
+                                    )}
+                                </button>
+                            </div>
                         </GlassCard>
                     );
                 })}

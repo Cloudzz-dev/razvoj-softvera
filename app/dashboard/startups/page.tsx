@@ -83,40 +83,42 @@ export default async function StartupsPage({
                 <div className="space-y-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {startups.map((startup) => (
-                            <GlassCard key={startup.id} className="p-6 border-white/10 bg-black/40 hover:bg-white/5 transition-all">
-                                <div className="flex items-start justify-between mb-4">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-12 h-12 rounded-2xl bg-indigo-600/20 flex items-center justify-center text-2xl">
-                                            {startup.logo || "🚀"}
-                                        </div>
-                                        <div>
-                                            <h3 className="text-xl font-bold text-white">{startup.name}</h3>
-                                            <Badge variant="indigo">
-                                                {startup.stage}
-                                            </Badge>
-                                        </div>
+                            <GlassCard 
+                                key={startup.id} 
+                                className="group relative aspect-square p-8 border-white/10 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-center text-center overflow-hidden"
+                            >
+                                <div className="flex-1 flex flex-col justify-center">
+                                    <div className="flex flex-col items-center gap-2 mb-4">
+                                        <h3 className="text-2xl font-bold text-white tracking-tight">{startup.name}</h3>
+                                        <Badge variant="indigo">
+                                            {startup.stage}
+                                        </Badge>
                                     </div>
-                                    {startup.websiteUrl && (
-                                        <a
-                                            href={startup.websiteUrl}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors"
-                                        >
-                                            <ExternalLink className="w-4 h-4 text-zinc-400" />
-                                        </a>
-                                    )}
+
+                                    <p className="text-zinc-400 line-clamp-3 mb-6">{startup.pitch}</p>
+
+                                    <div className="pt-4 border-t border-white/5">
+                                        <p className="text-xs text-zinc-500 uppercase tracking-widest font-bold">
+                                            Founded by
+                                        </p>
+                                        <p className="text-white font-medium">{startup.founder?.name || "Anonymous"}</p>
+                                    </div>
                                 </div>
 
-                                <p className="text-zinc-300 mb-4">{startup.pitch}</p>
+                                {startup.websiteUrl && (
+                                    <a
+                                        href={startup.websiteUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="absolute top-4 right-4 p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors opacity-0 group-hover:opacity-100"
+                                    >
+                                        <ExternalLink className="w-4 h-4 text-zinc-400" />
+                                    </a>
+                                )}
 
-                                <div className="pt-4 border-t border-white/10">
-                                    <p className="text-sm text-zinc-500">
-                                        Founded by <span className="text-white font-medium">{startup.founder?.name || "Anonymous"}</span>
-                                    </p>
+                                <div className="absolute inset-x-0 bottom-0 p-8 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-gradient-to-t from-black via-black/80 to-transparent">
+                                    <ConnectButton startup={startup} />
                                 </div>
-
-                                <ConnectButton startup={startup} />
                             </GlassCard>
                         ))}
                     </div>
