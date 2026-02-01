@@ -3,17 +3,20 @@
 import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { RefreshCw, Terminal } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 export function DemoControls() {
+    const { data: session } = useSession();
     const [isVisible, setIsVisible] = useState(false);
     const [isResetting, setIsResetting] = useState(false);
 
     useEffect(() => {
-        // Show only if specifically enabled or in dev
-        if (process.env.NEXT_PUBLIC_DEMO_MODE === "true" || process.env.NODE_ENV === "development") {
+        // Show if specifically enabled, in dev, OR if current user is the demo account
+        const isDemoUser = session?.user?.email === "demo@cloudzz.dev";
+        if (process.env.NEXT_PUBLIC_DEMO_MODE === "true" || process.env.NODE_ENV === "development" || isDemoUser) {
             setIsVisible(true);
         }
-    }, []);
+    }, [session]);
 
     const handleReset = async () => {
         if (!confirm("Reset demo data? This will clear recent messages and notifications.")) return;
