@@ -56,7 +56,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
     );
 
     return (
-        <div className="h-[100dvh] w-full overflow-hidden relative bg-black selection:bg-indigo-500/30">
+        <div className="h-dvh w-full overflow-hidden relative bg-black selection:bg-indigo-500/30">
             {/* Vibrant Background */}
             <div className="absolute inset-0 z-0 pointer-events-none">
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900/20 via-black to-black" />
@@ -89,8 +89,8 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
                         {/* Mobile Menu Button */}
                         <button
                             onClick={() => setIsMobileMenuOpen(true)}
-                            className="md:hidden p-3 rounded-full hover:bg-white/10 text-white transition-colors"
-                            aria-label="Open menu"
+                            className="md:hidden p-3 -ml-1 rounded-full hover:bg-white/10 text-white transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
+                            aria-label="Open navigation menu"
                         >
                             <Menu className="w-6 h-6" />
                         </button>
@@ -135,8 +135,8 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
                         {/* Close Button */}
                         <button
                             onClick={() => setIsMobileMenuOpen(false)}
-                            className="absolute top-6 right-6 p-3 rounded-full hover:bg-white/10 text-white transition-colors"
-                            aria-label="Close menu"
+                            className="absolute top-4 right-4 p-3 rounded-full hover:bg-white/10 text-white transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
+                            aria-label="Close navigation menu"
                         >
                             <X className="w-5 h-5" />
                         </button>
