@@ -192,19 +192,51 @@ async function seedThreads(users: any[]) {
     }
 }
 
+async function seedMetrics(demoUser: any) {
+    console.log("Creating Metrics (Active Users)...");
+    const now = new Date();
+    for (let i = 0; i < 90; i++) {
+        const date = new Date(now);
+        date.setDate(now.getDate() - i);
+        
+        // Growth curve: Higher values for recent dates (smaller i)
+        // Base value grows from 50 to 500 over 90 days
+        const baseValue = 50 + (90 - i) * 5;
+        // Add 20% random variance
+        const variance = baseValue * 0.2 * (Math.random() - 0.5);
+        const value = Math.floor(baseValue + variance);
+
+        await prisma.metric.create({
+            data: {
+                type: "active_users",
+                value: value,
+                userId: demoUser.id,
+                createdAt: date,
+            }
+        });
+    }
+}
+
 async function seedTransactions(users: any[]) {
-    console.log("Creating Transactions (Growth Pattern)...");
-    for (let i = 0; i < 150; i++) {
+    console.log("Creating Transactions (Growth Pattern + Variance)...");
+    const demoUser = users.find(u => u.email === "demo@cloudzz.dev");
+    if (!demoUser) return;
+
+    for (let i = 0; i < 200; i++) {
         const sender = getRandom(users);
-        const receiver = getRandom(users);
+        const receiver = demoUser; // Ensure demo user is the one seeing revenue growth
         if (sender.id === receiver.id) continue;
 
         // Exponential growth simulation: More transactions in recent days
-        // Math.random()^3 skews distribution towards 0 (recent)
-        const daysAgo = Math.floor(Math.pow(Math.random(), 4) * 90); 
+        const daysAgo = Math.floor(Math.pow(Math.random(), 3) * 90); 
         const createdAt = new Date(Date.now() - daysAgo * 24 * 60 * 60 * 1000);
 
-        const amount = Math.floor(Math.random() * 5000) + 50;
+        // Revenue: occasional "down" days or smaller amounts
+        const isDipDay = Math.random() > 0.85;
+        const amount = isDipDay 
+            ? Math.floor(Math.random() * 500) + 10  // Small dip amount
+            : Math.floor(Math.random() * 5000) + 500; // Normal/growth amount
+            
         const fee = Math.floor(amount * 0.025);
 
         await prisma.transaction.create({
@@ -242,19 +274,23 @@ async function main() {
                 data: { emailVerified: new Date() }
             });
         }
+        // Still seed metrics if they are missing
+        const metricCount = await prisma.metric.count({ where: { userId: demoUser.id } });
+        if (metricCount === 0) {
+            await seedMetrics(demoUser);
+        }
         return;
     }
 
-    // If we are here, we might need to clean up strictly or just append? 
-    // To depend on the user's "clean" command is better, but let's clear to be safe if count is low
-    // But we don't want to double delete if it's empty.
-
+    // ... (rest of main logic)
+    
     // Check if we need to create Demo User specifically first
     const password = await bcrypt.hash("password123", 12);
 
+    let finalDemoUser;
     if (!demoUser) {
         console.log("Creating Demo User...");
-        await prisma.user.create({
+        finalDemoUser = await prisma.user.create({
             data: {
                 name: "Demo User",
                 email: "demo@cloudzz.dev",
@@ -262,7 +298,6 @@ async function main() {
                 password,
                 emailVerified: new Date(),
                 role: "FOUNDER",
-                // Grant AI access for demo purposes
                 isVerifiedBuilder: true,
                 subscriptionTier: "GROWTH",
                 referralCount: 999,
@@ -276,9 +311,8 @@ async function main() {
             },
         });
     } else {
-        // Update existing demo user to have AI access
         console.log("Updating Demo User with AI access...");
-        await prisma.user.update({
+        finalDemoUser = await prisma.user.update({
             where: { email: "demo@cloudzz.dev" },
             data: {
                 isVerifiedBuilder: true,
@@ -293,15 +327,14 @@ async function main() {
     // Now seed the mass data if count was low
     console.log("Mass seeding...");
     const founders = await seedUsers(password);
-
-    // Fetch all users for linking
     const allUsers = await prisma.user.findMany();
 
     await seedStartups(founders);
     await seedThreads(allUsers);
     await seedTransactions(allUsers);
+    await seedMetrics(finalDemoUser);
 
-    // Seed Roadmap (Activity table or similar? Assuming no dedicated Roadmap table in schema based on reading,
+    // --- ENHANCED MESSAGING SEED FOR DEMO USER ---
     // but user asked for "roadmap items". I recall looking for roadmap in menu but not schema.
     // If roadmap is static or uses issues/threads, I'll skip for now or use Threads with "Feature Request" tag.
     // Let's verify schema first? No time, assume Threads with tag is enough based on tasks).
