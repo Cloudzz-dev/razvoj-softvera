@@ -538,7 +538,7 @@ main() {
     else
       COMPOSE_CMD="docker-compose"
     fi
-    $COMPOSE_CMD -f docker-compose.yml -f docker-compose.dev.yml up -d
+    $COMPOSE_CMD -f docker-compose.yml -f docker-compose.dev.yml up -d --build
     show_status
     echo -e "${GREEN}🚀 DFDS DEV is now running at http://localhost:3753${NC}"
     echo -e "${YELLOW}Logs are streaming below (Ctrl+C to stop logs, container will keep running):${NC}"

@@ -103,56 +103,50 @@ export function NetworkGrid({ initialUsers, searchQuery, initialHasMore }: Netwo
                     return (
                         <GlassCard 
                             key={developer.id} 
-                            className="group relative p-4 border-white/10 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-center text-center overflow-hidden min-h-[220px]"
+                            className="group relative p-3 border-white/10 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-center text-center overflow-hidden min-h-[180px]"
                         >
                             <div className="flex-1 flex flex-col justify-center">
-                                <div className="flex items-center justify-center gap-2 mb-1">
-                                    <h3 className="text-base font-bold text-white truncate max-w-[150px]">{developer.name || "Anonymous"}</h3>
+                                <div className="flex items-center justify-center gap-1.5 mb-0.5">
+                                    <h3 className="text-sm font-bold text-white truncate max-w-[120px]">{developer.name || "Anon"}</h3>
                                     {isCurrentUser && (
-                                        <Badge variant="indigo" className="text-[8px] px-1 py-0">
-                                            You
-                                        </Badge>
+                                        <div className="w-1.5 h-1.5 rounded-full bg-indigo-500" title="You" />
                                     )}
                                 </div>
-                                <div className="flex flex-col items-center gap-1 mb-2">
-                                    <Badge variant="indigo" className="text-[10px] py-0">
-                                        Developer
-                                    </Badge>
-                                    <Badge variant="green" dot className="text-[10px] py-0">
-                                        Available
+                                <div className="flex items-center justify-center gap-1 mb-1.5">
+                                    <Badge variant="green" dot className="text-[8px] py-0 px-1 opacity-80">
+                                        Active
                                     </Badge>
                                 </div>
 
-                                <div className="space-y-1 mb-2">
-                                    <div className="flex items-center justify-center gap-1 text-[11px] text-zinc-400">
-                                        <MapPin className="w-3 h-3" />
-                                        <span className="truncate max-w-[120px]">{developer.profile?.location || "Unknown"}</span>
+                                <div className="space-y-0.5 mb-2">
+                                    <div className="flex items-center justify-center gap-1 text-[10px] text-zinc-500">
+                                        <MapPin className="w-2.5 h-2.5" />
+                                        <span className="truncate max-w-[100px]">{developer.profile?.location?.split(',')[0] || "Global"}</span>
                                     </div>
                                 </div>
 
                                 {developer.profile?.skills && developer.profile.skills.length > 0 && (
                                     <div className="flex flex-wrap justify-center gap-1">
                                         {developer.profile.skills.slice(0, 2).map((skill) => (
-                                            <Badge
+                                            <span
                                                 key={skill}
-                                                variant="outline"
-                                                className="text-[9px] opacity-60 px-1 py-0"
+                                                className="text-[8px] font-bold uppercase tracking-tighter text-zinc-500 border border-white/5 px-1 rounded bg-white/5"
                                             >
                                                 {skill}
-                                            </Badge>
+                                            </span>
                                         ))}
                                     </div>
                                 )}
                             </div>
 
-                            <div className="absolute inset-x-0 bottom-0 p-3 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-gradient-to-t from-black via-black/90 to-transparent">
+                            <div className="absolute inset-x-0 bottom-0 p-2 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-gradient-to-t from-black via-black/90 to-transparent">
                                 <button
                                     type="button"
                                     onClick={() => handleSendMessage(developer.id)}
                                     disabled={sendingId === developer.id || isPending || isCurrentUser}
-                                    className="w-full px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all shadow-lg disabled:opacity-50 flex items-center justify-center gap-1"
+                                    className="w-full py-1 rounded-md bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50"
                                 >
-                                    {isCurrentUser ? "You" : sendingId === developer.id ? "..." : "Message"}
+                                    {isCurrentUser ? "Self" : "Connect"}
                                 </button>
                             </div>
                         </GlassCard>

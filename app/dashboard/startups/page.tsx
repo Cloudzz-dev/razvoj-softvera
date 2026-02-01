@@ -81,42 +81,26 @@ export default async function StartupsPage({
                 </GlassCard>
             ) : (
                 <div className="space-y-8">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-3">
                         {startups.map((startup) => (
                             <GlassCard 
                                 key={startup.id} 
-                                className="group relative p-4 border-white/10 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-center text-center overflow-hidden min-h-[220px]"
+                                className="group relative p-3 border-white/10 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-center text-center overflow-hidden min-h-[180px]"
                             >
                                 <div className="flex-1 flex flex-col justify-center">
-                                    <div className="flex flex-col items-center gap-1 mb-2">
-                                        <h3 className="text-lg font-bold text-white tracking-tight truncate w-full px-2">{startup.name}</h3>
-                                        <Badge variant="indigo" className="text-[10px] py-0">
-                                            {startup.stage}
-                                        </Badge>
+                                    <div className="flex flex-col items-center gap-0.5 mb-2">
+                                        <h3 className="text-sm font-bold text-white tracking-tight truncate w-full px-1">{startup.name}</h3>
+                                        <p className="text-[8px] uppercase font-black text-emerald-500 tracking-widest">{startup.stage}</p>
                                     </div>
 
-                                    <p className="text-[11px] text-zinc-400 line-clamp-2 mb-2">{startup.pitch}</p>
+                                    <p className="text-[10px] text-zinc-500 line-clamp-2 mb-2 px-1 font-medium">{startup.pitch}</p>
 
-                                    <div className="pt-2 border-t border-white/5">
-                                        <p className="text-[8px] text-zinc-500 uppercase tracking-widest font-bold">
-                                            Founder
-                                        </p>
-                                        <p className="text-xs text-white font-medium truncate">{startup.founder?.name || "Anonymous"}</p>
+                                    <div className="pt-1.5 border-t border-white/5">
+                                        <p className="text-[9px] text-white font-bold truncate opacity-60">@{startup.founder?.name?.split(' ')[0] || "anon"}</p>
                                     </div>
                                 </div>
 
-                                {startup.websiteUrl && (
-                                    <a
-                                        href={startup.websiteUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="absolute top-2 right-2 p-1.5 rounded-full bg-white/5 hover:bg-white/10 transition-colors opacity-0 group-hover:opacity-100"
-                                    >
-                                        <ExternalLink className="w-3 h-3 text-zinc-400" />
-                                    </a>
-                                )}
-
-                                <div className="absolute inset-x-0 bottom-0 p-3 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-gradient-to-t from-black via-black/90 to-transparent">
+                                <div className="absolute inset-x-0 bottom-0 p-2 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-gradient-to-t from-black via-black/90 to-transparent">
                                     <ConnectButton startup={startup} />
                                 </div>
                             </GlassCard>

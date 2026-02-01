@@ -99,41 +99,34 @@ export function InvestorGrid({ initialInvestors, searchQuery, initialNextCursor 
 
     return (
         <div className="space-y-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-3">
                 {filteredInvestors.map((investor) => (
                     <GlassCard 
                         key={investor.id} 
-                        className="group relative p-4 border-white/10 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-center text-center overflow-hidden min-h-[220px]"
+                        className="group relative p-3 border-white/10 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-center text-center overflow-hidden min-h-[180px]"
                     >
                         <div className="flex-1 flex flex-col justify-center">
-                            <h3 className="text-lg font-bold text-white mb-1 truncate px-2">{investor.name || "Anonymous"}</h3>
-                            <div className="flex flex-col items-center gap-1 mb-2">
-                                <Badge variant="indigo" className="text-[10px] py-0">
-                                    Investor
-                                </Badge>
-                                <p className="text-[11px] text-zinc-400 truncate w-full">{investor.profile?.location || "Unknown"}</p>
+                            <h3 className="text-sm font-bold text-white mb-0.5 truncate px-1">{investor.name || "Anon"}</h3>
+                            <div className="flex flex-col items-center gap-0.5 mb-2">
+                                <p className="text-[9px] text-zinc-500 truncate w-full uppercase tracking-tighter font-black">
+                                    {investor.profile?.location?.split(',')[0] || "Global"}
+                                </p>
                             </div>
 
-                            {investor.profile?.bio && (
-                                <p className="text-[11px] text-zinc-500 line-clamp-2 mb-2 italic">"{investor.profile.bio}"</p>
-                            )}
-
-                            <div className="flex items-center justify-center gap-2 py-1.5 border-y border-white/5 bg-white/5 rounded-xl">
-                                <div className="text-center">
-                                    <p className="text-[8px] text-zinc-500 uppercase tracking-widest font-bold">Connections</p>
-                                    <p className="text-sm font-bold text-white">{investor._count.followers}</p>
-                                </div>
+                            <div className="py-1.5 border-y border-white/5 bg-white/5 rounded-lg mb-2">
+                                <p className="text-[7px] text-zinc-500 uppercase tracking-widest font-black">Links</p>
+                                <p className="text-xs font-black text-white">{investor._count.followers}</p>
                             </div>
                         </div>
 
-                        <div className="absolute inset-x-0 bottom-0 p-3 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-gradient-to-t from-black via-black/90 to-transparent">
+                        <div className="absolute inset-x-0 bottom-0 p-2 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-gradient-to-t from-black via-black/90 to-transparent">
                             <button
                                 type="button"
                                 onClick={() => handleMessage(investor.id)}
                                 disabled={connectingId === investor.id || isPending}
-                                className="w-full px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all shadow-lg shadow-emerald-900/20 disabled:opacity-50 flex items-center justify-center gap-1"
+                                className="w-full py-1 rounded-md bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50"
                             >
-                                {connectingId === investor.id ? "..." : "Message"}
+                                Link
                             </button>
                         </div>
                     </GlassCard>
