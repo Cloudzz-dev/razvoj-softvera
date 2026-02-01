@@ -36,6 +36,7 @@ async function seedUsers(password: string) {
             data: {
                 name,
                 email,
+                image: `https://i.pravatar.cc/150?u=${email}`,
                 password,
                 emailVerified: new Date(),
                 role: "DEVELOPER",
@@ -64,6 +65,7 @@ async function seedUsers(password: string) {
             data: {
                 name,
                 email,
+                image: `https://i.pravatar.cc/150?u=${email}`,
                 password,
                 emailVerified: new Date(),
                 role: "INVESTOR",
@@ -93,6 +95,7 @@ async function seedUsers(password: string) {
             data: {
                 name,
                 email,
+                image: `https://i.pravatar.cc/150?u=${email}`,
                 password,
                 emailVerified: new Date(),
                 role: "FOUNDER",
@@ -190,11 +193,16 @@ async function seedThreads(users: any[]) {
 }
 
 async function seedTransactions(users: any[]) {
-    console.log("Creating Transactions...");
-    for (let i = 0; i < 100; i++) {
+    console.log("Creating Transactions (Growth Pattern)...");
+    for (let i = 0; i < 150; i++) {
         const sender = getRandom(users);
         const receiver = getRandom(users);
         if (sender.id === receiver.id) continue;
+
+        // Exponential growth simulation: More transactions in recent days
+        // Math.random()^3 skews distribution towards 0 (recent)
+        const daysAgo = Math.floor(Math.pow(Math.random(), 4) * 90); 
+        const createdAt = new Date(Date.now() - daysAgo * 24 * 60 * 60 * 1000);
 
         const amount = Math.floor(Math.random() * 5000) + 50;
         const fee = Math.floor(amount * 0.025);
@@ -210,7 +218,7 @@ async function seedTransactions(users: any[]) {
                 serviceFee: fee,
                 netAmount: amount - fee,
                 description: "Consulting services",
-                createdAt: new Date(Date.now() - Math.floor(Math.random() * 10000000000)),
+                createdAt: createdAt,
             }
         });
     }
@@ -250,13 +258,14 @@ async function main() {
             data: {
                 name: "Demo User",
                 email: "demo@cloudzz.dev",
+                image: "https://i.pravatar.cc/150?u=demo@cloudzz.dev",
                 password,
                 emailVerified: new Date(),
                 role: "FOUNDER",
                 // Grant AI access for demo purposes
                 isVerifiedBuilder: true,
-                subscriptionTier: "PRO",
-                referralCount: 5,
+                subscriptionTier: "GROWTH",
+                referralCount: 999,
                 profile: {
                     create: {
                         location: "Zagreb, Croatia",
@@ -273,8 +282,9 @@ async function main() {
             where: { email: "demo@cloudzz.dev" },
             data: {
                 isVerifiedBuilder: true,
-                subscriptionTier: "PRO",
-                referralCount: 5,
+                subscriptionTier: "GROWTH",
+                referralCount: 999,
+                image: "https://i.pravatar.cc/150?u=demo@cloudzz.dev",
                 emailVerified: demoUser.emailVerified || new Date(),
             },
         });
