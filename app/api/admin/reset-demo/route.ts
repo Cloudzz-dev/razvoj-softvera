@@ -20,8 +20,8 @@ export async function POST(request: Request) {
     }
 
     try {
-        const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
-        const whereClause = forceAll ? {} : { createdAt: { gte: oneHourAgo } };
+        const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+        const whereClause = forceAll ? {} : { createdAt: { gte: twentyFourHoursAgo } };
 
         // 1. Delete Messages
         const deletedMessages = await prisma.message.deleteMany({
@@ -38,7 +38,7 @@ export async function POST(request: Request) {
         // Otherwise, we only delete pending ones from the last hour.
         const deletedTransactions = await prisma.transaction.deleteMany({
              where: forceAll ? {} : {
-                createdAt: { gte: oneHourAgo },
+                createdAt: { gte: twentyFourHoursAgo },
                 status: "PENDING"
             }
         });
