@@ -9,7 +9,7 @@ import { useSession, signOut } from "next-auth/react";
 import posthog from "posthog-js";
 
 export function UserNav() {
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
     const user = session?.user || {
         name: "Guest User",
         email: "guest@dfds",
@@ -24,6 +24,15 @@ export function UserNav() {
         // Sign out and redirect to home
         await signOut({ redirect: true, callbackUrl: "/" });
     };
+
+    if (status === "loading") {
+        return (
+            <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 animate-pulse">
+                <div className="w-8 h-8 rounded-full bg-white/10" />
+                <div className="h-4 w-24 bg-white/10 rounded hidden md:block" />
+            </div>
+        );
+    }
 
     return (
         <Menu as="div" className="relative">

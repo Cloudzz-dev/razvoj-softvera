@@ -11,8 +11,9 @@ export async function POST(request: Request) {
     // Security: Only allow in dev/preview or if user is ADMIN
     const isDev = process.env.NODE_ENV !== "production";
     const isAdmin = session?.user?.role === "ADMIN" || session?.user?.email?.includes("admin");
+    const isDemoUser = session?.user?.email === "demo@cloudzz.dev";
     const secret = request.headers.get("x-demo-secret");
-    const isAuthorized = isDev || isAdmin || secret === process.env.DEMO_SECRET;
+    const isAuthorized = isDev || isAdmin || isDemoUser || secret === process.env.DEMO_SECRET;
 
     if (!isAuthorized) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
