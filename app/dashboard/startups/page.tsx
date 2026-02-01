@@ -81,26 +81,21 @@ export default async function StartupsPage({
                 </GlassCard>
             ) : (
                 <div className="space-y-8">
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-3">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3">
                         {startups.map((startup) => (
                             <GlassCard 
                                 key={startup.id} 
-                                className="group relative p-3 border-white/10 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-center text-center overflow-hidden min-h-[180px]"
+                                className="group relative p-2 border-white/10 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-center text-center overflow-hidden min-h-[140px]"
                             >
                                 <div className="flex-1 flex flex-col justify-center">
-                                    <div className="flex flex-col items-center gap-0.5 mb-2">
-                                        <h3 className="text-sm font-bold text-white tracking-tight truncate w-full px-1">{startup.name}</h3>
-                                        <p className="text-[8px] uppercase font-black text-emerald-500 tracking-widest">{startup.stage}</p>
-                                    </div>
-
-                                    <p className="text-[10px] text-zinc-500 line-clamp-2 mb-2 px-1 font-medium">{startup.pitch}</p>
-
-                                    <div className="pt-1.5 border-t border-white/5">
-                                        <p className="text-[9px] text-white font-bold truncate opacity-60">@{startup.founder?.name?.split(' ')[0] || "anon"}</p>
-                                    </div>
+                                    <h3 className="text-sm font-black text-white truncate w-full px-1 mb-1 tracking-tight">{startup.name}</h3>
+                                    <p className="text-[7px] uppercase font-black text-emerald-500 tracking-widest bg-emerald-500/10 rounded px-1 py-0.5 inline-block mx-auto mb-2">
+                                        {startup.stage}
+                                    </p>
+                                    <p className="text-[9px] text-zinc-600 font-bold truncate opacity-40">@{startup.founder?.name?.split(' ')[0] || "anon"}</p>
                                 </div>
 
-                                <div className="absolute inset-x-0 bottom-0 p-2 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-gradient-to-t from-black via-black/90 to-transparent">
+                                <div className="absolute inset-x-0 bottom-0 p-1.5 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-200 bg-black/90">
                                     <ConnectButton startup={startup} />
                                 </div>
                             </GlassCard>

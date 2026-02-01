@@ -99,32 +99,30 @@ export function InvestorGrid({ initialInvestors, searchQuery, initialNextCursor 
 
     return (
         <div className="space-y-8">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3">
                 {filteredInvestors.map((investor) => (
                     <GlassCard 
                         key={investor.id} 
-                        className="group relative p-3 border-white/10 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-center text-center overflow-hidden min-h-[180px]"
+                        className="group relative p-2 border-white/10 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-center text-center overflow-hidden min-h-[140px]"
                     >
                         <div className="flex-1 flex flex-col justify-center">
-                            <h3 className="text-sm font-bold text-white mb-0.5 truncate px-1">{investor.name || "Anon"}</h3>
-                            <div className="flex flex-col items-center gap-0.5 mb-2">
-                                <p className="text-[9px] text-zinc-500 truncate w-full uppercase tracking-tighter font-black">
-                                    {investor.profile?.location?.split(',')[0] || "Global"}
-                                </p>
-                            </div>
+                            <h3 className="text-sm font-black text-white mb-0.5 truncate px-1 tracking-tight">{investor.name?.split(' ')[0] || "Anon"}</h3>
+                            <p className="text-[8px] text-zinc-600 truncate w-full uppercase font-bold mb-2">
+                                {investor.profile?.location?.split(',')[0] || "Global"}
+                            </p>
 
-                            <div className="py-1.5 border-y border-white/5 bg-white/5 rounded-lg mb-2">
-                                <p className="text-[7px] text-zinc-500 uppercase tracking-widest font-black">Links</p>
-                                <p className="text-xs font-black text-white">{investor._count.followers}</p>
+                            <div className="flex items-center justify-center gap-1 opacity-60">
+                                <span className="text-[10px] font-black text-emerald-500">{investor._count.followers}</span>
+                                <span className="text-[7px] text-zinc-500 uppercase font-black">Links</span>
                             </div>
                         </div>
 
-                        <div className="absolute inset-x-0 bottom-0 p-2 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-gradient-to-t from-black via-black/90 to-transparent">
+                        <div className="absolute inset-x-0 bottom-0 p-1.5 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-200 bg-black/90">
                             <button
                                 type="button"
                                 onClick={() => handleMessage(investor.id)}
                                 disabled={connectingId === investor.id || isPending}
-                                className="w-full py-1 rounded-md bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50"
+                                className="w-full py-1 rounded bg-emerald-600 hover:bg-emerald-500 text-white text-[9px] font-black uppercase tracking-widest transition-all disabled:opacity-50"
                             >
                                 Link
                             </button>

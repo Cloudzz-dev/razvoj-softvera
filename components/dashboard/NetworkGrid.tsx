@@ -103,50 +103,37 @@ export function NetworkGrid({ initialUsers, searchQuery, initialHasMore }: Netwo
                     return (
                         <GlassCard 
                             key={developer.id} 
-                            className="group relative p-3 border-white/10 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-center text-center overflow-hidden min-h-[180px]"
+                            className="group relative p-2 border-white/10 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-center text-center overflow-hidden min-h-[140px]"
                         >
                             <div className="flex-1 flex flex-col justify-center">
-                                <div className="flex items-center justify-center gap-1.5 mb-0.5">
-                                    <h3 className="text-sm font-bold text-white truncate max-w-[120px]">{developer.name || "Anon"}</h3>
-                                    {isCurrentUser && (
-                                        <div className="w-1.5 h-1.5 rounded-full bg-indigo-500" title="You" />
-                                    )}
-                                </div>
-                                <div className="flex items-center justify-center gap-1 mb-1.5">
-                                    <Badge variant="green" dot className="text-[8px] py-0 px-1 opacity-80">
-                                        Active
-                                    </Badge>
+                                <div className="flex items-center justify-center gap-1.5 mb-1">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_5px_rgba(16,185,129,0.5)]" />
+                                    <h3 className="text-sm font-black text-white truncate max-w-[110px] tracking-tight">{developer.name?.split(' ')[0] || "Anon"}</h3>
                                 </div>
 
-                                <div className="space-y-0.5 mb-2">
-                                    <div className="flex items-center justify-center gap-1 text-[10px] text-zinc-500">
-                                        <MapPin className="w-2.5 h-2.5" />
-                                        <span className="truncate max-w-[100px]">{developer.profile?.location?.split(',')[0] || "Global"}</span>
-                                    </div>
+                                <div className="space-y-0.5 mb-1.5">
+                                    <p className="text-[9px] text-zinc-500 font-bold uppercase tracking-tighter truncate px-2">
+                                        {developer.profile?.location?.split(',')[0] || "Remote"}
+                                    </p>
                                 </div>
 
                                 {developer.profile?.skills && developer.profile.skills.length > 0 && (
-                                    <div className="flex flex-wrap justify-center gap-1">
-                                        {developer.profile.skills.slice(0, 2).map((skill) => (
-                                            <span
-                                                key={skill}
-                                                className="text-[8px] font-bold uppercase tracking-tighter text-zinc-500 border border-white/5 px-1 rounded bg-white/5"
-                                            >
-                                                {skill}
-                                            </span>
-                                        ))}
+                                    <div className="flex justify-center">
+                                        <span className="text-[8px] font-black uppercase text-indigo-400/60 px-1 border border-indigo-500/10 rounded bg-indigo-500/5 truncate max-w-[80px]">
+                                            {developer.profile.skills[0]}
+                                        </span>
                                     </div>
                                 )}
                             </div>
 
-                            <div className="absolute inset-x-0 bottom-0 p-2 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-gradient-to-t from-black via-black/90 to-transparent">
+                            <div className="absolute inset-x-0 bottom-0 p-1.5 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-200 bg-black/90">
                                 <button
                                     type="button"
                                     onClick={() => handleSendMessage(developer.id)}
                                     disabled={sendingId === developer.id || isPending || isCurrentUser}
-                                    className="w-full py-1 rounded-md bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50"
+                                    className="w-full py-1 rounded bg-emerald-600 hover:bg-emerald-500 text-white text-[9px] font-black uppercase tracking-widest transition-all disabled:opacity-50"
                                 >
-                                    {isCurrentUser ? "Self" : "Connect"}
+                                    Chat
                                 </button>
                             </div>
                         </GlassCard>
