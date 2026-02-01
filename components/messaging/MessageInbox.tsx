@@ -78,36 +78,49 @@ export function MessageInbox({ onSelectConversation, selectedConversationId, ini
         fetchAndSelect();
     }, [debouncedSearchQuery, fetchConversations, initialReceiverId, onSelectConversation, selectedConversationId]);
 
+    const renderAvatar = (avatar: string | null, name: string) => {
+        if (avatar && avatar.startsWith("http")) {
+            return (
+                <img 
+                    src={avatar} 
+                    alt={name} 
+                    className="w-full h-full rounded-full object-cover"
+                />
+            );
+        }
+        return <span className="text-xl">{avatar || "👤"}</span>;
+    };
+
     return (
-        <GlassCard variant="medium" className="p-4 h-full rounded-3xl flex flex-col">
-            <div className="mb-4">
-                <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-                    <MessageSquare className="w-5 h-5 text-indigo-400" />
-                    Messages
+        <GlassCard variant="medium" className="p-4 h-full rounded-[2rem] flex flex-col bg-black/40 border-white/10">
+            <div className="mb-6 px-2">
+                <h2 className="text-2xl font-black text-white mb-6 flex items-center gap-3 tracking-tighter">
+                    <MessageSquare className="w-6 h-6 text-emerald-500" />
+                    INBOX
                 </h2>
                 <div className="relative group">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 group-focus-within:text-indigo-400 transition-colors" />
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-600 group-focus-within:text-emerald-500 transition-colors" />
                     <Input
                         type="text"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        placeholder="Search conversations..."
+                        placeholder="Search encrypts..."
                         aria-label="Search conversations"
-                        className="pl-10 py-6"
+                        className="pl-12 py-7 bg-white/5 border-white/5 focus:border-emerald-500/50 rounded-2xl transition-all"
                     />
                 </div>
             </div>
 
-            <div className="space-y-2 overflow-y-auto flex-1 pr-1 custom-scrollbar">
+            <div className="space-y-3 overflow-y-auto flex-1 pr-1 custom-scrollbar px-2">
                 {isLoading ? (
                     <div className="flex flex-col items-center justify-center py-12 text-zinc-500 space-y-3">
-                        <div className="w-6 h-6 border-2 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin" />
-                        <span className="text-xs font-medium">Loading inbox...</span>
+                        <div className="w-8 h-8 border-2 border-emerald-500/30 border-t-emerald-500 rounded-full animate-spin" />
+                        <span className="text-[10px] font-black uppercase tracking-widest">Scanning Network...</span>
                     </div>
                 ) : conversations.length === 0 ? (
-                    <div className="text-center py-12 text-zinc-500 text-sm bg-white/5 rounded-3xl border border-dashed border-white/10">
-                        <MessageSquare className="w-8 h-8 mx-auto mb-3 opacity-20" />
-                        No conversations found.
+                    <div className="text-center py-12 text-zinc-500 text-sm bg-white/5 rounded-[2rem] border border-dashed border-white/10">
+                        <MessageSquare className="w-10 h-10 mx-auto mb-4 opacity-10" />
+                        <p className="font-bold uppercase tracking-widest text-[10px]">No active links</p>
                     </div>
                 ) : (
                     conversations.map((conv) => {
@@ -119,44 +132,39 @@ export function MessageInbox({ onSelectConversation, selectedConversationId, ini
                             <button
                                 key={conv.id}
                                 onClick={() => onSelectConversation(conv.id)}
-                                className={`w-full text-left p-4 rounded-3xl transition-all duration-200 group ${isSelected
-                                    ? "bg-indigo-600/20 border-indigo-500/50 shadow-lg shadow-indigo-900/20"
-                                    : "bg-white/5 hover:bg-white/10 border-transparent hover:border-white/10"
+                                className={`w-full text-left p-5 rounded-[1.5rem] transition-all duration-300 group relative overflow-hidden ${isSelected
+                                    ? "bg-emerald-600/10 border-emerald-500/30 shadow-2xl shadow-emerald-900/20"
+                                    : "bg-white/5 hover:bg-white/10 border-white/5 hover:border-white/10"
                                     } border`}
                             >
-                                <div className="flex items-start gap-4">
-                                    <div className={`text-2xl flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-white/10 ${isSelected ? 'ring-2 ring-indigo-500/30' : ''}`}>
-                                        {otherParticipant.avatar || "👤"}
+                                {isSelected && (
+                                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.5)]" />
+                                )}
+                                <div className="flex items-center gap-4">
+                                    <div className={`flex-shrink-0 w-14 h-14 rounded-full flex items-center justify-center bg-zinc-800 border border-white/10 overflow-hidden shadow-lg transition-transform group-hover:scale-105 ${isSelected ? 'ring-2 ring-emerald-500/50' : ''}`}>
+                                        {renderAvatar(otherParticipant.avatar, otherParticipant.name)}
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <div className="flex items-center justify-between mb-1.5">
-                                            <p className={`font-semibold truncate flex items-center gap-2 ${isSelected ? 'text-white' : 'text-zinc-200'}`}>
+                                        <div className="flex items-center justify-between mb-1">
+                                            <p className={`font-bold truncate text-base tracking-tight ${isSelected ? 'text-white' : 'text-zinc-200 group-hover:text-white'}`}>
                                                 {otherParticipant.name || "Anonymous"}
-                                                {otherParticipant.id === initialReceiverId && (
-                                                    <Badge variant="indigo" className="text-xs uppercase tracking-wider font-bold">
-                                                        You
-                                                    </Badge>
-                                                )}
                                             </p>
-                                            {unreadCount > 0 && (
-                                                <Badge variant="indigo" className="ml-2 px-2 py-0.5 shadow-lg shadow-indigo-500/40">
-                                                    {unreadCount}
-                                                </Badge>
-                                            )}
-                                        </div>
-                                        <div className="flex items-center gap-2 mb-1.5">
-                                            <Badge variant="outline" className="text-xs uppercase tracking-wide font-medium">
-                                                {otherParticipant.role}
-                                            </Badge>
-                                            <span className="text-xs text-zinc-600">•</span>
-                                            <span className="text-xs text-zinc-500">
+                                            <span className="text-[10px] font-bold text-zinc-600 uppercase">
                                                 {conv.lastMessage?.createdAt
                                                     ? new Date(conv.lastMessage.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
-                                                    : "Just now"}
+                                                    : "Now"}
                                             </span>
                                         </div>
-                                        <p className={`text-sm truncate ${unreadCount > 0 ? "text-zinc-100 font-medium" : "text-zinc-400 group-hover:text-zinc-300 transition-colors"}`}>
-                                            {conv.lastMessage?.content || "No messages yet"}
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <Badge variant="outline" className="text-[9px] uppercase tracking-widest font-black opacity-50 border-white/20">
+                                                {otherParticipant.role}
+                                            </Badge>
+                                            {unreadCount > 0 && (
+                                                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+                                            )}
+                                        </div>
+                                        <p className={`text-sm truncate ${unreadCount > 0 ? "text-zinc-100 font-bold" : "text-zinc-500 group-hover:text-zinc-400 transition-colors"}`}>
+                                            {conv.lastMessage?.content || "No secure data transferred"}
                                         </p>
                                     </div>
                                 </div>
