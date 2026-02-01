@@ -96,47 +96,47 @@ export function NetworkGrid({ initialUsers, searchQuery, initialHasMore }: Netwo
 
     return (
         <div className="space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                 {filteredDevelopers.map((developer) => {
                     const isCurrentUser = session?.user?.email === developer.email;
 
                     return (
                         <GlassCard 
                             key={developer.id} 
-                            className="group relative aspect-square p-6 border-white/10 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-center text-center overflow-hidden"
+                            className="group relative p-4 border-white/10 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-center text-center overflow-hidden min-h-[220px]"
                         >
                             <div className="flex-1 flex flex-col justify-center">
                                 <div className="flex items-center justify-center gap-2 mb-1">
-                                    <h3 className="text-xl font-bold text-white">{developer.name || "Anonymous"}</h3>
+                                    <h3 className="text-base font-bold text-white truncate max-w-[150px]">{developer.name || "Anonymous"}</h3>
                                     {isCurrentUser && (
-                                        <Badge variant="indigo">
+                                        <Badge variant="indigo" className="text-[8px] px-1 py-0">
                                             You
                                         </Badge>
                                     )}
                                 </div>
-                                <div className="flex flex-col items-center gap-2 mb-4">
-                                    <Badge variant="indigo">
+                                <div className="flex flex-col items-center gap-1 mb-2">
+                                    <Badge variant="indigo" className="text-[10px] py-0">
                                         Developer
                                     </Badge>
-                                    <Badge variant="green" dot>
+                                    <Badge variant="green" dot className="text-[10px] py-0">
                                         Available
                                     </Badge>
                                 </div>
 
-                                <div className="space-y-3 mb-4">
-                                    <div className="flex items-center justify-center gap-2 text-sm text-zinc-400">
-                                        <MapPin className="w-4 h-4" />
-                                        <span>{developer.profile?.location || "Location not specified"}</span>
+                                <div className="space-y-1 mb-2">
+                                    <div className="flex items-center justify-center gap-1 text-[11px] text-zinc-400">
+                                        <MapPin className="w-3 h-3" />
+                                        <span className="truncate max-w-[120px]">{developer.profile?.location || "Unknown"}</span>
                                     </div>
                                 </div>
 
                                 {developer.profile?.skills && developer.profile.skills.length > 0 && (
-                                    <div className="flex flex-wrap justify-center gap-2">
-                                        {developer.profile.skills.slice(0, 3).map((skill) => (
+                                    <div className="flex flex-wrap justify-center gap-1">
+                                        {developer.profile.skills.slice(0, 2).map((skill) => (
                                             <Badge
                                                 key={skill}
                                                 variant="outline"
-                                                className="text-[10px] opacity-60"
+                                                className="text-[9px] opacity-60 px-1 py-0"
                                             >
                                                 {skill}
                                             </Badge>
@@ -145,21 +145,14 @@ export function NetworkGrid({ initialUsers, searchQuery, initialHasMore }: Netwo
                                 )}
                             </div>
 
-                            <div className="absolute inset-x-0 bottom-0 p-6 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-gradient-to-t from-black via-black/80 to-transparent">
+                            <div className="absolute inset-x-0 bottom-0 p-3 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-gradient-to-t from-black via-black/90 to-transparent">
                                 <button
                                     type="button"
                                     onClick={() => handleSendMessage(developer.id)}
                                     disabled={sendingId === developer.id || isPending || isCurrentUser}
-                                    className="w-full px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition-all shadow-lg shadow-emerald-900/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                    className="w-full px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all shadow-lg disabled:opacity-50 flex items-center justify-center gap-1"
                                 >
-                                    {isCurrentUser ? "It's You" : sendingId === developer.id ? (
-                                        <>
-                                            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                            Opening...
-                                        </>
-                                    ) : (
-                                        "Message"
-                                    )}
+                                    {isCurrentUser ? "You" : sendingId === developer.id ? "..." : "Message"}
                                 </button>
                             </div>
                         </GlassCard>

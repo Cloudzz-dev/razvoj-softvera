@@ -36,7 +36,7 @@ export function ConnectButton({ startup }: { startup: Startup }) {
         <button
             type="button"
             onClick={handleConnect}
-            className="w-full px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition-all shadow-lg shadow-emerald-900/20 flex items-center justify-center gap-2"
+            className="w-full px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all shadow-lg shadow-emerald-900/20 flex items-center justify-center gap-1"
         >
             Connect
         </button>

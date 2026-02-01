@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { GlassCard } from "@/components/ui/GlassCard";
-import { MetricsChart } from "@/components/ui/MetricsChart";
+import { ChartCard } from "@/components/ui/ChartCard";
 import { Code, Briefcase, DollarSign, Star, MapPin } from "lucide-react";
 import { formatCurrency } from "@/lib/payment-utils";
 import { Button } from "@/components/ui/button";
@@ -76,7 +76,7 @@ export default function DeveloperDashboard() {
         <div className="space-y-8">
             {/* Header */}
             <div>
-                <h1 className="text-3xl font-bold text-white mb-2">Developer Dashboard</h1>
+                <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">Developer Dashboard</h1>
                 <p className="text-zinc-400">Welcome back, {session?.user?.name}!</p>
             </div>
 
@@ -165,13 +165,14 @@ export default function DeveloperDashboard() {
 
                 {/* Earnings Chart */}
                 {growthData && (
-                    <MetricsChart
+                    <ChartCard
                         data={growthData.revenue}
                         title="Monthly Earnings"
+                        description="Revenue streams in USD"
                         type="area"
                         color="#10b981"
                         valuePrefix="$"
-                        height={280}
+                        height={320}
                     />
                 )}
             </div>

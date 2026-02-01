@@ -478,8 +478,8 @@ stop_containers() {
     COMPOSE_CMD="docker-compose"
   fi
 
-  # Stop with profiles to ensure load balancer and other optional services are also stopped
-  $COMPOSE_CMD --profile with-lb down 2>/dev/null || $COMPOSE_CMD down
+  # Stop with all possible configurations to be safe
+  $COMPOSE_CMD -f docker-compose.yml -f docker-compose.dev.yml --profile with-lb down 2>/dev/null || $COMPOSE_CMD down
 
   log_success "All containers stopped safely!"
 }
@@ -496,6 +496,7 @@ print_usage() {
   echo ""
   echo -e "${CYAN}Lifecycle Commands:${NC}"
   echo "  start       Build images, run migrations, and launch the application"
+  echo "  dev         Launch in DEVELOPMENT mode with hot-reloading (volumes)"
   echo "  stop        Stop all services related to the app safely"
   echo "  restart     Quickly restart containers without rebuilding"
   echo "  clean       REMOVE all data, containers, and volumes (destructive!)"
@@ -529,6 +530,19 @@ main() {
     start_containers
     show_status
     echo -e "${GREEN}🚀 DFDS is now running at http://localhost:3753${NC}"
+    ;;
+  dev)
+    log_info "Starting in DEVELOPMENT mode (hot-reloading enabled)..."
+    if docker compose version &>/dev/null; then
+      COMPOSE_CMD="docker compose"
+    else
+      COMPOSE_CMD="docker-compose"
+    fi
+    $COMPOSE_CMD -f docker-compose.yml -f docker-compose.dev.yml up -d
+    show_status
+    echo -e "${GREEN}🚀 DFDS DEV is now running at http://localhost:3753${NC}"
+    echo -e "${YELLOW}Logs are streaming below (Ctrl+C to stop logs, container will keep running):${NC}"
+    $COMPOSE_CMD -f docker-compose.yml -f docker-compose.dev.yml logs -f app
     ;;
   start-lb)
     start_containers

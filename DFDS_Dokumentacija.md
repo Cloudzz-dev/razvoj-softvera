@@ -190,7 +190,7 @@ graph TB
 | **NextAuth.js** | 4.24 | Autentifikacija (OAuth + Credentials) |
 | **bcryptjs** | 3.0 | Sigurno hashiranje lozinki |
 | **Zod** | 4.1 | Runtime validacija schema |
-| **Jose** | 6.1 | JWT token handling |
+| **Jose** | 6.1 | JWT token handling |z
 
 #### Baza Podataka i Cache
 

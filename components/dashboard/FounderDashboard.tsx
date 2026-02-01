@@ -1,11 +1,10 @@
-
 "use client";
 
 import { GlassCard } from "@/components/ui/GlassCard";
+import { StatCard } from "@/components/ui/StatCard";
+import { ChartCard } from "@/components/ui/ChartCard";
 import { Badge } from "@/components/ui/badge";
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts";
-import { TrendingUp, Users, DollarSign, Activity, Flame } from "lucide-react";
-import { useMemo } from "react";
+import { Activity, Users, DollarSign, Flame, Rocket } from "lucide-react";
 
 interface FounderStats {
     companyName: string;
@@ -19,175 +18,110 @@ interface FounderStats {
 
 interface FounderDashboardProps {
     stats: FounderStats | null;
-    growthData: any; // Using the existing structure from GrowthDashboard
+    growthData: any;
 }
 
 export function FounderDashboard({ stats, growthData }: FounderDashboardProps) {
     if (!stats) {
         return (
             <div className="p-8 text-center text-zinc-400">
-                <GlassCard className="p-8 border-white/10 bg-black/40">
-                    <h2 className="text-xl font-bold text-white mb-2">Startup Profile Incomplete</h2>
-                    <p>Complete your startup profile to unlock Founder Analytics.</p>
+                <GlassCard className="p-12 border-white/10 bg-black/40 backdrop-blur-xl space-y-6">
+                    <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white mx-auto">
+                        <Rocket size={32} />
+                    </div>
+                    <div className="space-y-2">
+                        <h2 className="text-2xl font-bold text-white tracking-tight">Startup Profile Incomplete</h2>
+                        <p className="text-zinc-500">Complete your startup profile to unlock Founder Analytics and track your growth metrics.</p>
+                    </div>
+                    <button className="px-8 py-3 rounded-full bg-white text-black font-bold hover:bg-zinc-200 transition-all">
+                        Complete Profile
+                    </button>
                 </GlassCard>
             </div>
         );
     }
 
-    const formattedBurnRate = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(stats.burnRate);
+    const formattedBurnRate = new Intl.NumberFormat('en-US', { 
+        style: 'currency', 
+        currency: 'USD',
+        maximumFractionDigits: 0 
+    }).format(stats.burnRate);
 
     return (
-        <div className="space-y-6">
-            <div className="flex items-center justify-between">
-                <div>
-                    <h2 className="text-2xl font-bold text-white mb-1">{stats.companyName}</h2>
-                    <div className="flex items-center gap-2 text-zinc-400 text-sm">
-                        <Badge variant="indigo">
+        <div className="space-y-8">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="space-y-1">
+                    <h2 className="text-3xl font-bold text-white tracking-tight">{stats.companyName}</h2>
+                    <div className="flex items-center gap-3">
+                        <Badge variant="indigo" className="bg-indigo-500/10 text-indigo-400 border-indigo-500/20 px-3 py-1">
                             {stats.stage}
                         </Badge>
-                        <span>•</span>
-                        <span>{stats.teamSize} Team Members</span>
+                        <span className="text-zinc-600">•</span>
+                        <div className="flex items-center gap-1.5 text-zinc-400 text-sm font-medium">
+                            <Users size={14} />
+                            {stats.teamSize} Core Members
+                        </div>
                     </div>
                 </div>
             </div>
 
             {/* Key Metrics Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <SummaryCard
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <StatCard
                     title="Funds Raised"
                     value={stats.raised}
                     icon={DollarSign}
-                    color="green"
-                    trend="+0% this month"
+                    color="#10b981"
+                    trend="up"
+                    trendValue="Seed Round"
                 />
-                <SummaryCard
+                <StatCard
                     title="Active Users"
                     value={stats.activeUsers.toLocaleString()}
                     icon={Users}
-                    color="blue"
-                    trend="Real-time"
+                    color="#818cf8"
+                    trend="up"
+                    trendValue="Real-time"
+                    data={growthData?.active_users?.slice(-10)}
                 />
-                <SummaryCard
+                <StatCard
                     title="Monthly Burn"
                     value={formattedBurnRate}
                     icon={Flame}
-                    color="red"
-                    trend="Est based on team"
+                    color="#f43f5e"
+                    trend="down"
+                    trendValue="Operational"
                 />
-                <SummaryCard
+                <StatCard
                     title="Runway"
                     value={stats.runway}
                     icon={Activity}
-                    color="yellow"
-                    trend="Healthy"
+                    color="#f59e0b"
+                    trend="up"
+                    trendValue="Healthy"
                 />
             </div>
 
             {/* Charts Section */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {/* Active Users Chart */}
-                <GlassCard className="p-6 border-white/10 bg-black/40">
-                    <div className="flex items-center justify-between mb-6">
-                        <div>
-                            <h3 className="text-lg font-semibold text-white">Active Users (Real-Time)</h3>
-                            <p className="text-sm text-zinc-400">Daily active users over time</p>
-                        </div>
-                    </div>
-                    <div className="h-[300px] w-full">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <AreaChart data={growthData?.active_users || []}>
-                                <defs>
-                                    <linearGradient id="colorActiveUsers" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#818cf8" stopOpacity={0.3} />
-                                        <stop offset="95%" stopColor="#818cf8" stopOpacity={0} />
-                                    </linearGradient>
-                                </defs>
-                                <XAxis
-                                    dataKey="date"
-                                    stroke="#52525b"
-                                    fontSize={12}
-                                    tickLine={false}
-                                    axisLine={false}
-                                />
-                                <YAxis
-                                    stroke="#52525b"
-                                    fontSize={12}
-                                    tickLine={false}
-                                    axisLine={false}
-                                    tickFormatter={(value) => `${value}`}
-                                />
-                                <Tooltip
-                                    contentStyle={{ backgroundColor: "#18181b", borderColor: "#27272a", color: "#fff" }}
-                                    itemStyle={{ color: "#fff" }}
-                                />
-                                <Area
-                                    type="monotone"
-                                    dataKey="value"
-                                    stroke="#818cf8"
-                                    strokeWidth={2}
-                                    fillOpacity={1}
-                                    fill="url(#colorActiveUsers)"
-                                />
-                            </AreaChart>
-                        </ResponsiveContainer>
-                    </div>
-                </GlassCard>
-
-                {/* Revenue Chart (Placeholder/Simulated) */}
-                <GlassCard className="p-6 border-white/10 bg-black/40">
-                    <div className="flex items-center justify-between mb-6">
-                        <div>
-                            <h3 className="text-lg font-semibold text-white">Revenue</h3>
-                            <p className="text-sm text-zinc-400">Monthly revenue</p>
-                        </div>
-                    </div>
-                    <div className="h-[300px] w-full">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <BarChart data={growthData?.revenue || []}>
-                                <XAxis
-                                    dataKey="date"
-                                    stroke="#52525b"
-                                    fontSize={12}
-                                    tickLine={false}
-                                    axisLine={false}
-                                />
-                                <YAxis
-                                    stroke="#52525b"
-                                    fontSize={12}
-                                    tickLine={false}
-                                    axisLine={false}
-                                    tickFormatter={(value) => `$${value}`}
-                                />
-                                <Tooltip
-                                    cursor={{ fill: 'rgba(255,255,255,0.05)' }}
-                                    contentStyle={{ backgroundColor: "#18181b", borderColor: "#27272a", color: "#fff" }}
-                                    itemStyle={{ color: "#fff" }}
-                                />
-                                <Bar dataKey="value" fill="#34d399" radius={[4, 4, 0, 0]} />
-                            </BarChart>
-                        </ResponsiveContainer>
-                    </div>
-                </GlassCard>
+                <ChartCard 
+                    data={growthData?.active_users || []} 
+                    title="User Traction" 
+                    description="Daily active users over the last 30 days"
+                    type="area" 
+                    color="#818cf8" 
+                    height={320} 
+                />
+                <ChartCard 
+                    data={growthData?.revenue || []} 
+                    title="Revenue Growth" 
+                    description="Monthly recurring revenue (MRR)"
+                    type="bar" 
+                    color="#10b981" 
+                    valuePrefix="$"
+                    height={320} 
+                />
             </div>
         </div>
-    );
-}
-
-function SummaryCard({ title, value, icon: Icon, color, trend }: any) {
-    return (
-        <GlassCard className="p-6 border-white/10 bg-black/40">
-            <div className="flex items-center justify-between mb-4">
-                <div className={`p-3 rounded-xl bg-${color}-500/10`}>
-                    <Icon className={`w-6 h-6 text-${color}-400`} />
-                </div>
-                {trend && (
-                    <Badge variant="outline" className="text-zinc-500">
-                        {trend}
-                    </Badge>
-                )}
-            </div>
-            <p className="text-2xl font-bold text-white mb-1">{value}</p>
-            <p className="text-sm text-zinc-400">{title}</p>
-        </GlassCard>
     );
 }

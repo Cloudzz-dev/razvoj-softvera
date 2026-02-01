@@ -1,0 +1,38 @@
+services:
+  # DFDS.io Application (Development with Hot Reload)
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    container_name: dfds-app-dev
+    restart: unless-stopped
+    command: npm run dev
+    ports:
+      - "${APP_PORT:-3753}:3753"
+    environment:
+      - DATABASE_URL=postgresql://${DB_USER:-dfds}:${DB_PASSWORD:-dfds_secure_password}@postgres:5432/${DB_NAME:-dfds}
+      - REDIS_URL=redis://redis:6379
+      - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:3753}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET:-change_this_secret_in_production}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - RESEND_API_KEY=${RESEND_API_KEY:-}
+      - PUSHER_HOST=soketi
+      - PUSHER_PORT=6001
+      - PUSHER_APP_ID=${SOKETI_DEFAULT_APP_ID:-dfds-app}
+      - PUSHER_APP_SECRET=${SOKETI_DEFAULT_APP_SECRET:-dfds-local-secret-change-in-prod}
+      - NEXT_PUBLIC_PUSHER_HOST=${NEXT_PUBLIC_PUSHER_HOST:-localhost}
+      - NEXT_PUBLIC_PUSHER_PORT=${NEXT_PUBLIC_PUSHER_PORT:-6001}
+      - NEXT_PUBLIC_PUSHER_KEY=${NEXT_PUBLIC_PUSHER_KEY:-dfds-local-key}
+      - NODE_ENV=development
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - dfds-network

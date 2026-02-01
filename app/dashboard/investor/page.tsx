@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { GlassCard } from "@/components/ui/GlassCard";
-import { MetricsChart } from "@/components/ui/MetricsChart";
+import { ChartCard } from "@/components/ui/ChartCard";
 import { Button } from "@/components/ui/button";
 import { TrendingUp, Users, Briefcase, DollarSign } from "lucide-react";
 import { formatCurrency } from "@/lib/payment-utils";
@@ -150,13 +150,14 @@ export default function InvestorDashboard() {
 
                 {/* Portfolio Performance */}
                 {growthData && (
-                    <MetricsChart
+                    <ChartCard
                         data={growthData.revenue}
                         title="Portfolio Value Growth"
+                        description="Historical growth of assets"
                         type="line"
                         color="#10b981"
                         valuePrefix="$"
-                        height={280}
+                        height={320}
                     />
                 )}
             </div>

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { GlassCard } from "@/components/ui/GlassCard";
-import { MetricsChart } from "@/components/ui/MetricsChart";
+import { ChartCard } from "@/components/ui/ChartCard";
 import { Button } from "@/components/ui/button";
 import { Rocket, Users, DollarSign, TrendingUp } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -74,7 +74,7 @@ export default function StartupDashboard() {
             <div>
                 <div className="flex items-center gap-3 mb-2">
                     <span className="text-4xl">🚀</span>
-                    <h1 className="text-3xl font-bold text-white">{startupName}</h1>
+                    <h1 className="text-3xl font-bold text-white tracking-tight">{startupName}</h1>
                 </div>
                 <p className="text-zinc-400">{pitch}</p>
             </div>
@@ -125,20 +125,22 @@ export default function StartupDashboard() {
             {/* Charts */}
             {growthData && (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <MetricsChart
+                    <ChartCard
                         data={growthData.users}
-                        title="User Growth"
+                        title="User Retention"
+                        description="Daily active users over time"
                         type="area"
                         color="#8b5cf6"
-                        height={280}
+                        height={300}
                     />
-                    <MetricsChart
+                    <ChartCard
                         data={growthData.revenue}
                         title="Monthly Revenue"
+                        description="Revenue streams in USD"
                         type="bar"
                         color="#10b981"
                         valuePrefix="$"
-                        height={280}
+                        height={300}
                     />
                 </div>
             )}
