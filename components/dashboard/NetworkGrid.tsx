@@ -96,44 +96,49 @@ export function NetworkGrid({ initialUsers, searchQuery, initialHasMore }: Netwo
 
     return (
         <div className="space-y-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {filteredDevelopers.map((developer) => {
                     const isCurrentUser = session?.user?.email === developer.email;
 
                     return (
                         <GlassCard 
                             key={developer.id} 
-                            className="group relative p-2 border-white/10 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-center text-center overflow-hidden min-h-[140px]"
+                            className="group relative p-6 border-white/5 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-between text-center overflow-hidden min-h-[200px]"
                         >
-                            <div className="flex-1 flex flex-col justify-center">
-                                <div className="flex items-center justify-center gap-1.5 mb-1">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_5px_rgba(16,185,129,0.5)]" />
-                                    <h3 className="text-sm font-black text-white truncate max-w-[110px] tracking-tight">{developer.name?.split(' ')[0] || "Anon"}</h3>
-                                </div>
-
-                                <div className="space-y-0.5 mb-1.5">
-                                    <p className="text-[9px] text-zinc-500 font-bold uppercase tracking-tighter truncate px-2">
-                                        {developer.profile?.location?.split(',')[0] || "Remote"}
-                                    </p>
+                            <div className="flex-1 flex flex-col justify-center items-center space-y-4">
+                                <div className="space-y-2">
+                                    <div className="flex items-center justify-center gap-2">
+                                        <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse" />
+                                        <h3 className="text-xl font-bold text-white truncate max-w-[200px] tracking-tight">{developer.name?.split(' ')[0] || "Anon"}</h3>
+                                    </div>
+                                    
+                                    <div className="flex items-center justify-center gap-2 text-zinc-400">
+                                        <MapPin size={14} />
+                                        <p className="text-sm font-medium uppercase tracking-wide">
+                                            {developer.profile?.location?.split(',')[0] || "Remote"}
+                                        </p>
+                                    </div>
                                 </div>
 
                                 {developer.profile?.skills && developer.profile.skills.length > 0 && (
-                                    <div className="flex justify-center">
-                                        <span className="text-[8px] font-black uppercase text-indigo-400/60 px-1 border border-indigo-500/10 rounded bg-indigo-500/5 truncate max-w-[80px]">
-                                            {developer.profile.skills[0]}
-                                        </span>
+                                    <div className="flex flex-wrap justify-center gap-2">
+                                        {developer.profile.skills.slice(0, 3).map(skill => (
+                                            <span key={skill} className="text-[10px] font-bold uppercase text-indigo-300 px-2 py-1 border border-indigo-500/20 rounded-md bg-indigo-500/10">
+                                                {skill}
+                                            </span>
+                                        ))}
                                     </div>
                                 )}
                             </div>
 
-                            <div className="absolute inset-x-0 bottom-0 p-1.5 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-200 bg-black/90">
+                            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-200 bg-black/90 flex items-center justify-center">
                                 <button
                                     type="button"
                                     onClick={() => handleSendMessage(developer.id)}
                                     disabled={sendingId === developer.id || isPending || isCurrentUser}
-                                    className="w-full py-1 rounded bg-emerald-600 hover:bg-emerald-500 text-white text-[9px] font-black uppercase tracking-widest transition-all disabled:opacity-50"
+                                    className="px-8 py-3 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold uppercase tracking-widest transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
-                                    Chat
+                                    Start Chat
                                 </button>
                             </div>
                         </GlassCard>

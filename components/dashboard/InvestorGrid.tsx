@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
+import { MapPin } from "lucide-react";
 
 interface Investor {
     id: string;
@@ -99,32 +100,37 @@ export function InvestorGrid({ initialInvestors, searchQuery, initialNextCursor 
 
     return (
         <div className="space-y-8">
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {filteredInvestors.map((investor) => (
                     <GlassCard 
                         key={investor.id} 
-                        className="group relative p-2 border-white/10 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-center text-center overflow-hidden min-h-[140px]"
+                        className="group relative p-6 border-white/5 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-between text-center overflow-hidden min-h-[180px]"
                     >
-                        <div className="flex-1 flex flex-col justify-center">
-                            <h3 className="text-sm font-black text-white mb-0.5 truncate px-1 tracking-tight">{investor.name?.split(' ')[0] || "Anon"}</h3>
-                            <p className="text-[8px] text-zinc-600 truncate w-full uppercase font-bold mb-2">
-                                {investor.profile?.location?.split(',')[0] || "Global"}
-                            </p>
+                        <div className="flex-1 flex flex-col justify-center items-center space-y-3">
+                            <div className="space-y-1">
+                                <h3 className="text-lg font-bold text-white truncate max-w-[200px] tracking-tight">{investor.name || "User"}</h3>
+                                <div className="flex items-center justify-center gap-2 text-zinc-400">
+                                    <MapPin size={14} />
+                                    <p className="text-sm font-medium">
+                                        {investor.profile?.location || "Global"}
+                                    </p>
+                                </div>
+                            </div>
 
-                            <div className="flex items-center justify-center gap-1 opacity-60">
-                                <span className="text-[10px] font-black text-emerald-500">{investor._count.followers}</span>
-                                <span className="text-[7px] text-zinc-500 uppercase font-black">Links</span>
+                            <div className="flex items-center justify-center gap-2 bg-white/5 px-3 py-1.5 rounded-full border border-white/5">
+                                <span className="text-sm font-bold text-emerald-500">{investor._count.followers}</span>
+                                <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">Followers</span>
                             </div>
                         </div>
 
-                        <div className="absolute inset-x-0 bottom-0 p-1.5 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-200 bg-black/90">
+                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-200 bg-black/90 flex items-center justify-center">
                             <button
                                 type="button"
                                 onClick={() => handleMessage(investor.id)}
                                 disabled={connectingId === investor.id || isPending}
-                                className="w-full py-1 rounded bg-emerald-600 hover:bg-emerald-500 text-white text-[9px] font-black uppercase tracking-widest transition-all disabled:opacity-50"
+                                className="px-6 py-2 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold uppercase tracking-widest transition-all transform hover:scale-105"
                             >
-                                Link
+                                Connect
                             </button>
                         </div>
                     </GlassCard>

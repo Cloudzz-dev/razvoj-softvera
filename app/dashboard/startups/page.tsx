@@ -81,21 +81,21 @@ export default async function StartupsPage({
                 </GlassCard>
             ) : (
                 <div className="space-y-8">
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-10 gap-2">
                         {startups.map((startup) => (
                             <GlassCard 
                                 key={startup.id} 
-                                className="group relative p-2 border-white/10 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-center text-center overflow-hidden min-h-[140px]"
+                                className="group relative p-1.5 border-white/5 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-center text-center overflow-hidden min-h-[110px]"
                             >
-                                <div className="flex-1 flex flex-col justify-center">
-                                    <h3 className="text-sm font-black text-white truncate w-full px-1 mb-1 tracking-tight">{startup.name}</h3>
-                                    <p className="text-[7px] uppercase font-black text-emerald-500 tracking-widest bg-emerald-500/10 rounded px-1 py-0.5 inline-block mx-auto mb-2">
+                                <div className="flex-1 flex flex-col justify-center items-center">
+                                    <h3 className="text-[11px] font-black text-white truncate w-full px-1 mb-0.5 tracking-tighter uppercase">{startup.name}</h3>
+                                    <div className="text-[6px] uppercase font-black text-emerald-500 tracking-widest bg-emerald-500/10 rounded px-1 py-0.5 inline-block mx-auto mb-1.5">
                                         {startup.stage}
-                                    </p>
-                                    <p className="text-[9px] text-zinc-600 font-bold truncate opacity-40">@{startup.founder?.name?.split(' ')[0] || "anon"}</p>
+                                    </div>
+                                    <p className="text-[8px] text-zinc-700 font-black truncate opacity-40">@{startup.founder?.name?.split(' ')[0] || "User"}</p>
                                 </div>
 
-                                <div className="absolute inset-x-0 bottom-0 p-1.5 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-200 bg-black/90">
+                                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-200 bg-emerald-600 flex items-center justify-center">
                                     <ConnectButton startup={startup} />
                                 </div>
                             </GlassCard>

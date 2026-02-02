@@ -8,7 +8,7 @@ services:
     container_name: dfds-app-dev
     restart: unless-stopped
     command: >
-      sh -c "if [ ! -f ./node_modules/.bin/next ]; then npm install; fi && ./node_modules/.bin/next dev -p 3753"
+      sh -c "if [ ! -f ./node_modules/.bin/next ]; then npm install --legacy-peer-deps; fi && ./node_modules/.bin/next dev -p 3753"
     ports:
       - "${APP_PORT:-3753}:3753"
     environment:

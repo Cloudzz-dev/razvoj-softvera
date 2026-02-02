@@ -273,7 +273,7 @@ function DiscoverContent() {
                         )}
 
                         {activeTab === "developers" && (
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
                                 {filteredDevelopers.map((developer) => (
                                     <Link key={developer.id} href={`/profile/${developer.id}`}>
                                         <GlassCard className="p-8 border-white/10 bg-black/40 hover:bg-white/5 transition-all text-center space-y-6 h-full group">
