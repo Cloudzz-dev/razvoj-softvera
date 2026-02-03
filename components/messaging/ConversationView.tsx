@@ -357,7 +357,7 @@ export function ConversationView({
                         <button type="button" aria-label="Attach" className="p-3 rounded-2xl text-zinc-500 hover:text-white hover:bg-white/5 transition-all active:scale-95">
                             <Paperclip className="w-5 h-5" />
                         </button>
-                        <div className="flex-1 relative group">
+                        <div className="flex-1 relative group min-w-0">
                             <Textarea
                                 value={newMessage}
                                 onChange={(e) => {
@@ -370,6 +370,9 @@ export function ConversationView({
                                 rows={1}
                                 className="w-full px-6 py-3.5 rounded-2xl bg-black/40 border border-white/10 backdrop-blur-md text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 resize-none transition-all min-h-[52px] max-h-[160px]"
                             />
+                            <div className="absolute right-3 bottom-3 text-[10px] text-zinc-600 font-mono opacity-0 group-focus-within:opacity-100 transition-opacity hidden md:block">
+                                ⏎ to send
+                            </div>
                         </div>
                         <button
                             onClick={() => handleSend()}
