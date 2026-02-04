@@ -4,16 +4,17 @@ services:
     image: postgres:15-alpine
     container_name: dfds-db
     restart: unless-stopped
+    env_file: .env
     environment:
-      POSTGRES_USER: ${DB_USER:-dfds}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-dfds_secure_password}
-      POSTGRES_DB: ${DB_NAME:-dfds}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     ports:
       - "${DB_PORT:-5432}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER:-dfds} -d ${DB_NAME:-dfds}" ]
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -64,10 +65,9 @@ services:
       dockerfile: Dockerfile
       target: builder
     profiles: [ "tools" ]
-    environment:
-      - DATABASE_URL=postgresql://${DB_USER:-dfds}:${DB_PASSWORD:-dfds_secure_password}@postgres:5432/${DB_NAME:-dfds}
+    env_file: .env
     volumes:
-      - ./prisma:/app/prisma
+      - ./prisma:/app/prisma:z
     networks:
       - dfds-network
 
@@ -80,25 +80,7 @@ services:
     restart: unless-stopped
     ports:
       - "${APP_PORT:-3753}:3753"
-    environment:
-      - DATABASE_URL=postgresql://${DB_USER:-dfds}:${DB_PASSWORD:-dfds_secure_password}@postgres:5432/${DB_NAME:-dfds}
-      - REDIS_URL=redis://redis:6379
-      - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:3000}
-      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET:-change_this_secret_in_production}
-      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
-      - RESEND_API_KEY=${RESEND_API_KEY:-}
-      - GITHUB_ID=${GITHUB_ID:-}
-      - GITHUB_SECRET=${GITHUB_SECRET:-}
-      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID:-}
-      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET:-}
-      # Real-time Messaging (must match Soketi config)
-      - PUSHER_HOST=soketi
-      - PUSHER_PORT=6001
-      - PUSHER_APP_ID=${SOKETI_DEFAULT_APP_ID:-dfds-app}
-      - PUSHER_APP_SECRET=${SOKETI_DEFAULT_APP_SECRET:-dfds-local-secret-change-in-prod}
-      - NEXT_PUBLIC_PUSHER_HOST=${NEXT_PUBLIC_PUSHER_HOST:-localhost}
-      - NEXT_PUBLIC_PUSHER_PORT=${NEXT_PUBLIC_PUSHER_PORT:-6001}
-      - NEXT_PUBLIC_PUSHER_KEY=${NEXT_PUBLIC_PUSHER_KEY:-dfds-local-key}
+    env_file: .env
     depends_on:
       postgres:
         condition: service_healthy
