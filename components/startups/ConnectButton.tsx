@@ -33,12 +33,12 @@ export function ConnectButton({ startup }: { startup: Startup }) {
     };
 
     return (
-        <Button
+        <button
             type="button"
             onClick={handleConnect}
-            className="mt-4 w-full rounded-full"
+            className="w-full py-1 rounded bg-emerald-600 hover:bg-emerald-500 text-white text-[9px] font-black uppercase tracking-widest transition-all disabled:opacity-50"
         >
             Connect
-        </Button>
+        </button>
     );
 }

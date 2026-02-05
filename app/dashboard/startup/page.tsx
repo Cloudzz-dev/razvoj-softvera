@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { GlassCard } from "@/components/ui/GlassCard";
-import { MetricsChart } from "@/components/ui/MetricsChart";
+import { ChartCard } from "@/components/ui/ChartCard";
 import { Button } from "@/components/ui/button";
 import { Rocket, Users, DollarSign, TrendingUp } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -74,7 +74,7 @@ export default function StartupDashboard() {
             <div>
                 <div className="flex items-center gap-3 mb-2">
                     <span className="text-4xl">🚀</span>
-                    <h1 className="text-3xl font-bold text-white">{startupName}</h1>
+                    <h1 className="text-3xl font-bold text-white tracking-tight">{startupName}</h1>
                 </div>
                 <p className="text-zinc-400">{pitch}</p>
             </div>
@@ -125,20 +125,22 @@ export default function StartupDashboard() {
             {/* Charts */}
             {growthData && (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <MetricsChart
+                    <ChartCard
                         data={growthData.users}
-                        title="User Growth"
+                        title="User Retention"
+                        description="Daily active users over time"
                         type="area"
                         color="#8b5cf6"
-                        height={280}
+                        height={300}
                     />
-                    <MetricsChart
+                    <ChartCard
                         data={growthData.revenue}
                         title="Monthly Revenue"
+                        description="Revenue streams in USD"
                         type="bar"
                         color="#10b981"
                         valuePrefix="$"
-                        height={280}
+                        height={300}
                     />
                 </div>
             )}
@@ -172,48 +174,36 @@ export default function StartupDashboard() {
             {/* Team Recommendations */}
             <div>
                 <h2 className="text-xl font-semibold text-white mb-4">Recommended Developers</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {developers.map((dev: any) => (
                         <GlassCard
                             key={dev.id}
-                            className="p-6 border-white/10 bg-black/40 hover:bg-white/5 transition-all"
+                            className="p-6 border-white/10 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-between min-h-[180px]"
                         >
-                            <div className="flex items-start gap-3 mb-4">
-                                <div className="text-3xl">{dev.profile?.avatarUrl || "👨‍💻"}</div>
-                                <div className="flex-1">
-                                    <h3 className="font-semibold text-white">{dev.name}</h3>
-                                    <p className="text-sm text-zinc-400">{dev.role}</p>
+                            <div>
+                                <div className="flex items-center justify-between mb-3">
+                                    <h3 className="font-bold text-white text-base truncate">{dev.name}</h3>
+                                    <span className="px-2 py-0.5 bg-green-500/20 text-green-400 text-[10px] font-black uppercase rounded">
+                                        LIVE
+                                    </span>
                                 </div>
-                                <span className="px-2 py-1 bg-green-500/20 text-green-400 text-xs font-medium rounded">
-                                    Available
-                                </span>
-                            </div>
-                            <div className="space-y-3 mb-4">
-                                <div className="flex items-center justify-between text-sm">
-                                    <span className="text-zinc-400">Experience</span>
-                                    <span className="text-white font-medium">3+ years</span>
-                                </div>
-                                <div className="flex items-center justify-between text-sm">
-                                    <span className="text-zinc-400">Rate</span>
-                                    <span className="text-white font-medium">$80/hr</span>
-                                </div>
-                                <div>
-                                    <p className="text-xs text-zinc-400 mb-2">Skills</p>
-                                    <div className="flex flex-wrap gap-1">
-                                        {(dev.profile?.skills || ["React", "Node.js"]).slice(0, 4).map((skill: string) => (
-                                            <span
-                                                key={skill}
-                                                className="px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 text-xs"
-                                            >
+                                <div className="space-y-2 mb-4">
+                                    <div className="flex justify-between text-xs">
+                                        <span className="text-zinc-500 uppercase font-bold tracking-widest">Rate</span>
+                                        <span className="text-white font-black">$80/hr</span>
+                                    </div>
+                                    <div className="flex flex-wrap gap-1.5">
+                                        {(dev.profile?.skills || ["React", "Node.js"]).slice(0, 3).map((skill: string) => (
+                                            <span key={skill} className="px-2 py-0.5 rounded bg-white/5 text-zinc-400 text-[10px] border border-white/5 font-bold uppercase tracking-wider">
                                                 {skill}
                                             </span>
                                         ))}
                                     </div>
                                 </div>
                             </div>
-                            <Button className="w-full">
+                            <button className="w-full py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all shadow-lg uppercase tracking-wider">
                                 Contact
-                            </Button>
+                            </button>
                         </GlassCard>
                     ))}
                 </div>
@@ -222,36 +212,31 @@ export default function StartupDashboard() {
             {/* Interested Investors */}
             <div>
                 <h2 className="text-xl font-semibold text-white mb-4">Interested Investors</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {investors.map((investor: any) => (
                         <GlassCard
                             key={investor.id}
-                            className="p-6 border-white/10 bg-black/40"
+                            className="p-6 border-white/10 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-between min-h-[180px]"
                         >
-                            <div className="flex items-start gap-3 mb-4">
-                                <div className="text-3xl">{investor.profile?.avatarUrl || "💼"}</div>
-                                <div>
-                                    <h3 className="font-semibold text-white">{investor.name}</h3>
-                                    <p className="text-sm text-zinc-400">{investor.profile?.firm || "Angel Investor"}</p>
+                            <div>
+                                <h3 className="font-bold text-white text-base truncate mb-1">{investor.name}</h3>
+                                <p className="text-xs text-zinc-500 uppercase font-black tracking-widest mb-4 truncate">
+                                    {investor.profile?.firm || "Angel"}
+                                </p>
+                                <div className="space-y-2 mb-4">
+                                    <div className="flex justify-between text-xs">
+                                        <span className="text-zinc-500 uppercase font-bold tracking-widest">Focus</span>
+                                        <span className="text-white font-black truncate max-w-[120px]">{investor.profile?.focus || "Tech"}</span>
+                                    </div>
+                                    <div className="flex justify-between text-xs">
+                                        <span className="text-zinc-500 uppercase font-bold tracking-widest">Checks</span>
+                                        <span className="text-white font-black truncate max-w-[120px]">{investor.profile?.checkSize || "$50k"}</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div className="space-y-2 mb-4">
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-zinc-400">Focus</span>
-                                    <span className="text-white font-medium">{investor.profile?.focus || "Tech"}</span>
-                                </div>
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-zinc-400">Check Size</span>
-                                    <span className="text-white font-medium">{investor.profile?.checkSize || "$50k - $200k"}</span>
-                                </div>
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-zinc-400">Portfolio</span>
-                                    <span className="text-white font-medium">{investor._count?.startups || 0} companies</span>
-                                </div>
-                            </div>
-                            <Button className="w-full">
-                                Schedule Call
-                            </Button>
+                            <button className="w-full py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all shadow-lg uppercase tracking-wider">
+                                Link
+                            </button>
                         </GlassCard>
                     ))}
                 </div>

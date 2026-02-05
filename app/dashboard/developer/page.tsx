@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { GlassCard } from "@/components/ui/GlassCard";
-import { MetricsChart } from "@/components/ui/MetricsChart";
+import { ChartCard } from "@/components/ui/ChartCard";
+import { Badge } from "@/components/ui/badge";
 import { Code, Briefcase, DollarSign, Star, MapPin } from "lucide-react";
 import { formatCurrency } from "@/lib/payment-utils";
 import { Button } from "@/components/ui/button";
@@ -76,7 +77,7 @@ export default function DeveloperDashboard() {
         <div className="space-y-8">
             {/* Header */}
             <div>
-                <h1 className="text-3xl font-bold text-white mb-2">Developer Dashboard</h1>
+                <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">Developer Dashboard</h1>
                 <p className="text-zinc-400">Welcome back, {session?.user?.name}!</p>
             </div>
 
@@ -165,13 +166,14 @@ export default function DeveloperDashboard() {
 
                 {/* Earnings Chart */}
                 {growthData && (
-                    <MetricsChart
+                    <ChartCard
                         data={growthData.revenue}
                         title="Monthly Earnings"
+                        description="Revenue streams in USD"
                         type="area"
                         color="#10b981"
                         valuePrefix="$"
-                        height={280}
+                        height={320}
                     />
                 )}
             </div>
@@ -187,23 +189,24 @@ export default function DeveloperDashboard() {
                         View all
                     </Link>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {gigs.map((startup: any) => (
                         <GlassCard
                             key={startup.id}
-                            className="p-6 border-white/10 bg-black/40 hover:bg-white/5 transition-all"
+                            className="p-4 border-white/10 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-between min-h-[180px]"
                         >
-                            <div className="flex items-start gap-3 mb-4">
-                                <div className="text-3xl">{startup.logo || "🚀"}</div>
-                                <div>
-                                    <h3 className="font-semibold text-white">{startup.name}</h3>
-                                    <p className="text-sm text-zinc-400">{startup.stage}</p>
+                            <div>
+                                <div className="flex items-center gap-2 mb-2">
+                                    <h3 className="font-bold text-white truncate text-sm">{startup.name}</h3>
+                                    <Badge variant="outline" className="text-[8px] py-0 px-1 opacity-60">
+                                        {startup.stage}
+                                    </Badge>
                                 </div>
+                                <p className="text-[11px] text-zinc-400 line-clamp-2 mb-3">{startup.pitch}</p>
                             </div>
-                            <p className="text-sm text-zinc-300 mb-4">{startup.pitch}</p>
-                            <Button className="w-full">
-                                Apply Now
-                            </Button>
+                            <button className="w-full py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all shadow-lg">
+                                Apply
+                            </button>
                         </GlassCard>
                     ))}
                 </div>
