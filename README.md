@@ -1,6 +1,6 @@
 # DFDS: Dokumentacija
 
-> **Verzija**: 3.0.0  
+> **Verzija**: 4.0.0  
 > **Datum**: Veljača 2026  
 > **Status**: Produkcijska Verzija  
 > **Tim**: Team Cloudzz
@@ -1200,7 +1200,7 @@ docker-compose up -d
 *Hvala što koristite DFDS!*  
 *— Tim Cloudzz*
 
-**Verzija dokumentacije**: 3.0.0  
+**Verzija dokumentacije**: 4.0.0  
 **Zadnje ažuriranje**: Veljača 2026
 
 
