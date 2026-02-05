@@ -11,6 +11,14 @@ export async function GET(
         const { id } = await params;
         const session = await getServerSession(authOptions);
 
+        if (id === "demo_startup_1") {
+             const { DEMO_TEAM_MEMBERS } = await import("@/lib/demo-data");
+             return NextResponse.json({
+                members: DEMO_TEAM_MEMBERS,
+                pagination: { total: DEMO_TEAM_MEMBERS.length, pages: 1, currentPage: 1, limit: 50 }
+             });
+        }
+
         if (!session?.user?.email) {
             return new NextResponse("Unauthorized", { status: 401 });
         }
