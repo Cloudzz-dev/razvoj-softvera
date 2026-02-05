@@ -89,6 +89,7 @@ export default async function StartupsPage({
                             >
                                 <div className="flex-1 flex flex-col justify-center items-center gap-2">
                                     <h3 className="text-xl font-black text-white truncate w-full px-1 tracking-tight uppercase">{startup.name}</h3>
+                                    <p className="text-sm text-zinc-400 line-clamp-2 px-2 min-h-[40px]">{startup.pitch}</p>
                                     <div className="text-xs uppercase font-black text-emerald-500 tracking-widest bg-emerald-500/10 rounded px-2 py-1 inline-block mx-auto">
                                         {startup.stage}
                                     </div>
