@@ -1,7 +1,7 @@
-# DFDS: Kompletna Tehnička Dokumentacija
+# DFDS: Dokumentacija
 
-> **Verzija**: 2.0.0  
-> **Datum**: Siječanj 2026  
+> **Verzija**: 3.0.0  
+> **Datum**: Veljača 2026  
 > **Status**: Produkcijska Verzija  
 > **Tim**: Team Cloudzz
 
@@ -10,15 +10,17 @@
 ## 📖 Sadržaj
 
 1. [Uvod i Pregled Projekta](#-uvod-i-pregled-projekta)
-2. [Korisničke Uloge](#-korisničke-uloge)
-3. [Tehnološki Stack](#-tehnološki-stack)
-4. [Arhitektura Sustava](#-arhitektura-sustava)
-5. [Dashboard Funkcionalnosti](#-dashboard-funkcionalnosti-sve-kartice)
-6. [AI Asistent](#-ai-asistent)
-7. [Shema Baze Podataka](#-shema-baze-podataka)
-8. [API Dokumentacija](#-api-dokumentacija)
-9. [Sigurnost](#-sigurnost)
-10. [Kako Pokrenuti](#-kako-pokrenuti)
+2. [Detaljan opis rada](#-detaljan-opis-rada)
+- [Korisničke Uloge](#-korisničke-uloge)
+- [Dashboard Funkcionalnosti](#-dashboard-funkcionalnosti-sve-kartice)
+- [AI Asistent](#-ai-asistent)
+3. [Tehnička dokumentacija](#-tehnička-dokumentacija)
+- [Tehnološki Stack](#-tehnološki-stack)
+- [Arhitektura Sustava](#-arhitektura-sustava)
+- [Shema Baze Podataka](#-shema-baze-podataka)
+- [API Dokumentacija](#-api-dokumentacija)
+- [Sigurnost](#-sigurnost)
+- [Kako Pokrenuti](#-kako-pokrenuti)
 
 ---
 
@@ -27,6 +29,23 @@
 ### Što je DFDS?
 
 **DFDS (Developers, Founders, Deal-makers, Startups)** je sveobuhvatna platforma dizajnirana da revolucionira startup ekosustav. Naš tim, **Team Cloudzz**, fokusirao se na rješavanje ključnog problema: *nepovezanosti između inovatora (Foundera), graditelja (Developera) i investitora.*
+
+### Tim Cloudzz
+
+**Team Cloudzz** je tim koji je dizajnirao DFDS. Trenutno je tim od tri učenika Strukovne škole Vice Vlatkovića
+
+|Ime i Prezime|Uloga|
+|-------------|-----|
+|Leon Ležaić|Developer|
+|Frane Fantina|Developer|
+|Roko Begonja|Developer|
+
+
+### Ideja
+
+**Kako smo došli na ideju za DFDS?** na ideju za DFDS smo došli nakon prikupljenih podataka da u Hrvatskoj oko 70% startupa propadne zbog nedostatka financiranja i tima. Također smo primjetili da je teško pronaći investitore i developere koji bi se pridružili startupu.
+
+
 
 ### Misija
 
@@ -46,6 +65,10 @@ Stvoriti **živi ekosustav** gdje se:
 | **Investicijski Dashboard** | Transparentno praćenje financiranja i transakcija |
 | **Community Threads** | Forum za razmjenu znanja i partnerstava |
 | **API Pristup** | Programatski pristup podacima platforme |
+
+---
+
+## Detaljan opis rada
 
 ---
 
@@ -117,192 +140,6 @@ graph TB
 | Blog upravljanje | Kreiranje i uređivanje blog postova |
 | Korisnici pregled | Nadzor svih računa |
 | Feature requests | Upravljanje zahtjevima za nove funkcije |
-
----
-
-## 🔧 Tehnološki Stack
-
-### Pregled Arhitekture
-
-```mermaid
-graph TB
-    subgraph Frontend["🖥️ Frontend Layer"]
-        NEXT["Next.js 16<br/>(App Router + SSR)"]
-        REACT["React 18<br/>(UI Library)"]
-        TAILWIND["Tailwind CSS<br/>(Styling)"]
-        FRAMER["Framer Motion<br/>(Animacije)"]
-    end
-    
-    subgraph Backend["⚙️ Backend Layer"]
-        API["Next.js API Routes<br/>(REST Endpoints)"]
-        AUTH["NextAuth.js<br/>(Autentifikacija)"]
-        PRISMA["Prisma ORM<br/>(Database Access)"]
-    end
-    
-    subgraph Database["🗄️ Data Layer"]
-        PG["PostgreSQL<br/>(Primary Database)"]
-        REDIS["Redis<br/>(Cache & PubSub)"]
-    end
-    
-    subgraph Services["☁️ External Services"]
-        PUSHER["Pusher<br/>(WebSockets)"]
-        RESEND["Resend<br/>(Transactional Email)"]
-        OPENAI["OpenAI<br/>(AI Assistant)"]
-        POSTHOG["PostHog<br/>(Analytics)"]
-    end
-    
-    NEXT --> API
-    REACT --> NEXT
-    TAILWIND --> REACT
-    FRAMER --> REACT
-    
-    API --> AUTH
-    API --> PRISMA
-    PRISMA --> PG
-    API --> REDIS
-    
-    API --> PUSHER
-    API --> RESEND
-    API --> OPENAI
-    NEXT --> POSTHOG
-```
-
-### Detaljni Opis Tehnologija
-
-#### Frontend
-
-| Tehnologija | Verzija | Svrha |
-|-------------|---------|-------|
-| **Next.js** | 16.x | Full-stack React framework s App Routerom, SSR/SSG, i API rutama |
-| **React** | 18.2 | Deklarativna UI biblioteka s hookovima i Suspense podrškom |
-| **Tailwind CSS** | 3.4 | Utility-first CSS framework za brzi razvoj |
-| **Framer Motion** | 11.x | Produkcijske animacije i prijelazi |
-| **Lucide React** | 0.555 | Moderna ikona biblioteka (500+ ikona) |
-| **Recharts** | 3.5 | React komponente za data vizualizaciju |
-| **React Hot Toast** | 2.6 | Elegantne notifikacije |
-
-#### Backend / Server
-
-| Tehnologija | Verzija | Svrha |
-|-------------|---------|-------|
-| **Next.js API Routes** | 16.x | Serverless API endpointi |
-| **Prisma** | 5.10 | Type-safe ORM za PostgreSQL |
-| **NextAuth.js** | 4.24 | Autentifikacija (OAuth + Credentials) |
-| **bcryptjs** | 3.0 | Sigurno hashiranje lozinki |
-| **Zod** | 4.1 | Runtime validacija schema |
-| **Jose** | 6.1 | JWT token handling |
-
-#### Baza Podataka i Cache
-
-| Tehnologija | Svrha |
-|-------------|-------|
-| **PostgreSQL** | Primarna relacionalna baza s 25+ tablica |
-| **Redis** | Cache layer i PubSub za real-time |
-| **Prisma Migrations** | Verzioniranje schema baze |
-
-#### Eksterni Servisi
-
-| Servis | Svrha |
-|--------|-------|
-| **Pusher** | Real-time WebSocket komunikacija za chat |
-| **Resend** | Transakcijski email (verifikacija, notifikacije) |
-| **OpenAI** | AI asistent za analizu pitcheva i generiranje emailova |
-| **PostHog** | Product analytics i event tracking |
-
-#### DevOps i Alati
-
-| Alat | Svrha |
-|------|-------|
-| **Docker** | Kontejnerizacija aplikacije |
-| **Vitest** | Unit i integration testiranje |
-| **ESLint** | Linting i code quality |
-| **TypeScript** | Static type checking |
-
----
-
-## 🏗️ Arhitektura Sustava
-
-### Kako Podaci Putuju
-
-```mermaid
-sequenceDiagram
-    participant U as 👤 Korisnik
-    participant F as 💻 Frontend (Next.js)
-    participant A as ⚡ API Routes
-    participant P as 🔷 Prisma
-    participant DB as 🗄️ PostgreSQL
-    participant R as 🔴 Redis
-    participant WS as 🔌 Pusher
-    participant AI as 🤖 OpenAI
-    
-    U->>F: Klik na "Pošalji poruku"
-    F->>A: POST /api/messages/send
-    A->>P: prisma.message.create()
-    P->>DB: INSERT INTO Message
-    DB-->>P: OK + message data
-    P-->>A: Message object
-    A->>R: PUBLISH channel:user_123
-    R->>WS: Trigger event
-    WS-->>U: Real-time poruka stiže!
-    A-->>F: 201 Created
-    F-->>U: UI Update ✓
-    
-    Note over U,AI: AI Asistent Flow
-    U->>F: "Analiziraj moj pitch"
-    F->>A: POST /api/chat
-    A->>AI: OpenAI Completion
-    AI-->>A: AI Response
-    A-->>F: Stream response
-    F-->>U: Markdown renderiran odgovor
-```
-
-### Struktura Direktorija (Sažetak)
-
-> **Napomena**: Ovo je sažeti prikaz glavnih direktorija. Stvarna struktura sadrži više datoteka.
-
-```
-dfds/
-├── app/                    # Next.js App Router
-│   ├── api/               # 34+ API endpoints
-│   │   ├── auth/          # NextAuth handlers
-│   │   ├── messages/      # Chat API
-│   │   ├── startups/      # Startup CRUD
-│   │   ├── threads/       # Forum API
-│   │   ├── transactions/  # Payment API
-│   │   └── v1/            # Public API v1
-│   ├── dashboard/         # 15+ dashboard stranica
-│   │   ├── page.tsx       # Glavni dashboard
-│   │   ├── startups/      # Startup pregled
-│   │   ├── network/       # Developer mreža
-│   │   ├── investors/     # Investitori
-│   │   ├── messages/      # Chat sučelje
-│   │   ├── payments/      # Transakcije
-│   │   ├── threads/       # Community forum
-│   │   ├── roadmap/       # Feature voting
-│   │   ├── calculator/    # Equity simulator
-│   │   ├── api-access/    # API ključevi
-│   │   ├── members/       # Članstvo
-│   │   └── settings/      # Postavke profila
-│   └── (public pages)/    # Landing, Login, Register...
-├── components/            # React komponente
-│   ├── ui/               # Shadcn-style UI primitivi
-│   ├── dashboard/        # Dashboard komponente
-│   ├── landing/          # Landing page sekcije
-│   ├── messaging/        # Chat komponente
-│   ├── payments/         # Payment komponente
-│   └── ai/               # AI Asistent
-├── lib/                  # Utility funkcije
-│   ├── auth.ts          # NextAuth konfiguracija
-│   ├── prisma.ts        # Prisma client
-│   ├── pusher.ts        # WebSocket setup
-│   ├── matchmaker.ts    # Vector similarity matching
-│   └── email.ts         # Email templates
-├── prisma/              # Database
-│   ├── schema.prisma    # 25+ modela
-│   └── seed.ts          # Test podaci
-└── config/              # App konfiguracija
-    └── nav.ts           # Navigacija
-```
 
 ---
 
@@ -768,6 +605,197 @@ AI: ### Analiza Pitcha
 3. Uključite social proof (beta korisnici, partnerships)
 
 **Ocjena:** 7/10 - Dobar temelj, treba više specifičnosti.
+```
+
+
+---
+
+## Tehnička dokumentacija
+
+---
+
+## 🔧 Tehnološki Stack
+
+### Pregled Arhitekture
+
+```mermaid
+graph TB
+    subgraph Frontend["🖥️ Frontend Layer"]
+        NEXT["Next.js 16<br/>(App Router + SSR)"]
+        REACT["React 18<br/>(UI Library)"]
+        TAILWIND["Tailwind CSS<br/>(Styling)"]
+        FRAMER["Framer Motion<br/>(Animacije)"]
+    end
+    
+    subgraph Backend["⚙️ Backend Layer"]
+        API["Next.js API Routes<br/>(REST Endpoints)"]
+        AUTH["NextAuth.js<br/>(Autentifikacija)"]
+        PRISMA["Prisma ORM<br/>(Database Access)"]
+    end
+    
+    subgraph Database["🗄️ Data Layer"]
+        PG["PostgreSQL<br/>(Primary Database)"]
+        REDIS["Redis<br/>(Cache & PubSub)"]
+    end
+    
+    subgraph Services["☁️ External Services"]
+        PUSHER["Pusher<br/>(WebSockets)"]
+        RESEND["Resend<br/>(Transactional Email)"]
+        OPENAI["OpenAI<br/>(AI Assistant)"]
+        POSTHOG["PostHog<br/>(Analytics)"]
+    end
+    
+    NEXT --> API
+    REACT --> NEXT
+    TAILWIND --> REACT
+    FRAMER --> REACT
+    
+    API --> AUTH
+    API --> PRISMA
+    PRISMA --> PG
+    API --> REDIS
+    
+    API --> PUSHER
+    API --> RESEND
+    API --> OPENAI
+    NEXT --> POSTHOG
+```
+
+### Detaljni Opis Tehnologija
+
+#### Frontend
+
+| Tehnologija | Verzija | Svrha |
+|-------------|---------|-------|
+| **Next.js** | 16.x | Full-stack React framework s App Routerom, SSR/SSG, i API rutama |
+| **React** | 18.2 | Deklarativna UI biblioteka s hookovima i Suspense podrškom |
+| **Tailwind CSS** | 3.4 | Utility-first CSS framework za brzi razvoj |
+| **Framer Motion** | 11.x | Produkcijske animacije i prijelazi |
+| **Lucide React** | 0.555 | Moderna ikona biblioteka (500+ ikona) |
+| **Recharts** | 3.5 | React komponente za data vizualizaciju |
+| **React Hot Toast** | 2.6 | Elegantne notifikacije |
+
+#### Backend / Server
+
+| Tehnologija | Verzija | Svrha |
+|-------------|---------|-------|
+| **Next.js API Routes** | 16.x | Serverless API endpointi |
+| **Prisma** | 5.10 | Type-safe ORM za PostgreSQL |
+| **NextAuth.js** | 4.24 | Autentifikacija (OAuth + Credentials) |
+| **bcryptjs** | 3.0 | Sigurno hashiranje lozinki |
+| **Zod** | 4.1 | Runtime validacija schema |
+| **Jose** | 6.1 | JWT token handling |
+
+#### Baza Podataka i Cache
+
+| Tehnologija | Svrha |
+|-------------|-------|
+| **PostgreSQL** | Primarna relacionalna baza s 25+ tablica |
+| **Redis** | Cache layer i PubSub za real-time |
+| **Prisma Migrations** | Verzioniranje schema baze |
+
+#### Eksterni Servisi
+
+| Servis | Svrha |
+|--------|-------|
+| **Pusher** | Real-time WebSocket komunikacija za chat |
+| **Resend** | Transakcijski email (verifikacija, notifikacije) |
+| **OpenAI** | AI asistent za analizu pitcheva i generiranje emailova |
+| **PostHog** | Product analytics i event tracking |
+
+#### DevOps i Alati
+
+| Alat | Svrha |
+|------|-------|
+| **Docker** | Kontejnerizacija aplikacije |
+| **Vitest** | Unit i integration testiranje |
+| **ESLint** | Linting i code quality |
+| **TypeScript** | Static type checking |
+
+---
+
+## 🏗️ Arhitektura Sustava
+
+### Kako Podaci Putuju
+
+```mermaid
+sequenceDiagram
+    participant U as 👤 Korisnik
+    participant F as 💻 Frontend (Next.js)
+    participant A as ⚡ API Routes
+    participant P as 🔷 Prisma
+    participant DB as 🗄️ PostgreSQL
+    participant R as 🔴 Redis
+    participant WS as 🔌 Pusher
+    participant AI as 🤖 OpenAI
+    
+    U->>F: Klik na "Pošalji poruku"
+    F->>A: POST /api/messages/send
+    A->>P: prisma.message.create()
+    P->>DB: INSERT INTO Message
+    DB-->>P: OK + message data
+    P-->>A: Message object
+    A->>R: PUBLISH channel:user_123
+    R->>WS: Trigger event
+    WS-->>U: Real-time poruka stiže!
+    A-->>F: 201 Created
+    F-->>U: UI Update ✓
+    
+    Note over U,AI: AI Asistent Flow
+    U->>F: "Analiziraj moj pitch"
+    F->>A: POST /api/chat
+    A->>AI: OpenAI Completion
+    AI-->>A: AI Response
+    A-->>F: Stream response
+    F-->>U: Markdown renderiran odgovor
+```
+
+### Struktura Direktorija (Sažetak)
+
+> **Napomena**: Ovo je sažeti prikaz glavnih direktorija. Stvarna struktura sadrži više datoteka.
+
+```
+dfds/
+├── app/                    # Next.js App Router
+│   ├── api/               # 34+ API endpoints
+│   │   ├── auth/          # NextAuth handlers
+│   │   ├── messages/      # Chat API
+│   │   ├── startups/      # Startup CRUD
+│   │   ├── threads/       # Forum API
+│   │   ├── transactions/  # Payment API
+│   │   └── v1/            # Public API v1
+│   ├── dashboard/         # 15+ dashboard stranica
+│   │   ├── page.tsx       # Glavni dashboard
+│   │   ├── startups/      # Startup pregled
+│   │   ├── network/       # Developer mreža
+│   │   ├── investors/     # Investitori
+│   │   ├── messages/      # Chat sučelje
+│   │   ├── payments/      # Transakcije
+│   │   ├── threads/       # Community forum
+│   │   ├── roadmap/       # Feature voting
+│   │   ├── calculator/    # Equity simulator
+│   │   ├── api-access/    # API ključevi
+│   │   ├── members/       # Članstvo
+│   │   └── settings/      # Postavke profila
+│   └── (public pages)/    # Landing, Login, Register...
+├── components/            # React komponente
+│   ├── ui/               # Shadcn-style UI primitivi
+│   ├── dashboard/        # Dashboard komponente
+│   ├── landing/          # Landing page sekcije
+│   ├── messaging/        # Chat komponente
+│   ├── payments/         # Payment komponente
+│   └── ai/               # AI Asistent
+├── lib/                  # Utility funkcije
+│   ├── auth.ts          # NextAuth konfiguracija
+│   ├── prisma.ts        # Prisma client
+│   ├── pusher.ts        # WebSocket setup
+│   ├── matchmaker.ts    # Vector similarity matching
+│   └── email.ts         # Email templates
+├── prisma/              # Database
+│   ├── schema.prisma    # 25+ modela
+│   └── seed.ts          # Test podaci
+└── config/              # App konfiguracija
+    └── nav.ts           # Navigacija
 ```
 
 ---

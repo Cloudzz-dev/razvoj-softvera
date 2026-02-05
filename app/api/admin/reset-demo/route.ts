@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { restoreDemoData } from "@/lib/demo-utils";
 
 export async function POST(request: Request) {
     const session = await getServerSession(authOptions);
@@ -15,43 +16,26 @@ export async function POST(request: Request) {
     const secret = request.headers.get("x-demo-secret");
     const isAuthorized = isDev || isAdmin || isDemoUser || secret === process.env.DEMO_SECRET;
 
-    if (!isAuthorized) {
+    if (!isAuthorized || !session?.user) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     try {
-        const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
-        const whereClause = forceAll ? {} : { createdAt: { gte: oneHourAgo } };
+        const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+        const whereClause = forceAll ? {} : { createdAt: { gte: twentyFourHoursAgo } };
 
-        // 1. Delete Messages
-        const deletedMessages = await prisma.message.deleteMany({
-            where: whereClause
-        });
+        // 1. Delete Recent Activity
+        await prisma.notification.deleteMany({ where: whereClause });
 
-        // 2. Delete Notifications
-        const deletedNotifications = await prisma.notification.deleteMany({
-            where: whereClause
-        });
-
-        // 3. Delete Transactions
-        // If forceAll is true, we delete all transactions. 
-        // Otherwise, we only delete pending ones from the last hour.
-        const deletedTransactions = await prisma.transaction.deleteMany({
-             where: forceAll ? {} : {
-                createdAt: { gte: oneHourAgo },
-                status: "PENDING"
-            }
-        });
+        // 2. Perform Full Restoration for the Demo User
+        // This brings back the original messages, transactions, and metrics
+        const targetUserId = (session.user as any).id;
+        await restoreDemoData(targetUserId);
 
         return NextResponse.json({
             success: true,
-            message: forceAll ? "Full demo reset performed" : "Recent demo state cleaned",
-            stats: {
-                messages: deletedMessages.count,
-                notifications: deletedNotifications.count,
-                transactions: deletedTransactions.count
-            },
-            mode: forceAll ? "all" : "recent"
+            message: "Demo state restored to original seed data",
+            mode: "restoration"
         });
     } catch (error) {
         console.error("Demo reset failed:", error);

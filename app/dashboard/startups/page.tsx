@@ -81,42 +81,23 @@ export default async function StartupsPage({
                 </GlassCard>
             ) : (
                 <div className="space-y-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-10 gap-2">
                         {startups.map((startup) => (
-                            <GlassCard key={startup.id} className="p-6 border-white/10 bg-black/40 hover:bg-white/5 transition-all">
-                                <div className="flex items-start justify-between mb-4">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-12 h-12 rounded-2xl bg-indigo-600/20 flex items-center justify-center text-2xl">
-                                            {startup.logo || "🚀"}
-                                        </div>
-                                        <div>
-                                            <h3 className="text-xl font-bold text-white">{startup.name}</h3>
-                                            <Badge variant="indigo">
-                                                {startup.stage}
-                                            </Badge>
-                                        </div>
+                            <GlassCard 
+                                key={startup.id} 
+                                className="group relative p-1.5 border-white/5 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-center text-center overflow-hidden min-h-[110px]"
+                            >
+                                <div className="flex-1 flex flex-col justify-center items-center">
+                                    <h3 className="text-[11px] font-black text-white truncate w-full px-1 mb-0.5 tracking-tighter uppercase">{startup.name}</h3>
+                                    <div className="text-[6px] uppercase font-black text-emerald-500 tracking-widest bg-emerald-500/10 rounded px-1 py-0.5 inline-block mx-auto mb-1.5">
+                                        {startup.stage}
                                     </div>
-                                    {startup.websiteUrl && (
-                                        <a
-                                            href={startup.websiteUrl}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors"
-                                        >
-                                            <ExternalLink className="w-4 h-4 text-zinc-400" />
-                                        </a>
-                                    )}
+                                    <p className="text-[8px] text-zinc-700 font-black truncate opacity-40">@{startup.founder?.name?.split(' ')[0] || "User"}</p>
                                 </div>
 
-                                <p className="text-zinc-300 mb-4">{startup.pitch}</p>
-
-                                <div className="pt-4 border-t border-white/10">
-                                    <p className="text-sm text-zinc-500">
-                                        Founded by <span className="text-white font-medium">{startup.founder?.name || "Anonymous"}</span>
-                                    </p>
+                                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-200 bg-emerald-600 flex items-center justify-center">
+                                    <ConnectButton startup={startup} />
                                 </div>
-
-                                <ConnectButton startup={startup} />
                             </GlassCard>
                         ))}
                     </div>

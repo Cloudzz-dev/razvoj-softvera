@@ -96,65 +96,51 @@ export function NetworkGrid({ initialUsers, searchQuery, initialHasMore }: Netwo
 
     return (
         <div className="space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {filteredDevelopers.map((developer) => {
                     const isCurrentUser = session?.user?.email === developer.email;
 
                     return (
-                        <GlassCard key={developer.id} className="p-6 border-white/10 bg-black/40 hover:bg-white/5 transition-all">
-                            <div className="text-center mb-4">
-                                <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-indigo-600/20 flex items-center justify-center text-2xl">
-                                    👨‍💻
-                                </div>
-                                <div className="flex items-center justify-center gap-2 mb-1">
-                                    <h3 className="text-lg font-bold text-white">{developer.name || "Anonymous"}</h3>
-                                    {isCurrentUser && (
-                                        <Badge variant="indigo">
-                                            You
-                                        </Badge>
-                                    )}
-                                </div>
-                                <Badge variant="indigo" className="mb-2">
-                                    Developer
-                                </Badge>
-                                <div className="mb-2">
-                                    <Badge variant="green" dot>
-                                        Available
-                                    </Badge>
-                                </div>
-                            </div>
-
-                            <div className="space-y-3 mb-4">
-                                <div className="flex items-center gap-2 text-sm text-zinc-400">
-                                    <MapPin className="w-4 h-4" />
-                                    <span>{developer.profile?.location || "Location not specified"}</span>
-                                </div>
-                            </div>
-
-                            {developer.profile?.skills && developer.profile.skills.length > 0 && (
-                                <div className="mb-4">
-                                    <p className="text-xs text-zinc-500 mb-2">Skills</p>
-                                    <div className="flex flex-wrap gap-2">
-                                        {developer.profile.skills.slice(0, 4).map((skill) => (
-                                            <Badge
-                                                key={skill}
-                                                variant={searchQuery && skill.toLowerCase().includes(searchQuery.toLowerCase()) ? "indigo" : "outline"}
-                                            >
-                                                {skill}
-                                            </Badge>
-                                        ))}
+                        <GlassCard 
+                            key={developer.id} 
+                            className="group relative p-6 border-white/5 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-between text-center overflow-hidden min-h-[200px]"
+                        >
+                            <div className="flex-1 flex flex-col justify-center items-center space-y-4">
+                                <div className="space-y-2">
+                                    <div className="flex items-center justify-center gap-2">
+                                        <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse" />
+                                        <h3 className="text-xl font-bold text-white truncate max-w-[200px] tracking-tight">{developer.name?.split(' ')[0] || "Anon"}</h3>
+                                    </div>
+                                    
+                                    <div className="flex items-center justify-center gap-2 text-zinc-400">
+                                        <MapPin size={14} />
+                                        <p className="text-sm font-medium uppercase tracking-wide">
+                                            {developer.profile?.location?.split(',')[0] || "Remote"}
+                                        </p>
                                     </div>
                                 </div>
-                            )}
 
-                            <button
-                                type="button"
-                                onClick={() => handleSendMessage(developer.id)}
-                                disabled={sendingId === developer.id || isPending || isCurrentUser}
-                                className="w-full px-4 py-2 rounded-full bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                {isCurrentUser ? "It's You" : sendingId === developer.id ? "Opening..." : "Send Message"}
-                            </button>
+                                {developer.profile?.skills && developer.profile.skills.length > 0 && (
+                                    <div className="flex flex-wrap justify-center gap-2">
+                                        {developer.profile.skills.slice(0, 3).map(skill => (
+                                            <span key={skill} className="text-[10px] font-bold uppercase text-indigo-300 px-2 py-1 border border-indigo-500/20 rounded-md bg-indigo-500/10">
+                                                {skill}
+                                            </span>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-200 bg-black/90 flex items-center justify-center">
+                                <button
+                                    type="button"
+                                    onClick={() => handleSendMessage(developer.id)}
+                                    disabled={sendingId === developer.id || isPending || isCurrentUser}
+                                    className="px-8 py-3 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold uppercase tracking-widest transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    Start Chat
+                                </button>
+                            </div>
                         </GlassCard>
                     );
                 })}

@@ -2,11 +2,14 @@
 
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Input } from "@/components/ui/input";
+import { PageShell } from "@/components/common/PageShell";
+import { Section } from "@/components/ui/Section";
 import Link from "next/link";
 import { useState } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import posthog from "posthog-js";
+import { ArrowLeft, Rocket } from "lucide-react";
 
 export default function LoginPage() {
     const router = useRouter();
@@ -66,12 +69,10 @@ export default function LoginPage() {
 
             if (result?.error) {
                 setError("Invalid email or password");
-                // Track failed login attempt
                 posthog.capture("login_failed", {
                     error_type: "invalid_credentials",
                 });
             } else if (result?.ok) {
-                // Identify user and track successful login
                 posthog.identify(email, {
                     email: email,
                 });
@@ -79,16 +80,12 @@ export default function LoginPage() {
                     method: "credentials",
                 });
 
-                // [WAR ROOM V2] Instant Auth Sync
-                // Force session update to fix "Ghost User" issues where reactivated users see old state
                 await update();
-                router.refresh(); // Clear server cache
-
+                router.refresh();
                 router.push("/dashboard");
             }
         } catch (error) {
             setError("An error occurred. Please try again.");
-            // Capture login error
             posthog.captureException(error instanceof Error ? error : new Error("Login error"));
         } finally {
             setIsLoading(false);
@@ -111,7 +108,6 @@ export default function LoginPage() {
             const data = await res.json();
             if (res.ok) {
                 setResetMessage(data.message);
-                // Track password reset request
                 posthog.capture("password_reset_requested", {
                     email_provided: true,
                 });
@@ -121,7 +117,6 @@ export default function LoginPage() {
             }
         } catch (error) {
             setError("An error occurred. Please try again.");
-            // Capture password reset error
             posthog.captureException(error instanceof Error ? error : new Error("Password reset request error"));
         } finally {
             setIsResetLoading(false);
@@ -129,110 +124,106 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="min-h-dvh bg-black flex items-center justify-center p-4 relative overflow-hidden">
-            {/* Background effects */}
-            <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:50px_50px]" />
-            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-500/20 rounded-full blur-[128px]" />
-            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-[128px]" />
+        <PageShell footer={false}>
+            <Section className="flex items-center justify-center min-h-[80vh]">
+                <div className="w-full max-w-md space-y-8">
+                    <GlassCard className="p-8 border-white/10 bg-black/40 backdrop-blur-xl">
+                        <div className="text-center mb-10">
+                            <h1 className="text-3xl font-bold text-white mb-3">
+                                {isForgotPassword ? "Reset Password" : "Welcome Back"}
+                            </h1>
+                            <p className="text-zinc-400">
+                                {isForgotPassword
+                                    ? "Enter your email for a reset link"
+                                    : "Sign in to your DFDS.io account"}
+                            </p>
+                        </div>
 
-            <div className="relative z-10 w-full max-w-md">
-                <GlassCard className="p-8 border-white/10 bg-black/60">
-                    <div className="text-center mb-8">
-                        <h1 className="text-3xl font-bold text-white mb-2">
-                            {isForgotPassword ? "Reset Password" : "Welcome Back"}
-                        </h1>
-                        <p className="text-zinc-400">
-                            {isForgotPassword
-                                ? "Enter your email for a reset link"
-                                : "Sign in to your DFDS.io account"}
-                        </p>
-                    </div>
-
-                    {!isForgotPassword ? (
-                        <>
-                            {/* Email/Password Form */}
-                            <form onSubmit={handleSubmit} className="space-y-4 mb-6">
-                                <div>
-                                    <label htmlFor="email" className="block text-sm font-medium text-zinc-300 mb-2">
-                                        Email
-                                    </label>
-                                    <Input
-                                        id="email"
-                                        type="email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        required
-                                        autoComplete="email"
-                                        inputMode="email"
-                                        placeholder="team@cloudzz.dev"
-                                    />
-                                </div>
-
-                                <div>
-                                    <div className="flex justify-between items-center mb-2">
-                                        <label htmlFor="password" className="block text-sm font-medium text-zinc-300">
-                                            Password
+                        {!isForgotPassword ? (
+                            <form onSubmit={handleSubmit} className="space-y-6">
+                                <div className="space-y-4">
+                                    <div>
+                                        <label htmlFor="email" className="block text-sm font-medium text-zinc-400 mb-2 ml-1">
+                                            Email Address
                                         </label>
-                                        <button
-                                            type="button"
-                                            onClick={() => {
-                                                setIsForgotPassword(true);
-                                                setError("");
-                                                setResetMessage("");
-                                            }}
-                                            className="text-sm text-indigo-400 hover:text-indigo-300 py-1 px-2 -mr-2 min-h-[44px] flex items-center"
-                                        >
-                                            Forgot Password?
-                                        </button>
+                                        <Input
+                                            id="email"
+                                            type="email"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            required
+                                            className="bg-white/5 border-white/10 focus:border-white/20 h-12 rounded-2xl"
+                                            placeholder="name@company.com"
+                                        />
                                     </div>
-                                    <Input
-                                        id="password"
-                                        type="password"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        required
-                                        autoComplete="current-password"
-                                        placeholder="••••••••"
-                                    />
+
+                                    <div>
+                                        <div className="flex justify-between items-center mb-2 ml-1">
+                                            <label htmlFor="password" className="block text-sm font-medium text-zinc-400">
+                                                Password
+                                            </label>
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    setIsForgotPassword(true);
+                                                    setError("");
+                                                    setResetMessage("");
+                                                }}
+                                                className="text-xs text-zinc-500 hover:text-white transition-colors"
+                                            >
+                                                Forgot Password?
+                                            </button>
+                                        </div>
+                                        <Input
+                                            id="password"
+                                            type="password"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            required
+                                            className="bg-white/5 border-white/10 focus:border-white/20 h-12 rounded-2xl"
+                                            placeholder="••••••••"
+                                        />
+                                    </div>
                                 </div>
 
                                 {error && (
-                                    <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+                                    <div className="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-sm">
                                         {error}
                                     </div>
                                 )}
 
-                                    <button
+                                <button
                                     type="submit"
                                     disabled={isLoading}
-                                    className="w-full px-6 py-3 rounded-full bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="w-full h-12 rounded-full bg-white text-black font-bold hover:bg-zinc-200 transition-all disabled:opacity-50"
                                 >
                                     {isLoading ? "Signing in..." : "Sign In"}
                                 </button>
 
-                                <div className="mt-4 pt-4 border-t border-white/10">
-                                    <button
-                                        type="button"
-                                        onClick={handleDemoLogin}
-                                        disabled={isLoading}
-                                        className="w-full px-6 py-3 rounded-full bg-white/10 text-white font-semibold hover:bg-white/20 transition-colors disabled:opacity-50 flex items-center justify-center gap-2 group"
-                                    >
-                                        <span>🚀</span>
-                                        <span>Test Account (Hackathon Judges)</span>
-                                    </button>
-                                    <p className="text-center text-xs text-zinc-500 mt-2">
-                                        Instant access with demo privileges
-                                    </p>
+                                <div className="relative py-4">
+                                    <div className="absolute inset-0 flex items-center">
+                                        <div className="w-full border-t border-white/10"></div>
+                                    </div>
+                                    <div className="relative flex justify-center text-xs uppercase">
+                                        <span className="bg-black/40 px-2 text-zinc-500">Or continue with</span>
+                                    </div>
                                 </div>
+
+                                <button
+                                    type="button"
+                                    onClick={handleDemoLogin}
+                                    disabled={isLoading}
+                                    className="w-full h-12 rounded-full bg-white/5 border border-white/10 text-white font-semibold hover:bg-white/10 transition-all flex items-center justify-center gap-2 group"
+                                >
+                                    <Rocket className="w-4 h-4 text-indigo-400 group-hover:scale-110 transition-transform" />
+                                    <span>Demo Account</span>
+                                </button>
                             </form>
-                        </>
-                    ) : (
-                        <>
-                            {/* Forgot Password Form */}
-                            <form onSubmit={handleResetRequest} className="space-y-4 mb-6">
+                        ) : (
+                            <form onSubmit={handleResetRequest} className="space-y-6">
                                 <div>
-                                    <label htmlFor="resetEmail" className="block text-sm font-medium text-zinc-300 mb-2">
-                                        Email
+                                    <label htmlFor="resetEmail" className="block text-sm font-medium text-zinc-400 mb-2 ml-1">
+                                        Email Address
                                     </label>
                                     <Input
                                         id="resetEmail"
@@ -240,20 +231,19 @@ export default function LoginPage() {
                                         value={resetEmail}
                                         onChange={(e) => setResetEmail(e.target.value)}
                                         required
-                                        placeholder="Enter your email"
-                                        autoComplete="email"
-                                        inputMode="email"
+                                        className="bg-white/5 border-white/10 focus:border-white/20 h-12 rounded-2xl"
+                                        placeholder="name@company.com"
                                     />
                                 </div>
 
                                 {error && (
-                                    <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+                                    <div className="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-sm">
                                         {error}
                                     </div>
                                 )}
 
                                 {resetMessage && (
-                                    <div className="p-3 rounded-lg bg-green-500/10 border border-green-500/20 text-green-400 text-sm">
+                                    <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm">
                                         {resetMessage}
                                     </div>
                                 )}
@@ -261,7 +251,7 @@ export default function LoginPage() {
                                 <button
                                     type="submit"
                                     disabled={isResetLoading}
-                                    className="w-full px-6 py-3 rounded-full bg-white text-black font-semibold hover:bg-zinc-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="w-full h-12 rounded-full bg-white text-black font-bold hover:bg-zinc-200 transition-all disabled:opacity-50"
                                 >
                                     {isResetLoading ? "Sending..." : "Send Reset Link"}
                                 </button>
@@ -269,32 +259,31 @@ export default function LoginPage() {
                                 <button
                                     type="button"
                                     onClick={() => setIsForgotPassword(false)}
-                                    className="w-full text-sm text-zinc-400 hover:text-white"
+                                    className="w-full text-sm text-zinc-500 hover:text-white transition-colors text-center"
                                 >
-                                    Cancel
+                                    Back to Login
                                 </button>
                             </form>
-                        </>
-                    )}
+                        )}
 
-                    <div className="mt-6 text-center">
-                        <p className="text-sm text-zinc-400">
-                            Don't have an account?{" "}
-                            <Link href="/join" className="text-white hover:underline font-semibold">
-                                Sign up
-                            </Link>
-                        </p>
+                        <div className="mt-8 text-center">
+                            <p className="text-sm text-zinc-500">
+                                Don&apos;t have an account?{" "}
+                                <Link href="/join" className="text-white hover:underline font-bold transition-all">
+                                    Sign up
+                                </Link>
+                            </p>
+                        </div>
+                    </GlassCard>
+
+                    <div className="text-center">
+                        <Link href="/" className="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-white transition-colors">
+                            <ArrowLeft className="w-4 h-4" />
+                            Back to home
+                        </Link>
                     </div>
-
-
-                </GlassCard>
-
-                <div className="mt-6 text-center">
-                    <Link href="/" className="text-sm text-zinc-400 hover:text-white transition-colors">
-                        ← Back to home
-                    </Link>
                 </div>
-            </div>
-        </div>
+            </Section>
+        </PageShell>
     );
 }

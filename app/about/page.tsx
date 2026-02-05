@@ -1,5 +1,7 @@
 import { Metadata } from "next";
 import { GlassCard } from "@/components/ui/GlassCard";
+import { PageShell } from "@/components/common/PageShell";
+import { Section } from "@/components/ui/Section";
 import { Link2, BarChart3, Bot, Wallet, Globe, Award } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -9,134 +11,121 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
     return (
-        <main className="min-h-screen bg-black text-white relative overflow-hidden">
-            {/* Background Glows */}
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-[128px] pointer-events-none" />
-            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-[128px] pointer-events-none" />
-
-            <div className="max-w-5xl mx-auto px-6 py-24 relative z-10">
-                {/* Hero Section */}
-                <section className="text-center space-y-8 mb-24">
-                    <div className="space-y-4">
-                        <h1 className="text-5xl md:text-7xl font-bold tracking-tight bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent">
-                            About Us
-                        </h1>
-                        <p className="text-xl md:text-2xl text-zinc-400 font-light tracking-wide italic">
-                            Built by devs for devs and by founders for founders.
-                        </p>
-                    </div>
-
-                    <div className="max-w-3xl mx-auto space-y-6">
+        <PageShell>
+            {/* Hero Section */}
+            <Section className="text-center pt-12 md:pt-20">
+                <div className="space-y-6 max-w-4xl mx-auto">
+                    <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight bg-gradient-to-b from-white to-white/50 bg-clip-text text-transparent">
+                        About Us
+                    </h1>
+                    <p className="text-xl md:text-2xl text-zinc-400 font-medium italic">
+                        Built by devs for devs and by founders for founders.
+                    </p>
+                    
+                    <div className="space-y-6 mt-12">
                         <p className="text-xl text-zinc-300 leading-relaxed">
-                            We're <span className="text-white font-medium underline decoration-indigo-500/50 underline-offset-4">DFDS</span>, a small but dedicated three-person team from Zadar, Croatia — Leon, Roko, and Frane.
+                            We're <span className="text-white font-semibold underline decoration-indigo-500/50 underline-offset-4">DFDS</span>, a small but dedicated three-person team from Zadar, Croatia — Leon, Roko, and Frane.
                         </p>
-                        <p className="text-lg text-zinc-400 leading-relaxed">
+                        <p className="text-lg text-zinc-400 leading-relaxed max-w-3xl mx-auto">
                             What started as a simple idea during the <span className="text-white font-medium">Zadar Smart City Hackathon 2025</span> has grown into a platform we believe can transform how early-stage projects are built, funded, and launched.
                         </p>
-                        <p className="text-lg text-zinc-400 leading-relaxed">
-                            We've all seen how difficult it can be for founders to find the right developers, for investors to discover promising teams, and for developers to locate real projects worth contributing to. DFDS.io was created to bring all of these people together in a single, unified ecosystem.
+                    </div>
+                </div>
+            </Section>
+
+            {/* Mission Section */}
+            <Section>
+                <GlassCard className="max-w-4xl mx-auto py-16 px-8 text-center space-y-8 border-white/10 bg-black/40 backdrop-blur-xl">
+                    <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight">Our Mission</h2>
+                    <div className="space-y-6">
+                        <p className="text-xl md:text-2xl text-zinc-200 font-light leading-relaxed">
+                            To make it easy for startups, investors, and developers to connect, collaborate, and make progress faster — all within one streamlined environment.
+                        </p>
+                        <p className="text-lg text-zinc-500 italic">
+                            No barriers, no unnecessary complexity, just a practical platform where innovation and opportunity meet.
                         </p>
                     </div>
-                </section>
+                </GlassCard>
+            </Section>
 
-                {/* Mission Section */}
-                <section className="mb-32">
-                    <GlassCard className="max-w-4xl mx-auto py-12 px-8 text-center space-y-6 border-indigo-500/20 shadow-2xl shadow-indigo-500/5">
-                        <h2 className="text-3xl md:text-4xl font-bold text-white">Our Mission</h2>
-                        <div className="space-y-6">
-                            <p className="text-xl text-zinc-200 font-light leading-relaxed">
-                                Our mission is to make it easy for startups, investors, and developers to connect, collaborate, and make progress faster — all within one streamlined environment.
-                            </p>
-                            <p className="text-lg text-zinc-400 italic">
-                                No barriers, no unnecessary complexity, just a practical platform where innovation and opportunity meet.
-                            </p>
+            {/* What We're Building Section */}
+            <Section className="space-y-16">
+                <div className="text-center space-y-4">
+                    <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tight">What We&apos;re Building</h2>
+                    <p className="text-zinc-400 text-lg">A unified ecosystem for the next generation of builders.</p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <GlassCard hoverEffect className="p-8 space-y-6 bg-black/40 border-white/10">
+                        <div className="flex items-center gap-4">
+                            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-white">
+                                <Link2 size={24} />
+                            </div>
+                            <h3 className="text-2xl font-bold text-white">A Smarter Way to Connect</h3>
                         </div>
+                        <p className="text-zinc-400 leading-relaxed text-lg">
+                            DFDS.io is not a social network — it&apos;s a focused networking engine. Founders can showcase their ideas, developers can join projects, investors can explore rising teams.
+                        </p>
                     </GlassCard>
-                </section>
 
-                {/* What We're Building Section */}
-                <section className="space-y-12 mb-32">
-                    <h2 className="text-4xl font-bold text-white text-center tracking-tight">What We&apos;re Building</h2>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <GlassCard hoverEffect className="space-y-4 border-white/5">
-                            <div className="flex items-center gap-4">
-                                <div className="p-3 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400">
-                                    <Link2 size={24} />
-                                </div>
-                                <h3 className="text-xl font-bold text-white">A Smarter Way to Connect</h3>
+                    <GlassCard hoverEffect className="p-8 space-y-6 bg-black/40 border-white/10">
+                        <div className="flex items-center gap-4">
+                            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-white">
+                                <BarChart3 size={24} />
                             </div>
-                            <p className="text-zinc-400 leading-relaxed">
-                                DFDS.io is not a social network — it&apos;s a focused networking engine. Founders can showcase their ideas, developers can join projects, investors can explore rising teams, and everyone can communicate through an integrated messaging system.
-                            </p>
-                        </GlassCard>
-
-                        <GlassCard hoverEffect className="space-y-4 border-white/5">
-                            <div className="flex items-center gap-4">
-                                <div className="p-3 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400">
-                                    <BarChart3 size={24} />
-                                </div>
-                                <h3 className="text-xl font-bold text-white">Real-Time Analytics</h3>
-                            </div>
-                            <p className="text-zinc-400 leading-relaxed">
-                                Growth metrics, engagement dashboards, and startup progress tracking. We provide clear, actionable insights to help both founders and investors make confident decisions.
-                            </p>
-                        </GlassCard>
-
-                        <GlassCard hoverEffect className="space-y-4 border-white/5">
-                            <div className="flex items-center gap-4">
-                                <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
-                                    <Bot size={24} />
-                                </div>
-                                <h3 className="text-xl font-bold text-white">AI-Driven Support</h3>
-                            </div>
-                            <p className="text-zinc-400 leading-relaxed">
-                                DFDS.io includes an integrated AI system built to assist users with planning, optimization, and troubleshooting across a variety of business and development challenges.
-                            </p>
-                        </GlassCard>
-
-                        <GlassCard hoverEffect className="space-y-4 border-white/5">
-                            <div className="flex items-center gap-4">
-                                <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400">
-                                    <Wallet size={24} />
-                                </div>
-                                <h3 className="text-xl font-bold text-white">Crypto-Enabled Payments</h3>
-                            </div>
-                            <p className="text-zinc-400 leading-relaxed">
-                                Startups and investors can use secure cryptocurrency payments to avoid traditional banking limitations and enable fast, global transactions.
-                            </p>
-                        </GlassCard>
-                    </div>
-                </section>
-
-                {/* Why We Built This Section */}
-                <section className="mb-32 text-center space-y-8">
-                    <h2 className="text-4xl font-bold text-white tracking-tight">Why We Built This</h2>
-                    <div className="max-w-3xl mx-auto bg-white/5 border border-white/10 rounded-3xl p-10 md:p-12 space-y-6">
-                        <p className="text-xl text-zinc-300 leading-relaxed">
-                            We wanted to create the tool we always wished existed: a place where founders, developers, and investors can work together without scattered platforms, endless spreadsheets, or chaotic chat threads.
+                            <h3 className="text-2xl font-bold text-white">Real-Time Analytics</h3>
+                        </div>
+                        <p className="text-zinc-400 leading-relaxed text-lg">
+                            Growth metrics, engagement dashboards, and startup progress tracking. We provide clear, actionable insights to help both founders and investors make confident decisions.
                         </p>
-                    </div>
-                </section>
+                    </GlassCard>
 
-                {/* Built by DFDS Section */}
-                <section className="text-center space-y-8 pb-16">
-                    <div className="space-y-2">
-                        <h2 className="text-2xl font-bold text-white tracking-widest uppercase">Built by DFDS</h2>
-                        <p className="text-lg text-zinc-400">From Zadar. For builders everywhere.</p>
-                    </div>
-                    <div className="flex justify-center flex-wrap gap-4 pt-4">
-                        <div className="flex items-center gap-2 px-6 py-3 rounded-full bg-white/5 border border-white/10 text-white font-medium text-sm transition-colors hover:bg-white/10">
-                            <Globe size={16} className="text-indigo-400" />
-                            Croatia
+                    <GlassCard hoverEffect className="p-8 space-y-6 bg-black/40 border-white/10">
+                        <div className="flex items-center gap-4">
+                            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-white">
+                                <Bot size={24} />
+                            </div>
+                            <h3 className="text-2xl font-bold text-white">AI-Driven Support</h3>
                         </div>
-                        <div className="flex items-center gap-2 px-6 py-3 rounded-full bg-white/5 border border-white/10 text-white font-medium text-sm transition-colors hover:bg-white/10">
-                            <Award size={16} className="text-purple-400" />
-                            Hackathon 2025
+                        <p className="text-zinc-400 leading-relaxed text-lg">
+                            DFDS.io includes an integrated AI system built to assist users with planning, optimization, and troubleshooting across business and development challenges.
+                        </p>
+                    </GlassCard>
+
+                    <GlassCard hoverEffect className="p-8 space-y-6 bg-black/40 border-white/10">
+                        <div className="flex items-center gap-4">
+                            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-white">
+                                <Wallet size={24} />
+                            </div>
+                            <h3 className="text-2xl font-bold text-white">Secure Infrastructure</h3>
+                        </div>
+                        <p className="text-zinc-400 leading-relaxed text-lg">
+                            Startups and investors can use secure payments and identity verification to ensure a safe and reliable environment for collaboration and funding.
+                        </p>
+                    </GlassCard>
+                </div>
+            </Section>
+
+            {/* Built by DFDS Section */}
+            <Section className="text-center pb-24">
+                <div className="max-w-3xl mx-auto space-y-12">
+                    <div className="space-y-4">
+                        <h2 className="text-2xl font-bold text-zinc-500 tracking-[0.2em] uppercase">Built by DFDS</h2>
+                        <p className="text-3xl md:text-4xl font-semibold text-white">From Zadar. For builders everywhere.</p>
+                    </div>
+                    
+                    <div className="flex justify-center flex-wrap gap-4">
+                        <div className="flex items-center gap-3 px-8 py-4 rounded-full bg-white/5 border border-white/10 text-white font-medium transition-all hover:bg-white/10">
+                            <Globe size={20} className="text-blue-400" />
+                            <span>Croatia</span>
+                        </div>
+                        <div className="flex items-center gap-3 px-8 py-4 rounded-full bg-white/5 border border-white/10 text-white font-medium transition-all hover:bg-white/10">
+                            <Award size={20} className="text-indigo-400" />
+                            <span>Hackathon 2025</span>
                         </div>
                     </div>
-                </section>
-            </div>
-        </main>
+                </div>
+            </Section>
+        </PageShell>
     );
 }
