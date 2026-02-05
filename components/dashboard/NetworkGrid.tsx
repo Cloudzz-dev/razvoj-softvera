@@ -4,6 +4,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { Badge } from "@/components/ui/badge";
 import { MapPin } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useState, useTransition } from "react";
 import { useSession } from "next-auth/react";
 
@@ -101,17 +102,19 @@ export function NetworkGrid({ initialUsers, searchQuery, initialHasMore }: Netwo
                     const isCurrentUser = session?.user?.email === developer.email;
 
                     return (
-                        <GlassCard 
-                            key={developer.id} 
+                        <GlassCard
+                            key={developer.id}
                             className="group relative p-6 border-white/5 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-between text-center overflow-hidden min-h-[200px]"
                         >
                             <div className="flex-1 flex flex-col justify-center items-center space-y-4">
                                 <div className="space-y-2">
                                     <div className="flex items-center justify-center gap-2">
                                         <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse" />
-                                        <h3 className="text-xl font-bold text-white truncate max-w-[200px] tracking-tight">{developer.name?.split(' ')[0] || "Anon"}</h3>
+                                        <Link href={`/profile/${developer.id}`} className="hover:underline">
+                                            <h3 className="text-xl font-bold text-white truncate max-w-[200px] tracking-tight">{developer.name?.split(' ')[0] || "Anon"}</h3>
+                                        </Link>
                                     </div>
-                                    
+
                                     <div className="flex items-center justify-center gap-2 text-zinc-400">
                                         <MapPin size={14} />
                                         <p className="text-sm font-medium uppercase tracking-wide">
@@ -131,12 +134,14 @@ export function NetworkGrid({ initialUsers, searchQuery, initialHasMore }: Netwo
                                 )}
                             </div>
 
-                            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-200 bg-black/90 flex items-center justify-center">
+
+
+                            <div className="mt-4 w-full opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                                 <button
                                     type="button"
                                     onClick={() => handleSendMessage(developer.id)}
                                     disabled={sendingId === developer.id || isPending || isCurrentUser}
-                                    className="px-8 py-3 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold uppercase tracking-widest transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="w-full py-2 rounded bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-bold uppercase tracking-widest transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-emerald-900/20"
                                 >
                                     Start Chat
                                 </button>
@@ -146,24 +151,26 @@ export function NetworkGrid({ initialUsers, searchQuery, initialHasMore }: Netwo
                 })}
             </div>
 
-            {hasMore && !searchQuery && (
-                <div className="flex justify-center">
-                    <button
-                        onClick={handleLoadMore}
-                        disabled={loadingMore}
-                        className="px-8 py-3 rounded-full bg-white/5 border border-white/10 text-white font-semibold hover:bg-white/10 transition-all flex items-center gap-2 disabled:opacity-50"
-                    >
-                        {loadingMore ? (
-                            <>
-                                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                Loading...
-                            </>
-                        ) : (
-                            "Load More"
-                        )}
-                    </button>
-                </div>
-            )}
-        </div>
+            {
+                hasMore && !searchQuery && (
+                    <div className="flex justify-center">
+                        <button
+                            onClick={handleLoadMore}
+                            disabled={loadingMore}
+                            className="px-8 py-3 rounded-full bg-white/5 border border-white/10 text-white font-semibold hover:bg-white/10 transition-all flex items-center gap-2 disabled:opacity-50"
+                        >
+                            {loadingMore ? (
+                                <>
+                                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                    Loading...
+                                </>
+                            ) : (
+                                "Load More"
+                            )}
+                        </button>
+                    </div>
+                )
+            }
+        </div >
     );
 }

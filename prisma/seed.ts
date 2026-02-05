@@ -36,7 +36,7 @@ async function seedUsers(password: string) {
             data: {
                 name,
                 email,
-                image: `https://i.pravatar.cc/150?u=${email}`,
+                // image: null,
                 password,
                 emailVerified: new Date(),
                 role: "DEVELOPER",
@@ -65,7 +65,7 @@ async function seedUsers(password: string) {
             data: {
                 name,
                 email,
-                image: `https://i.pravatar.cc/150?u=${email}`,
+                // image: null,
                 password,
                 emailVerified: new Date(),
                 role: "INVESTOR",
@@ -95,7 +95,7 @@ async function seedUsers(password: string) {
             data: {
                 name,
                 email,
-                image: `https://i.pravatar.cc/150?u=${email}`,
+                // image: null - using default
                 password,
                 emailVerified: new Date(),
                 role: "FOUNDER",
@@ -124,7 +124,18 @@ async function seedStartups(founders: any[]) {
         const startup = await prisma.startup.create({
             data: {
                 name,
-                pitch: `Revolutionizing ${getRandom(techStacks)} with AI-driven insights.`,
+                pitch: getRandom([
+                    `Revolutionizing ${getRandom(techStacks)} with AI-driven insights for enterprise scales.`,
+                    `The first decentralized marketplace for ${getRandom(techStacks)} developers.`,
+                    `Automating compliance workflows using advanced ${getRandom(techStacks)} patterns.`,
+                    `Next-gen observability platform built for ${getRandom(techStacks)} ecosystems.`,
+                    `Connecting remote teams with seamless ${getRandom(techStacks)} integration.`,
+                    `A privacy-first approach to ${getRandom(techStacks)} analytics.`,
+                    `Simplifying ${getRandom(techStacks)} deployment for non-technical founders.`,
+                    `Real-time collaboration tool powered by ${getRandom(techStacks)} and WebAssembly.`,
+                    `Sustainable energy monitoring using low-latency ${getRandom(techStacks)} sensors.`,
+                    `Disrupting the logistics industry with ${getRandom(techStacks)} powered optimization.`
+                ]),
                 stage: getRandom(["Seed", "Series A", "Pre-seed", "Bootstrapped"]),
                 websiteUrl: `https://${name.toLowerCase()}.com`,
                 logo: getRandom(["🚀", "⚡", "🔮", "💎", "🦍", "🌍", "💡", "🔥"]),
@@ -195,16 +206,16 @@ async function seedThreads(users: any[]) {
 async function seedMetrics(demoUser: any) {
     console.log("Creating Metrics (Active Users)...");
     const now = new Date();
-    for (let i = 0; i < 90; i++) {
+    for (let i = 0; i <= 90; i++) {
         const date = new Date(now);
         date.setDate(now.getDate() - i);
-        
+
         // Growth curve: Higher values for recent dates (smaller i)
         // Base value grows from 50 to 500 over 90 days
         const baseValue = 50 + (90 - i) * 5;
         // Add 20% random variance
         const variance = baseValue * 0.2 * (Math.random() - 0.5);
-        const value = Math.floor(baseValue + variance);
+        const value = Math.max(0, Math.floor(baseValue + variance)); // Ensure no negative
 
         await prisma.metric.create({
             data: {
@@ -228,15 +239,15 @@ async function seedTransactions(users: any[]) {
         if (sender.id === receiver.id) continue;
 
         // Exponential growth simulation: More transactions in recent days
-        const daysAgo = Math.floor(Math.pow(Math.random(), 3) * 90); 
+        const daysAgo = Math.floor(Math.pow(Math.random(), 3) * 90);
         const createdAt = new Date(Date.now() - daysAgo * 24 * 60 * 60 * 1000);
 
         // Revenue: occasional "down" days or smaller amounts
         const isDipDay = Math.random() > 0.85;
-        const amount = isDipDay 
+        const amount = isDipDay
             ? Math.floor(Math.random() * 500) + 10  // Small dip amount
             : Math.floor(Math.random() * 5000) + 500; // Normal/growth amount
-            
+
         const fee = Math.floor(amount * 0.025);
 
         await prisma.transaction.create({
@@ -283,7 +294,7 @@ async function main() {
     }
 
     // ... (rest of main logic)
-    
+
     // Check if we need to create Demo User specifically first
     const password = await bcrypt.hash("password123", 12);
 

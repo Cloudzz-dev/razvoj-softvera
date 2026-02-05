@@ -83,8 +83,8 @@ export default async function StartupsPage({
                 <div className="space-y-8">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                         {startups.map((startup) => (
-                            <GlassCard 
-                                key={startup.id} 
+                            <GlassCard
+                                key={startup.id}
                                 className="group relative p-6 border-white/5 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-center text-center overflow-hidden min-h-[220px]"
                             >
                                 <div className="flex-1 flex flex-col justify-center items-center gap-2">
@@ -92,10 +92,12 @@ export default async function StartupsPage({
                                     <div className="text-xs uppercase font-black text-emerald-500 tracking-widest bg-emerald-500/10 rounded px-2 py-1 inline-block mx-auto">
                                         {startup.stage}
                                     </div>
-                                    <p className="text-sm text-zinc-500 font-bold truncate">@{startup.founder?.name?.split(' ')[0] || "User"}</p>
+                                    <Link href={`/profile/${startup.founder?.id}`} className="hover:underline">
+                                        <p className="text-sm text-zinc-500 font-bold truncate">@{startup.founder?.name?.split(' ')[0] || "User"}</p>
+                                    </Link>
                                 </div>
 
-                                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-200 bg-emerald-600 flex items-center justify-center">
+                                <div className="mt-6 w-full opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 relative z-10">
                                     <ConnectButton startup={startup} />
                                 </div>
                             </GlassCard>
