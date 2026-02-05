@@ -29,8 +29,7 @@
 
 ### Što je DFDS?
 
-**DFDS (Developers, Founders, Deal-makers, Startups)** je sveobuhvatna platforma dizajnirana da revolucionira startup ekosustav. Naš tim, **Team Cloudzz**, fokusirao se na rješavanje ključnog problema: *nepovezanosti između inovatora (Foundera), developera i investitora.*
-
+**DFDS (Developers, Founders, Deal-makers, Startups)** je sveobuhvatna platforma dizajnirana da poboljša startup ekosustav. Naš tim, **Team Cloudzz**, fokusirao se na rješavanje ključnog problema: *nepovezanosti između inovatora (Foundera), developera i investitora.
 ### Tim Cloudzz
 
 **Team Cloudzz** je tim koji je dizajnirao DFDS. Trenutno je tim od tri učenika Strukovne škole Vice Vlatkovića
