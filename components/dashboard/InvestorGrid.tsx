@@ -4,6 +4,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useState, useTransition } from "react";
 import { MapPin } from "lucide-react";
 
@@ -108,7 +109,9 @@ export function InvestorGrid({ initialInvestors, searchQuery, initialNextCursor 
                     >
                         <div className="flex-1 flex flex-col justify-center items-center space-y-3">
                             <div className="space-y-1">
-                                <h3 className="text-lg font-bold text-white truncate max-w-[200px] tracking-tight">{investor.name || "User"}</h3>
+                                <Link href={`/profile/${investor.id}`} className="hover:underline">
+                                    <h3 className="text-lg font-bold text-white truncate max-w-[200px] tracking-tight">{investor.name || "User"}</h3>
+                                </Link>
                                 <div className="flex items-center justify-center gap-2 text-zinc-400">
                                     <MapPin size={14} />
                                     <p className="text-sm font-medium">
@@ -123,12 +126,12 @@ export function InvestorGrid({ initialInvestors, searchQuery, initialNextCursor 
                             </div>
                         </div>
 
-                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-200 bg-black/90 flex items-center justify-center">
+                        <div className="mt-4 w-full opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                             <button
                                 type="button"
                                 onClick={() => handleMessage(investor.id)}
                                 disabled={connectingId === investor.id || isPending}
-                                className="px-6 py-2 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold uppercase tracking-widest transition-all transform hover:scale-105"
+                                className="w-full py-2 rounded bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-bold uppercase tracking-widest transition-all disabled:opacity-50 shadow-lg shadow-emerald-900/20"
                             >
                                 Connect
                             </button>

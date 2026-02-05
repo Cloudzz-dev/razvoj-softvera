@@ -89,13 +89,16 @@ export default async function StartupsPage({
                             >
                                 <div className="flex-1 flex flex-col justify-center items-center gap-2">
                                     <h3 className="text-xl font-black text-white truncate w-full px-1 tracking-tight uppercase">{startup.name}</h3>
+                                    <p className="text-sm text-zinc-400 line-clamp-2 px-2 min-h-[40px]">{startup.pitch}</p>
                                     <div className="text-xs uppercase font-black text-emerald-500 tracking-widest bg-emerald-500/10 rounded px-2 py-1 inline-block mx-auto">
                                         {startup.stage}
                                     </div>
-                                    <p className="text-sm text-zinc-500 font-bold truncate">@{startup.founder?.name?.split(' ')[0] || "User"}</p>
+                                    <Link href={`/profile/${startup.founder?.id}`} className="hover:underline">
+                                        <p className="text-sm text-zinc-500 font-bold truncate">@{startup.founder?.name?.split(' ')[0] || "User"}</p>
+                                    </Link>
                                 </div>
 
-                                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-200 bg-emerald-600 flex items-center justify-center">
+                                <div className="mt-6 w-full opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 relative z-10">
                                     <ConnectButton startup={startup} />
                                 </div>
                             </GlassCard>

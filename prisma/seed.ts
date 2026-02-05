@@ -22,6 +22,43 @@ const getRandomSubset = <T>(arr: T[], max: number): T[] => {
 
 // --- Seeding Functions ---
 
+async function clearDatabase() {
+    console.log("⚠️ Clearing database...");
+
+    // Order matters for foreign key constraints
+    const deleteOrder = [
+        prisma.transaction.deleteMany(),
+        prisma.message.deleteMany(),
+        prisma.conversationParticipant.deleteMany(),
+        prisma.conversation.deleteMany(),
+        prisma.threadReply.deleteMany(),
+        prisma.threadLike.deleteMany(),
+        prisma.thread.deleteMany(),
+        prisma.startupMembership.deleteMany(),
+        prisma.startup.deleteMany(),
+        prisma.metric.deleteMany(),
+        prisma.featureRequestVote.deleteMany(),
+        prisma.featureRequest.deleteMany(),
+        prisma.blogPost.deleteMany(),
+        prisma.project.deleteMany(),
+        prisma.profile.deleteMany(),
+        prisma.connection.deleteMany(),
+        prisma.activity.deleteMany(),
+        prisma.apiKey.deleteMany(),
+        prisma.account.deleteMany(),
+        prisma.session.deleteMany(),
+        prisma.user.deleteMany(),
+    ];
+
+    try {
+        await prisma.$transaction(deleteOrder);
+        console.log("✅ Database cleared.");
+    } catch (error) {
+        console.error("❌ Error clearing database:", error);
+        throw error;
+    }
+}
+
 async function seedUsers(password: string) {
     console.log("Creating Seed Users...");
 
@@ -36,7 +73,7 @@ async function seedUsers(password: string) {
             data: {
                 name,
                 email,
-                image: `https://i.pravatar.cc/150?u=${email}`,
+                // image: null,
                 password,
                 emailVerified: new Date(),
                 role: "DEVELOPER",
@@ -65,7 +102,7 @@ async function seedUsers(password: string) {
             data: {
                 name,
                 email,
-                image: `https://i.pravatar.cc/150?u=${email}`,
+                // image: null,
                 password,
                 emailVerified: new Date(),
                 role: "INVESTOR",
@@ -95,7 +132,7 @@ async function seedUsers(password: string) {
             data: {
                 name,
                 email,
-                image: `https://i.pravatar.cc/150?u=${email}`,
+                // image: null - using default
                 password,
                 emailVerified: new Date(),
                 role: "FOUNDER",
@@ -117,33 +154,44 @@ async function seedStartups(founders: any[]) {
 
     const startups = [];
     for (const founder of founders) {
-        // 50% chance a founder has a startup seeded
-        if (Math.random() > 0.5) continue;
+        // 70% chance a founder has a startup seeded
+        if (Math.random() > 0.3) {
+            const name = `${getRandom(companyPrefixes)}${getRandom(companySuffixes)}`;
+            const startup = await prisma.startup.create({
+                data: {
+                    name,
+                    pitch: getRandom([
+                        `Revolutionizing ${getRandom(techStacks)} with AI-driven insights for enterprise scales.`,
+                        `The first decentralized marketplace for ${getRandom(techStacks)} developers.`,
+                        `Automating compliance workflows using advanced ${getRandom(techStacks)} patterns.`,
+                        `Next-gen observability platform built for ${getRandom(techStacks)} ecosystems.`,
+                        `Connecting remote teams with seamless ${getRandom(techStacks)} integration.`,
+                        `A privacy-first approach to ${getRandom(techStacks)} analytics.`,
+                        `Simplifying ${getRandom(techStacks)} deployment for non-technical founders.`,
+                        `Real-time collaboration tool powered by ${getRandom(techStacks)} and WebAssembly.`,
+                        `Sustainable energy monitoring using low-latency ${getRandom(techStacks)} sensors.`,
+                        `Disrupting the logistics industry with ${getRandom(techStacks)} powered optimization.`
+                    ]),
+                    stage: getRandom(["Seed", "Series A", "Pre-seed", "Bootstrapped"]),
+                    websiteUrl: `https://${name.toLowerCase()}.com`,
+                    logo: getRandom(["🚀", "⚡", "🔮", "💎", "🦍", "🌍", "💡", "🔥"]),
+                    raised: `$${Math.floor(Math.random() * 500) + 50}K`,
+                    teamSize: Math.floor(Math.random() * 10) + 1,
+                    founderId: founder.id,
+                },
+            });
+            startups.push(startup);
 
-        const name = `${getRandom(companyPrefixes)}${getRandom(companySuffixes)}`;
-        const startup = await prisma.startup.create({
-            data: {
-                name,
-                pitch: `Revolutionizing ${getRandom(techStacks)} with AI-driven insights.`,
-                stage: getRandom(["Seed", "Series A", "Pre-seed", "Bootstrapped"]),
-                websiteUrl: `https://${name.toLowerCase()}.com`,
-                logo: getRandom(["🚀", "⚡", "🔮", "💎", "🦍", "🌍", "💡", "🔥"]),
-                raised: `$${Math.floor(Math.random() * 500) + 50}K`,
-                teamSize: Math.floor(Math.random() * 10) + 1,
-                founderId: founder.id,
-            },
-        });
-        startups.push(startup);
-
-        // Add founder as member
-        await prisma.startupMembership.create({
-            data: {
-                userId: founder.id,
-                startupId: startup.id,
-                role: "Founder",
-                isActive: true
-            }
-        });
+            // Add founder as member
+            await prisma.startupMembership.create({
+                data: {
+                    userId: founder.id,
+                    startupId: startup.id,
+                    role: "Founder",
+                    isActive: true
+                }
+            });
+        }
     }
     return startups;
 }
@@ -195,16 +243,16 @@ async function seedThreads(users: any[]) {
 async function seedMetrics(demoUser: any) {
     console.log("Creating Metrics (Active Users)...");
     const now = new Date();
-    for (let i = 0; i < 90; i++) {
+    for (let i = 0; i <= 90; i++) {
         const date = new Date(now);
         date.setDate(now.getDate() - i);
-        
+
         // Growth curve: Higher values for recent dates (smaller i)
         // Base value grows from 50 to 500 over 90 days
         const baseValue = 50 + (90 - i) * 5;
         // Add 20% random variance
         const variance = baseValue * 0.2 * (Math.random() - 0.5);
-        const value = Math.floor(baseValue + variance);
+        const value = Math.max(0, Math.floor(baseValue + variance)); // Ensure no negative
 
         await prisma.metric.create({
             data: {
@@ -217,9 +265,8 @@ async function seedMetrics(demoUser: any) {
     }
 }
 
-async function seedTransactions(users: any[]) {
+async function seedTransactions(users: any[], demoUser: any) {
     console.log("Creating Transactions (Growth Pattern + Variance)...");
-    const demoUser = users.find(u => u.email === "demo@cloudzz.dev");
     if (!demoUser) return;
 
     for (let i = 0; i < 200; i++) {
@@ -228,15 +275,15 @@ async function seedTransactions(users: any[]) {
         if (sender.id === receiver.id) continue;
 
         // Exponential growth simulation: More transactions in recent days
-        const daysAgo = Math.floor(Math.pow(Math.random(), 3) * 90); 
+        const daysAgo = Math.floor(Math.pow(Math.random(), 3) * 90);
         const createdAt = new Date(Date.now() - daysAgo * 24 * 60 * 60 * 1000);
 
         // Revenue: occasional "down" days or smaller amounts
         const isDipDay = Math.random() > 0.85;
-        const amount = isDipDay 
+        const amount = isDipDay
             ? Math.floor(Math.random() * 500) + 10  // Small dip amount
             : Math.floor(Math.random() * 5000) + 500; // Normal/growth amount
-            
+
         const fee = Math.floor(amount * 0.025);
 
         await prisma.transaction.create({
@@ -259,139 +306,123 @@ async function seedTransactions(users: any[]) {
 async function main() {
     console.log("🌱 Starting Seed...");
 
-    // Idempotency Check
-    const userCount = await prisma.user.count();
-    // Verify Demo User exists
-    const demoUser = await prisma.user.findUnique({ where: { email: "demo@cloudzz.dev" } });
+    // ALWAYS CLEAR DB
+    await clearDatabase();
 
-    if (userCount > 50 && demoUser) {
-        console.log("✅ Database seems already seeded with plenty of data. Skipping massive seed.");
-        // Ensure demo user is verified just in case
-        if (!demoUser.emailVerified) {
-            console.log("Fixing Demo User verification...");
-            await prisma.user.update({
-                where: { email: "demo@cloudzz.dev" },
-                data: { emailVerified: new Date() }
-            });
-        }
-        // Still seed metrics if they are missing
-        const metricCount = await prisma.metric.count({ where: { userId: demoUser.id } });
-        if (metricCount === 0) {
-            await seedMetrics(demoUser);
-        }
-        return;
-    }
-
-    // ... (rest of main logic)
-    
-    // Check if we need to create Demo User specifically first
     const password = await bcrypt.hash("password123", 12);
 
-    let finalDemoUser;
-    if (!demoUser) {
-        console.log("Creating Demo User...");
-        finalDemoUser = await prisma.user.create({
-            data: {
-                name: "Demo User",
-                email: "demo@cloudzz.dev",
-                image: "https://i.pravatar.cc/150?u=demo@cloudzz.dev",
-                password,
-                emailVerified: new Date(),
-                role: "FOUNDER",
-                isVerifiedBuilder: true,
-                subscriptionTier: "GROWTH",
-                referralCount: 999,
-                profile: {
-                    create: {
-                        location: "Zagreb, Croatia",
-                        bio: "Exploring the platform as a demo user.",
-                        skills: ["Product Management", "Growth"],
-                    },
+    console.log("Creating Demo User...");
+    const demoUser = await prisma.user.create({
+        data: {
+            name: "Demo User",
+            email: "demo@cloudzz.dev",
+            image: "https://i.pravatar.cc/150?u=demo@cloudzz.dev",
+            password,
+            emailVerified: new Date(),
+            role: "FOUNDER",
+            isVerifiedBuilder: true,
+            subscriptionTier: "GROWTH",
+            referralCount: 999,
+            profile: {
+                create: {
+                    location: "Zagreb, Croatia",
+                    bio: "Experienced Full Stack Developer and Founder. Building Cloudzz to help developers and startups scale.",
+                    skills: ["React", "Next.js", "TypeScript", "Node.js", "PostgreSQL", "AWS"],
+                    experience: "10+ years",
+                    availability: "Available",
+                    githubUrl: "https://github.com/demo",
+                    linkedinUrl: "https://linkedin.com/in/demo",
+                    websiteUrl: "https://cloudzz.dev",
                 },
             },
-        });
-    } else {
-        console.log("Updating Demo User with AI access...");
-        finalDemoUser = await prisma.user.update({
-            where: { email: "demo@cloudzz.dev" },
-            data: {
-                isVerifiedBuilder: true,
-                subscriptionTier: "GROWTH",
-                referralCount: 999,
-                image: "https://i.pravatar.cc/150?u=demo@cloudzz.dev",
-                emailVerified: demoUser.emailVerified || new Date(),
-            },
-        });
-    }
+        },
+    });
 
-    // Now seed the mass data if count was low
-    console.log("Mass seeding...");
+    console.log("Creating Demo User Startup...");
+    const demoStartup = await prisma.startup.create({
+        data: {
+            name: "Cloudzz",
+            pitch: "The all-in-one platform for effortless cloud deployment and scaling.",
+            stage: "Seed",
+            websiteUrl: "https://cloudzz.dev",
+            logo: "☁️",
+            raised: "$1.5M",
+            teamSize: 12,
+            founderId: demoUser.id,
+        }
+    });
+
+    await prisma.startupMembership.create({
+        data: {
+            userId: demoUser.id,
+            startupId: demoStartup.id,
+            role: "Founder",
+            isActive: true
+        }
+    });
+
+
+    // Mass seeding...
+    console.log("Mass seeding users...");
     const founders = await seedUsers(password);
     const allUsers = await prisma.user.findMany();
 
     await seedStartups(founders);
     await seedThreads(allUsers);
-    await seedTransactions(allUsers);
-    await seedMetrics(finalDemoUser);
-
-    // --- ENHANCED MESSAGING SEED FOR DEMO USER ---
-    // but user asked for "roadmap items". I recall looking for roadmap in menu but not schema.
-    // If roadmap is static or uses issues/threads, I'll skip for now or use Threads with "Feature Request" tag.
-    // Let's verify schema first? No time, assume Threads with tag is enough based on tasks).
+    await seedTransactions(allUsers, demoUser);
+    await seedMetrics(demoUser);
 
     // --- ENHANCED MESSAGING SEED FOR DEMO USER ---
     console.log("Creating Enhanced Demo Messages...");
-    const demoUserUpdated = await prisma.user.findUnique({ where: { email: "demo@cloudzz.dev" } });
-    if (demoUserUpdated) {
-        // Find some people to talk to
-        const chatPartners = await prisma.user.findMany({
-            where: {
-                NOT: { id: demoUserUpdated.id },
-                role: { in: ["INVESTOR", "DEVELOPER"] }
-            },
-            take: 3
+
+    // Find some people to talk to
+    const chatPartners = await prisma.user.findMany({
+        where: {
+            NOT: { id: demoUser.id },
+            role: { in: ["INVESTOR", "DEVELOPER"] }
+        },
+        take: 3
+    });
+
+    for (const partner of chatPartners) {
+        // Create a conversation
+        const conversation = await prisma.conversation.create({
+            data: {
+                participants: {
+                    create: [
+                        { userId: demoUser.id },
+                        { userId: partner.id }
+                    ]
+                }
+            }
         });
 
-        for (const partner of chatPartners) {
-            // Create a conversation
-            const conversation = await prisma.conversation.create({
-                data: {
-                    participants: {
-                        create: [
-                            { userId: demoUserUpdated.id },
-                            { userId: partner.id }
-                        ]
-                    }
+        // Add some messages
+        await prisma.message.createMany({
+            data: [
+                {
+                    conversationId: conversation.id,
+                    senderId: partner.id,
+                    content: "Hi! I saw your profile and I'm interested in your project.",
+                    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24), // 1 day ago
+                    read: true
+                },
+                {
+                    conversationId: conversation.id,
+                    senderId: demoUser.id,
+                    content: "Hello! Thanks for reaching out. What specifically caught your eye?",
+                    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 23),
+                    read: true
+                },
+                {
+                    conversationId: conversation.id,
+                    senderId: partner.id,
+                    content: "The AI integration looks solid. Do you have a roadmap for Q3?",
+                    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 5),
+                    read: false
                 }
-            });
-
-            // Add some messages
-            await prisma.message.createMany({
-                data: [
-                    {
-                        conversationId: conversation.id,
-                        senderId: partner.id,
-                        content: "Hi! I saw your profile and I'm interested in your project.",
-                        createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24), // 1 day ago
-                        read: true
-                    },
-                    {
-                        conversationId: conversation.id,
-                        senderId: demoUserUpdated.id,
-                        content: "Hello! Thanks for reaching out. What specifically caught your eye?",
-                        createdAt: new Date(Date.now() - 1000 * 60 * 60 * 23),
-                        read: true
-                    },
-                    {
-                        conversationId: conversation.id,
-                        senderId: partner.id,
-                        content: "The AI integration looks solid. Do you have a roadmap for Q3?",
-                        createdAt: new Date(Date.now() - 1000 * 60 * 60 * 5),
-                        read: false
-                    }
-                ]
-            });
-        }
+            ]
+        });
     }
 
     console.log("✅ Database seeded successfully!");
