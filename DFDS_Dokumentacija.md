@@ -1,13 +1,13 @@
 # DFDS: Kompletna Tehnička Dokumentacija
 
 > **Verzija**: 2.0.0  
-> **Datum**: Siječanj 2026  
+> **Datum**: Veljača 2026  
 > **Status**: Produkcijska Verzija  
 > **Tim**: Team Cloudzz
 
 ---
 
-## 📖 Sadržaj
+##  Sadržaj
 
 1. [Uvod i Pregled Projekta](#-uvod-i-pregled-projekta)
 2. [Korisničke Uloge](#-korisničke-uloge)
@@ -22,7 +22,7 @@
 
 ---
 
-## 📖 Uvod i Pregled Projekta
+##  Uvod i Pregled Projekta
 
 ### Što je DFDS?
 
@@ -31,9 +31,9 @@
 ### Misija
 
 Stvoriti **živi ekosustav** gdje se:
-- 🚀 Startup timovi **grade** od nule
-- 💰 Inovacije **financiraju** transparentno
-- 🤝 Talenti **povezuju** inteligentno
+-  Startup timovi **grade** od nule
+-  Inovacije **financiraju** transparentno
+-  Talenti **povezuju** inteligentno
 
 ### Ključne Značajke Platforme
 
@@ -49,17 +49,17 @@ Stvoriti **živi ekosustav** gdje se:
 
 ---
 
-## 👥 Korisničke Uloge
+##  Korisničke Uloge
 
 DFDS podržava četiri različite korisničke uloge, svaka s prilagođenim sučeljem i funkcionalnostima:
 
 ```mermaid
 graph TB
-    subgraph Uloge["🎭 Korisničke Uloge"]
-        DEV["👨‍💻 DEVELOPER<br/>Graditelji Proizvoda"]
-        FOUNDER["🚀 FOUNDER<br/>Osnivači Startupa"]
-        INVESTOR["💼 INVESTOR<br/>Financijeri"]
-        ADMIN["🛡️ ADMIN<br/>Administratori"]
+    subgraph Uloge[" Korisničke Uloge"]
+        DEV[" DEVELOPER<br/>Graditelji Proizvoda"]
+        FOUNDER[" FOUNDER<br/>Osnivači Startupa"]
+        INVESTOR[" INVESTOR<br/>Financijeri"]
+        ADMIN[" ADMIN<br/>Administratori"]
     end
     
     DEV --> |"Traži posao"| FOUNDER
@@ -71,7 +71,7 @@ graph TB
     ADMIN --> |"Nadzire"| INVESTOR
 ```
 
-### 👨‍💻 Developer (Razvojni Programer)
+###  Developer (Razvojni Programer)
 
 **Pristup**: Dashboard s fokusom na mrežu i prilike
 
@@ -83,7 +83,7 @@ graph TB
 | Slanje poruka | Direktna komunikacija s potencijalnim poslodavcima |
 | Prijava na startup | Mogućnost pridruživanja postojećim startupima |
 
-### 🚀 Founder (Osnivač)
+###  Founder (Osnivač)
 
 **Pristup**: Posebni founder dashboard s metrikama startupa
 
@@ -95,7 +95,7 @@ graph TB
 | Funding runway | Prikaz prikupljenih sredstava i trajanja |
 | Growth analytics | Grafikoni rasta i aktivnosti |
 
-### 💼 Investor
+###  Investor
 
 **Pristup**: Dashboard s fokusom na deal flow
 
@@ -107,7 +107,7 @@ graph TB
 | Direktne poruke | Kontaktiranje osnivača |
 | Check size profil | Prikaz prosječnog ulaganja i fokusa |
 
-### 🛡️ Admin
+###  Admin
 
 **Pristup**: Potpuni pristup + admin funkcije
 
@@ -120,31 +120,31 @@ graph TB
 
 ---
 
-## 🔧 Tehnološki Stack
+##  Tehnološki Stack
 
 ### Pregled Arhitekture
 
 ```mermaid
 graph TB
-    subgraph Frontend["🖥️ Frontend Layer"]
+    subgraph Frontend[" Frontend Layer"]
         NEXT["Next.js 16<br/>(App Router + SSR)"]
         REACT["React 18<br/>(UI Library)"]
         TAILWIND["Tailwind CSS<br/>(Styling)"]
         FRAMER["Framer Motion<br/>(Animacije)"]
     end
     
-    subgraph Backend["⚙️ Backend Layer"]
+    subgraph Backend[" Backend Layer"]
         API["Next.js API Routes<br/>(REST Endpoints)"]
         AUTH["NextAuth.js<br/>(Autentifikacija)"]
         PRISMA["Prisma ORM<br/>(Database Access)"]
     end
     
-    subgraph Database["🗄️ Data Layer"]
+    subgraph Database[" Data Layer"]
         PG["PostgreSQL<br/>(Primary Database)"]
         REDIS["Redis<br/>(Cache & PubSub)"]
     end
     
-    subgraph Services["☁️ External & Local Services"]
+    subgraph Services[" External & Local Services"]
         SOKETI["Soketi<br/>(Local WebSocket Server)"]
         RESEND["Resend<br/>(Transactional Email)"]
         OPENAI["OpenAI<br/>(AI Assistant)"]
@@ -167,15 +167,15 @@ graph TB
     NEXT --> POSTHOG
 ```
 
-### 💎 Tehnologija u Službi Korisnika (UX/DX)
+###  Tehnologija u Službi Korisnika (UX/DX)
 
 Naš odabir tehnologija nije slučajan. Svaki alat odabran je s ciljem da maksimizira performanse, sigurnost i fluidnost korištenja. Ovako se naš stack prevodi u konkretne benefite za korisnika:
 
-#### 🖥️ Frontend: Brzina i Fluidnost
+####  Frontend: Brzina i Fluidnost
 
 Korisničko sučelje je prvo što korisnik vidi. Koristimo najmodernije alate kako bi ono bilo **trenutačno, responzivno i ugodno**.
 
-| Tehnologija | Uloga u Sustavu | 💎 UX Benefit za Korisnika |
+| Tehnologija | Uloga u Sustavu |  UX Benefit za Korisnika |
 |:------------|:----------------|:---------------------------|
 | **Next.js 16** | **Core Framework.** Upravlja rutiranjem, renderiranjem (SSR/RSC) i optimizacijom. | **Instantno učitavanje.** Stranice se generiraju na serveru, pa korisnik ne gleda "loading" spinnere već odmah vidi sadržaj. |
 | **React 18** | **UI Library.** Omogućuje modularnu izgradnju sučelja. | **Interaktivnost.** Aplikacija reagira na klikove bez osvježavanja cijele stranice (SPA osjećaj). |
@@ -183,11 +183,11 @@ Korisničko sučelje je prvo što korisnik vidi. Koristimo najmodernije alate ka
 | **Framer Motion** | **Animation Library.** Upravlja tranzicijama. | **Prirodan osjećaj.** Elementi ne "iskaču" naglo već fluidno klize, dajući osjećaj visoke kvalitete i poliranosti. |
 | **Lucide React** | **Icon System.** Vektorske ikone. | **Jasnoća.** Lagane i prepoznatljive ikone pomažu korisnicima da intuitivno navigiraju sučeljem. |
 
-#### ⚙️ Backend: Stabilnost i Real-time Komunikacija
+####  Backend: Stabilnost i Real-time Komunikacija
 
 Backend je nevidljivi motor koji osigurava da podaci budu točni, sigurni i dostavljeni na vrijeme.
 
-| Tehnologija | Uloga u Sustavu | 💎 UX Benefit za Korisnika |
+| Tehnologija | Uloga u Sustavu |  UX Benefit za Korisnika |
 |:------------|:----------------|:---------------------------|
 | **Next.js API** | **Serverless API.** Backend logika integrirana s frontendom. | **Brzi odziv.** API pozivi su optimizirani i nalaze se "blizu" frontenda, smanjujući latenciju. |
 | **Soketi** | **WebSocket Server.** Lokalna, brza alternativa Pusheru. | **Real-time Chat.** Poruke i notifikacije stižu **odmah** dok ste online, bez potrebe za osvježavanjem stranice. |
@@ -195,11 +195,11 @@ Backend je nevidljivi motor koji osigurava da podaci budu točni, sigurni i dost
 | **Redis** | **Caching & Pub/Sub.** Privremena memorija. | **Brzina.** Često korišteni podaci se učitavaju iz memorije umjesto diska, čineći aplikaciju "snappy". |
 | **PostgreSQL** | **Baza Podataka.** Glavno spremište podataka. | **Sigurnost podataka.** Vaši podaci su strukturirani, sigurni i konzistentni (ACID compliance). |
 
-#### 🤖 AI & Integracije: Pametna Pomoć
+####  AI & Integracije: Pametna Pomoć
 
 Napredne značajke koje štede vrijeme i daju vrijednost.
 
-| Tehnologija | Uloga u Sustavu | 💎 UX Benefit za Korisnika |
+| Tehnologija | Uloga u Sustavu |  UX Benefit za Korisnika |
 |:------------|:----------------|:---------------------------|
 | **OpenAI (GPT-4)** | **AI Intelligence.** Pokreće "AI Asistenta". | **Pametni savjeti.** Korisnik dobiva trenutnu analizu pitcha ili draft emaila, štedeći sate rada na pisanju. |
 | **Resend** | **Email Service.** Transakcijski emailovi. | **Pouzdane obavijesti.** Važne informacije (reset lozinke, pozivnice) ne završavaju u spamu. |
@@ -207,20 +207,20 @@ Napredne značajke koje štede vrijeme i daju vrijednost.
 
 ---
 
-## 🏗️ Arhitektura Sustava
+##  Arhitektura Sustava
 
 ### Kako Podaci Putuju
 
 ```mermaid
 sequenceDiagram
-    participant U as 👤 Korisnik
-    participant F as 💻 Frontend (Next.js)
-    participant A as ⚡ API Routes
-    participant P as 🔷 Prisma
-    participant DB as 🗄️ PostgreSQL
-    participant R as 🔴 Redis
-    participant WS as 🔌 Pusher
-    participant AI as 🤖 OpenAI
+    participant U as  Korisnik
+    participant F as  Frontend (Next.js)
+    participant A as  API Routes
+    participant P as  Prisma
+    participant DB as  PostgreSQL
+    participant R as  Redis
+    participant WS as  Pusher
+    participant AI as  OpenAI
     
     U->>F: Klik na "Pošalji poruku"
     F->>A: POST /api/messages/send
@@ -232,7 +232,7 @@ sequenceDiagram
     R->>WS: Trigger event
     WS-->>U: Real-time poruka stiže!
     A-->>F: 201 Created
-    F-->>U: UI Update ✓
+    F-->>U: UI Update 
     
     Note over U,AI: AI Asistent Flow
     U->>F: "Analiziraj moj pitch"
@@ -249,55 +249,55 @@ sequenceDiagram
 
 ```
 dfds/
-├── app/                    # Next.js App Router
-│   ├── api/               # 34+ API endpoints
-│   │   ├── auth/          # NextAuth handlers
-│   │   ├── messages/      # Chat API
-│   │   ├── startups/      # Startup CRUD
-│   │   ├── threads/       # Forum API
-│   │   ├── transactions/  # Payment API
-│   │   └── v1/            # Public API v1
-│   ├── dashboard/         # 15+ dashboard stranica
-│   │   ├── page.tsx       # Glavni dashboard
-│   │   ├── startups/      # Startup pregled
-│   │   ├── network/       # Developer mreža
-│   │   ├── investors/     # Investitori
-│   │   ├── messages/      # Chat sučelje
-│   │   ├── payments/      # Transakcije
-│   │   ├── threads/       # Community forum
-│   │   ├── roadmap/       # Feature voting
-│   │   ├── calculator/    # Equity simulator
-│   │   ├── api-access/    # API ključevi
-│   │   ├── members/       # Članstvo
-│   │   └── settings/      # Postavke profila
-│   └── (public pages)/    # Landing, Login, Register...
-├── components/            # React komponente
-│   ├── ui/               # Shadcn-style UI primitivi
-│   ├── dashboard/        # Dashboard komponente
-│   ├── landing/          # Landing page sekcije
-│   ├── messaging/        # Chat komponente
-│   ├── payments/         # Payment komponente
-│   └── ai/               # AI Asistent
-├── lib/                  # Utility funkcije
-│   ├── auth.ts          # NextAuth konfiguracija
-│   ├── prisma.ts        # Prisma client
-│   ├── pusher.ts        # WebSocket setup
-│   ├── matchmaker.ts    # Vector similarity matching
-│   └── email.ts         # Email templates
-├── prisma/              # Database
-│   ├── schema.prisma    # 25+ modela
-│   └── seed.ts          # Test podaci
-└── config/              # App konfiguracija
-    └── nav.ts           # Navigacija
+ app/                    # Next.js App Router
+    api/               # 34+ API endpoints
+       auth/          # NextAuth handlers
+       messages/      # Chat API
+       startups/      # Startup CRUD
+       threads/       # Forum API
+       transactions/  # Payment API
+       v1/            # Public API v1
+    dashboard/         # 15+ dashboard stranica
+       page.tsx       # Glavni dashboard
+       startups/      # Startup pregled
+       network/       # Developer mreža
+       investors/     # Investitori
+       messages/      # Chat sučelje
+       payments/      # Transakcije
+       threads/       # Community forum
+       roadmap/       # Feature voting
+       calculator/    # Equity simulator
+       api-access/    # API ključevi
+       members/       # Članstvo
+       settings/      # Postavke profila
+    (public pages)/    # Landing, Login, Register...
+ components/            # React komponente
+    ui/               # Shadcn-style UI primitivi
+    dashboard/        # Dashboard komponente
+    landing/          # Landing page sekcije
+    messaging/        # Chat komponente
+    payments/         # Payment komponente
+    ai/               # AI Asistent
+ lib/                  # Utility funkcije
+    auth.ts          # NextAuth konfiguracija
+    prisma.ts        # Prisma client
+    pusher.ts        # WebSocket setup
+    matchmaker.ts    # Vector similarity matching
+    email.ts         # Email templates
+ prisma/              # Database
+    schema.prisma    # 25+ modela
+    seed.ts          # Test podaci
+ config/              # App konfiguracija
+     nav.ts           # Navigacija
 ```
 
 ---
 
-## 📂 Struktura Frontend Aplikacije
+##  Struktura Frontend Aplikacije
 
 Aplikacija je izgrađena na **Next.js App Routeru** (verzija 16.x) i koristi hijerarhijsku strukturu ruta.
 
-### 🗺️ Mapa Ruta
+###  Mapa Ruta
 
 ```mermaid
 graph TD
@@ -335,7 +335,7 @@ graph TD
     Root --> BlogAdmin["/blog/admin"]
 ```
 
-### 🧩 Detaljni Opis Stranica
+###  Detaljni Opis Stranica
 
 #### 1. Javne Stranice (Public Pages)
 
@@ -386,7 +386,7 @@ Posebne stranice za administratore i kreatore sadržaja.
 | `app/creator/dashboard` | **Analitika**. Prikaz KPI-jeva sustava, grafova rasta i telemetrije. | Provjera `role === 'ADMIN'`. |
 | `app/blog/admin` | **CMS**. Sučelje za pisanje, uređivanje i objavu blog postova. | Provjera `role === 'ADMIN'`. |
 
-### 🎨 Globalne Komponente i Layout
+###  Globalne Komponente i Layout
 
 Datoteka `app/layout.tsx` je korijen aplikacije i definira globalno stanje:
 
@@ -398,33 +398,15 @@ Datoteka `app/globals.css` definira Tailwind CSS varijable, animacije (shimmer, 
 
 ---
 
-## 📱 Dashboard Funkcionalnosti (Sve Kartice)
+##  Dashboard Funkcionalnosti (Sve Kartice)
 
 Dashboard je srce DFDS platforme. Sadrži **12 zasebnih kartica** za različite funkcionalnosti:
 
-```mermaid
-graph LR
-    subgraph Navigation["📍 Dashboard Navigacija"]
-        O["🏠 Overview"]
-        S["🚀 Startups"]
-        N["👥 Network"]
-        I["💼 Investors"]
-        T["💬 Threads"]
-        M["✉️ Messages"]
-        P["💳 Payments"]
-        R["🗺️ Roadmap"]
-        C["📊 Calculator"]
-        A["🔑 API Access"]
-        MB["🛡️ Members"]
-        ST["⚙️ Settings"]
-    end
-    
-    O --> S --> N --> I --> T --> M --> P --> R --> C --> A --> MB --> ST
-```
+
 
 ---
 
-### 1. 🏠 Overview (Pregled)
+### 1.  Overview (Pregled)
 
 **Ruta**: `/dashboard`
 
@@ -446,18 +428,11 @@ Kontrolna ploča s pregledom ključnih metrika i brzim akcijama.
 
 #### Razlike po ulozi:
 
-```mermaid
-graph TB
-    subgraph Dashboard
-        CHECK{Uloga?}
-        CHECK -->|FOUNDER| FD["FounderDashboard<br/>• Runway<br/>• Raised<br/>• Team Size<br/>• Funding Graph"]
-        CHECK -->|DEVELOPER/INVESTOR| GD["GrowthDashboard<br/>• Connections Graph<br/>• Activity Metrics<br/>• Network Growth"]
-    end
-```
+
 
 ---
 
-### 2. 🚀 Startups
+### 2.  Startups
 
 **Ruta**: `/dashboard/startups`
 
@@ -480,12 +455,12 @@ Pregled i kreiranje startupa na platformi.
 
 ```mermaid
 graph LR
-    PS["🌱 Pre-seed"] --> S["🌿 Seed"] --> A["🌳 Series A"] --> B["🌲 Series B+"]
+    PS[" Pre-seed"] --> S[" Seed"] --> A[" Series A"] --> B[" Series B+"]
 ```
 
 ---
 
-### 3. 👥 Network (Mreža Developera)
+### 3.  Network (Mreža Developera)
 
 **Ruta**: `/dashboard/network`
 
@@ -507,7 +482,7 @@ Pronalaženje talenata za gradnju tima.
 
 ---
 
-### 4. 💼 Investors
+### 4.  Investors
 
 **Ruta**: `/dashboard/investors`
 
@@ -528,7 +503,7 @@ Povezivanje s investitorima.
 
 ---
 
-### 5. 💬 Threads (Diskusije)
+### 5.  Threads (Diskusije)
 
 **Ruta**: `/dashboard/threads`
 
@@ -581,7 +556,7 @@ erDiagram
 
 ---
 
-### 6. ✉️ Messages (Poruke)
+### 6.  Messages (Poruke)
 
 **Ruta**: `/dashboard/messages`
 
@@ -619,7 +594,7 @@ sequenceDiagram
 
 ---
 
-### 7. 💳 Payments (Plaćanja)
+### 7.  Payments (Plaćanja)
 
 **Ruta**: `/dashboard/payments`
 
@@ -640,9 +615,9 @@ Slanje i primanje novca unutar platforme.
 ```mermaid
 graph TB
     subgraph Methods["Podržane Metode"]
-        PP["💳 PayPal<br/>Fiat Currency"]
-        CR["🔗 Crypto<br/>ETH/USDC via viem"]
-        CD["💰 Card<br/>Stripe Integration"]
+        PP[" PayPal<br/>Fiat Currency"]
+        CR[" Crypto<br/>ETH/USDC via viem"]
+        CD[" Card<br/>Stripe Integration"]
     end
     
     PP --> TX["Transaction<br/>2.5% Fee"]
@@ -661,7 +636,7 @@ graph TB
 
 ---
 
-### 8. 🗺️ Roadmap
+### 8.  Roadmap
 
 **Ruta**: `/dashboard/roadmap`
 
@@ -681,7 +656,7 @@ Transparentni prikaz planiranih funkcionalnosti s mogućnošću glasanja.
 
 ---
 
-### 9. 📊 Equity Simulator (Kalkulator)
+### 9.  Equity Simulator (Kalkulator)
 
 **Ruta**: `/dashboard/calculator`
 
@@ -716,7 +691,7 @@ pie title "Nakon Seed Runde ($1M @ $5M valuation)"
 
 ---
 
-### 10. 🔑 API Access
+### 10.  API Access
 
 **Ruta**: `/dashboard/api-access`
 
@@ -754,7 +729,7 @@ erDiagram
 
 ---
 
-### 11. 🛡️ Members
+### 11.  Members
 
 **Ruta**: `/dashboard/members`
 
@@ -778,7 +753,7 @@ Prikaz verificiranih članova i premium pristupa.
 
 ---
 
-### 12. ⚙️ Settings (Postavke)
+### 12.  Settings (Postavke)
 
 **Ruta**: `/dashboard/settings`
 
@@ -815,7 +790,7 @@ Upravljanje korisničkim računom i profilom.
 
 ---
 
-## 🤖 AI Asistent
+##  AI Asistent
 
 Floating widget dostupan na svim dashboard stranicama.
 
@@ -837,10 +812,10 @@ Floating widget dostupan na svim dashboard stranicama.
 
 ```mermaid
 graph LR
-    QA["⚡ Quick Actions"]
-    QA --> A1["✨ Analyze Pitch<br/>Analiza i prijedlozi poboljšanja"]
-    QA --> A2["🔍 Find Investors<br/>Pretraga investitora po kriterijima"]
-    QA --> A3["📧 Draft Email<br/>Generiranje cold emaila investitoru"]
+    QA[" Quick Actions"]
+    QA --> A1[" Analyze Pitch<br/>Analiza i prijedlozi poboljšanja"]
+    QA --> A2[" Find Investors<br/>Pretraga investitora po kriterijima"]
+    QA --> A3[" Draft Email<br/>Generiranje cold emaila investitoru"]
 ```
 
 ### Primjer Korištenja
@@ -864,7 +839,7 @@ AI: ### Analiza Pitcha
 
 ---
 
-## 🗄️ Shema Baze Podataka i ORM
+##  Shema Baze Podataka i ORM
 
 Projekt koristi **Prisma ORM** za upravljanje PostgreSQL bazom. Shema je definirana u `prisma/schema.prisma`.
 
@@ -958,7 +933,7 @@ erDiagram
     }
 ```
 
-### 🌱 Seeding Skripte (Početni Podaci)
+###  Seeding Skripte (Početni Podaci)
 
 Sustav sadrži napredne skripte za generiranje testnih podataka koje olakšavaju razvoj i testiranje.
 
@@ -971,7 +946,7 @@ Sustav sadrži napredne skripte za generiranje testnih podataka koje olakšavaju
 
 ---
 
-## 📚 Utility Library (@lib)
+##  Utility Library (@lib)
 
 Modularni set pomoćnih funkcija koji pokreće backend logiku.
 
@@ -999,7 +974,7 @@ React hookovi koji inkapsuliraju kompleksnu logiku na klijentu.
 
 ---
 
-## 🛠️ Maintenance Scripts (@scripts)
+##  Maintenance Scripts (@scripts)
 
 Pomoćne TypeScript i Bash skripte za održavanje i verifikaciju sustava.
 
@@ -1013,9 +988,9 @@ Pomoćne TypeScript i Bash skripte za održavanje i verifikaciju sustava.
 
 ---
 
-## 🔌 API Dokumentacija
+##  API Dokumentacija
 
-### 🛡️ Autentifikacija
+###  Autentifikacija
 
 API podržava dva primarna mehanizma autentifikacije:
 
@@ -1024,7 +999,7 @@ API podržava dva primarna mehanizma autentifikacije:
 2. **API Key (Bearer Token)**: Koristi se za eksterne integracije i v1 endpointove.
    - Header: `Authorization: Bearer sk_live_...`
 
-### 🌐 Javni API (v1)
+###  Javni API (v1)
 
 Namijenjen za eksterne integracije i automatizaciju. Zahtijeva važeći API ključ.
 
@@ -1036,11 +1011,11 @@ Namijenjen za eksterne integracije i automatizaciju. Zahtijeva važeći API klju
 | `POST` | `/api/v1/startup/funding` | Ažuriranje podataka o financiranju startupa. | API Key |
 | `POST` | `/api/v1/team/sync` | Sinkronizacija članova tima iz vanjskih sustava. | API Key |
 
-### 🛠️ Interni API Endpoints
+###  Interni API Endpoints
 
 Ovi endpointi koriste se primarno unutar web aplikacije i oslanjaju se na session autentifikaciju.
 
-#### 👤 Auth & Korisnici
+####  Auth & Korisnici
 
 ```mermaid
 graph LR
@@ -1072,7 +1047,7 @@ graph LR
 | `PATCH` | `/api/settings` | Ažuriranje profila i postavki. |
 | `DELETE` | `/api/settings` | Brisanje korisničkog računa (soft delete). |
 
-#### 🚀 Startupi & Timovi
+####  Startupi & Timovi
 
 ```mermaid
 graph TD
@@ -1102,7 +1077,7 @@ graph TD
 | `GET` | `/api/team/invite/[token]` | Provjera valjanosti pozivnice. |
 | `POST` | `/api/team/invite/[token]` | Prihvaćanje pozivnice za tim. |
 
-#### 💬 Komunikacija & Chat
+####  Komunikacija & Chat
 
 ```mermaid
 sequenceDiagram
@@ -1130,7 +1105,7 @@ sequenceDiagram
 | `POST` | `/api/contact` | Slanje kontakt forme (support). |
 | `POST` | `/api/pusher/auth` | Autentifikacija za WebSocket kanale. |
 
-#### 🤖 AI & Dashboard
+####  AI & Dashboard
 
 | Metoda | Endpoint | Opis |
 |:-------|:---------|:-----|
@@ -1141,7 +1116,7 @@ sequenceDiagram
 | `GET` | `/api/network` | Pretraga mreže korisnika (Network). |
 | `GET` | `/api/locations` | Proxy za pretragu lokacija (Nominatim). |
 
-#### 💰 Plaćanja
+####  Plaćanja
 
 ```mermaid
 sequenceDiagram
@@ -1163,7 +1138,7 @@ sequenceDiagram
 | `POST` | `/api/payments/calculate` | Izračun naknada prije slanja. |
 | `POST` | `/api/payments/send` | Izvršavanje plaćanja. |
 
-#### 🏛️ Community (Threads & Roadmap)
+####  Community (Threads & Roadmap)
 
 ```mermaid
 graph LR
@@ -1189,7 +1164,7 @@ graph LR
 | `POST` | `/api/roadmap` | Predlaganje nove funkcionalnosti. |
 | `POST` | `/api/roadmap/vote` | Glasanje za funkcionalnost. |
 
-#### 🛡️ Admin & System
+####  Admin & System
 
 | Metoda | Endpoint | Opis | Role |
 |:-------|:---------|:-----|:-----|
@@ -1203,7 +1178,7 @@ graph LR
 | `GET` | `/api/csrf-token` | Dohvat CSRF tokena. | Auth |
 | `GET` | `/api/keys` | Upravljanje API ključevima. | Auth |
 
-### 🛑 Rate Limiting
+###  Rate Limiting
 
 Sustav koristi rate limiting kako bi zaštitio API od zlouporabe.
 
@@ -1214,7 +1189,7 @@ Sustav koristi rate limiting kako bi zaštitio API od zlouporabe.
 | **PRO** | 1000 zahtjeva / min |
 | **GROWTH** | 10000 zahtjeva / min |
 
-### ⚠️ Status Kodovi
+###  Status Kodovi
 
 | Kod | Opis |
 |-----|------|
@@ -1230,14 +1205,14 @@ Sustav koristi rate limiting kako bi zaštitio API od zlouporabe.
 
 ---
 
-## 🔒 Sigurnost
+##  Sigurnost
 
 ### Sigurnosne Mjere
 
 | Mjera | Implementacija |
 |-------|----------------|
-| **Password Hashing** | bcryptjs s cost factor 12 |
-| **Session Management** | JWT tokeni s NextAuth |
+| **Password Hashing** | Argon2id ili bcryptjs (Cost factor 12) s automatskim saltanjem |
+| **Session Management** | JWT tokeni s NextAuth (HS512 potpisivanje) |
 | **CSRF Protection** | Middleware token validation |
 | **Rate Limiting** | Redis-backed rate limiter |
 | **Input Sanitization** | Zod validacija + HTML sanitization |
@@ -1271,11 +1246,11 @@ sequenceDiagram
 
 ---
 
-## 🐳 Konfiguracija i Deployment (Docker & CI/CD)
+##  Konfiguracija i Deployment (Docker & CI/CD)
 
 Projekt koristi kontejnerizaciju za konzistentnost i skalabilnost. Cjelokupna infrastruktura definirana je u `docker-compose.yml`, a aplikacija se gradi pomoću multi-stage `Dockerfile` skripte.
 
-### 📦 Docker Compose Servisi
+###  Docker Compose Servisi
 
 Naš stack se sastoji od 6 povezanih servisa unutar izolirane mreže `dfds-network`.
 
@@ -1317,7 +1292,7 @@ Naš stack se sastoji od 6 povezanih servisa unutar izolirane mreže `dfds-netwo
 - **Profil**: `with-lb` (pokreće se samo uz `--profile with-lb`).
 - **Portovi**: 80 (HTTP) i 443 (HTTPS).
 
-### 🏗️ Dockerfile Struktura (Multi-Stage Build)
+###  Dockerfile Struktura (Multi-Stage Build)
 
 Koristimo optimizirani multi-stage build proces kako bismo smanjili veličinu finalne slike i ubrzali deployment.
 
@@ -1334,11 +1309,11 @@ Koristimo optimizirani multi-stage build proces kako bismo smanjili veličinu fi
 
 ---
 
-## 🛠️ Deployment Skripta (@deploy.sh)
+##  Deployment Skripta (@deploy.sh)
 
 `deploy.sh` je centralizirani alat za upravljanje životnim ciklusom aplikacije. Automatizira instalaciju zavisnosti, konfiguraciju okoline, upravljanje kontejnerima i migracije baze podataka.
 
-### 📋 Pregled Naredbi
+###  Pregled Naredbi
 
 | Naredba | Opis | Primjer Korištenja |
 |:--------|:-----|:-------------------|
@@ -1353,7 +1328,7 @@ Koristimo optimizirani multi-stage build proces kako bismo smanjili veličinu fi
 | `logs` | Prikazuje live logove svih servisa. | `./deploy.sh logs` |
 | `force-db-push` | Forsira ažuriranje baze uz mogući gubitak podataka (korisno za dev). | `./deploy.sh force-db-push` |
 
-### ⚙️ Automatizirani Procesi
+###  Automatizirani Procesi
 
 Skripta interno rješava kompleksne zadaće kako bi deployment bio "jedan klik":
 
@@ -1367,7 +1342,7 @@ Skripta interno rješava kompleksne zadaće kako bi deployment bio "jedan klik":
 4.  **Load Balancing (Opcionalno)**:
     *   Podržava `start-lb` za pokretanje Nginx load balancera ispred aplikacije (korisno za skaliranje).
 
-### 🚀 Scenariji Korištenja
+###  Scenariji Korištenja
 
 #### Prvi Deployment (Fresh Install)
 ```bash
@@ -1393,11 +1368,11 @@ git pull
 
 ---
 
-## 📂 Detaljni Popis Datoteka
+##  Detaljni Popis Datoteka
 
 Ovo je referenca svih ključnih datoteka u projektu, grupiranih po direktorijima.
 
-### 📱 Aplikacija (`/app`)
+###  Aplikacija (`/app`)
 
 #### Javne Stranice
 | Datoteka | Opis |
@@ -1456,7 +1431,7 @@ Ovo je referenca svih ključnih datoteka u projektu, grupiranih po direktorijima
 | `paywall-demo/page.tsx` | Demo stranica za testiranje crypto plaćanja. |
 | `profile/[id]/page.tsx` | Javni profil korisnika. |
 
-### ⚡ API Rute (`/app/api`)
+###  API Rute (`/app/api`)
 
 #### Auth & Korisnici
 | Datoteka | Opis |
@@ -1522,7 +1497,7 @@ Ovo je referenca svih ključnih datoteka u projektu, grupiranih po direktorijima
 | `blog/posts/route.ts` | CRUD za blog postove. |
 | `v1/**` | Javni API endpointi (startups, ingest, funding, portfolio). |
 
-### 🧩 Komponente (`/components`)
+###  Komponente (`/components`)
 
 #### UI Primitivi (`/ui`)
 | Datoteka | Opis |
@@ -1564,7 +1539,7 @@ Ovo je referenca svih ključnih datoteka u projektu, grupiranih po direktorijima
 | **Providers** | `AuthProvider.tsx`, `PostHogProvider.tsx`, `ThemeProvider.tsx` | Context provideri. |
 | **Demo** | `DemoControls.tsx`, `Paywall.tsx` | Kontrole za demo mod. |
 
-### 📚 Biblioteke i Alati (`/lib`)
+###  Biblioteke i Alati (`/lib`)
 
 | Datoteka | Opis |
 |:---------|:-----|
@@ -1601,7 +1576,7 @@ Ovo je referenca svih ključnih datoteka u projektu, grupiranih po direktorijima
 | `use-debounce.ts` | Hook za odgodu izvršavanja (npr. pretraga). |
 | `useConversationSubscription.ts` | Hook za real-time chat (Pusher subscription). |
 
-### 🛠️ Skripte (`/scripts`)
+###  Skripte (`/scripts`)
 
 | Datoteka | Opis |
 |:---------|:-----|
@@ -1618,7 +1593,7 @@ Ovo je referenca svih ključnih datoteka u projektu, grupiranih po direktorijima
 | `verify-production-upgrade.ts` | Provjerava integritet podataka. |
 | `verify-user-deletion.ts` | Testira kaskadno brisanje korisnika. |
 
-### 🧪 Testovi (`/tests`)
+###  Testovi (`/tests`)
 
 #### E2E (`/tests/e2e`)
 | Datoteka | Opis |
@@ -1682,14 +1657,14 @@ Ovo je referenca svih ključnih datoteka u projektu, grupiranih po direktorijima
 
 ---
 
-## 🚀 Kako Pokrenuti
+##  Kako Pokrenuti
 
 ### Preduvjeti
 
 - Node.js 18+
 - PostgreSQL 14+
 - Redis (opcionalno, za full real-time)
-- pnpm/npm/yarn
+- npm (preporučeno zbog package-lock.json)
 
 ### Koraci
 
@@ -1699,7 +1674,7 @@ git clone https://github.com/team-cloudzz/dfds.git
 cd dfds
 
 # 2. Instalirajte dependencies
-npm install
+npm ci # ili npm install
 
 # 3. Konfigurirajte environment varijable
 cp env.example .env
@@ -1756,7 +1731,7 @@ docker-compose up -d
 
 ---
 
-## 📱 Naslovna Stranica (Landing Page)
+##  Naslovna Stranica (Landing Page)
 
 Prva stranica koju posjetitelji vide. Dizajnirana za konverziju.
 
@@ -1771,7 +1746,7 @@ Prva stranica koju posjetitelji vide. Dizajnirana za konverziju.
 
 ---
 
-## 📞 Kontakt i Podrška
+##  Kontakt i Podrška
 
 - **Email**: team@cloudzz.dev
 
@@ -1785,11 +1760,11 @@ Prva stranica koju posjetitelji vide. Dizajnirana za konverziju.
 
 ---
 
-## 🧩 Komponente Sučelja (@components)
+##  Komponente Sučelja (@components)
 
 Frontend arhitektura temelji se na modularnim i ponovno iskoristivim React komponentama. Organizirane su prema funkcionalnosti unutar `@components` direktorija.
 
-### 🌳 Hijerarhija Komponenti (Primjer Dashboarda)
+###  Hijerarhija Komponenti (Primjer Dashboarda)
 
 ```mermaid
 graph TD
@@ -1812,20 +1787,20 @@ graph TD
     Charts --> ChartCard1[ChartCard]
 ```
 
-### 🤖 AI Komponente (`/ai`)
+###  AI Komponente (`/ai`)
 
 | Komponenta | Opis |
 |:-----------|:-----|
 | `AiAssistant` | Glavni chat widget koji pluta na ekranu. Koristi `react-markdown` za renderiranje odgovora i podržava "Quick Actions" (npr. analiza pitcha). Povezan s OpenAI API-jem. |
 
-### 🔐 Autentifikacija (`/auth`)
+###  Autentifikacija (`/auth`)
 
 | Komponenta | Opis |
 |:-----------|:-----|
 | `AuthButton` | Gumb za prijavu/odjavu s vizualnim indikatorom stanja. |
 | `ReferralPaywall` | "Soft paywall" komponenta koja zaključava sadržaj dok korisnik ne pozove prijatelje ili ne nadogradi plan. |
 
-### 📊 Dashboard Elementi (`/dashboard`)
+###  Dashboard Elementi (`/dashboard`)
 
 | Komponenta | Opis |
 |:-----------|:-----|
@@ -1836,7 +1811,7 @@ graph TD
 | `UserNav` | Dropdown izbornik za korisnički profil, postavke i odjavu. |
 | `NetworkGrid` & `InvestorGrid` | Grid prikaz korisnika s karticama, avatarima i akcijskim gumbima. |
 
-### 🚀 Landing Page (`/landing`)
+###  Landing Page (`/landing`)
 
 | Komponenta | Opis |
 |:-----------|:-----|
@@ -1845,7 +1820,7 @@ graph TD
 | `FeatureCards` | Prikaz ključnih mogućnosti platforme u gridu. |
 | `ModernFooter` | Responzivno podnožje s linkovima i formom za newsletter. |
 
-### 💬 Messaging (`/messaging`)
+###  Messaging (`/messaging`)
 
 | Komponenta | Opis |
 |:-----------|:-----|
@@ -1853,7 +1828,7 @@ graph TD
 | `MessageInbox` | Lista svih konverzacija s prikazom zadnje poruke i statusom pročitanosti. |
 | `PaymentRequiredModal` | Modal koji se pojavljuje kada je potrebno platiti za slanje poruke (anti-spam mjera). |
 
-### 💳 Plaćanja (`/payments`)
+###  Plaćanja (`/payments`)
 
 | Komponenta | Opis |
 |:-----------|:-----|
@@ -1864,17 +1839,17 @@ graph TD
 
 ---
 
-## 🧪 Testiranje i CI/CD Pipeline (@tests)
+##  Testiranje i CI/CD Pipeline (@tests)
 
 Kvaliteta koda osigurana je kroz sveobuhvatan sustav testiranja koji pokriva sve razine aplikacije, od pojedinačnih funkcija do korisničkih flowova.
 
-### 📐 Strategija Testiranja (Testing Pyramid)
+###  Strategija Testiranja (Testing Pyramid)
 
 ```mermaid
 graph TD
-    E2E[End-to-End Tests<br/>(Simulacija korisnika)]
-    INT[Integration Tests<br/>(API & Baza)]
-    UNIT[Unit Tests<br/>(Funkcije & Logika)]
+    E2E["End-to-End Tests<br/>(Simulacija korisnika)"]
+    INT["Integration Tests<br/>(API & Baza)"]
+    UNIT["Unit Tests<br/>(Funkcije & Logika)"]
     
     E2E --> INT
     INT --> UNIT
@@ -1949,7 +1924,7 @@ Simuliraju stvarna korisnička ponašanja renderiranjem komponenti.
 | `components/verify-email-content.test.tsx` | Testira formu za unos verifikacijskog koda. |
 | `dashboard/pages.test.tsx` | Integracijski test cijelih stranica dashboarda (Settings, Investor view). |
 
-### 🚀 CI/CD Pipeline
+###  CI/CD Pipeline
 
 Svaki `git push` pokreće automatizirani pipeline koji osigurava da novi kod ne narušava postojeću funkcionalnost.
 
@@ -1977,15 +1952,15 @@ sequenceDiagram
     end
     
     alt Success
-        CI-->>Git: ✅ All Checks Passed
+        CI-->>Git:  All Checks Passed
         Git-->>Dev: Ready to Merge
     else Failure
-        CI-->>Git: ❌ Checks Failed
+        CI-->>Git:  Checks Failed
         Git-->>Dev: Fix Errors
     end
 ```
 
-### 🛠️ Alati za Testiranje
+###  Alati za Testiranje
 
 | Alat | Svrha |
 |:-----|:------|
