@@ -12,6 +12,7 @@
 1. [Uvod i Pregled Projekta](#-uvod-i-pregled-projekta)
 2. [Detaljan opis rada](#-detaljan-opis-rada)
 - [Korisničke Uloge](#-korisničke-uloge)
+- [Naslovna Stranica (Landing Page)](#-naslovna-stranica-landing-page)
 - [Dashboard Funkcionalnosti](#-dashboard-funkcionalnosti-sve-kartice)
 - [AI Asistent](#-ai-asistent)
 3. [Tehnička dokumentacija](#-tehnička-dokumentacija)
@@ -28,7 +29,7 @@
 
 ### Što je DFDS?
 
-**DFDS (Developers, Founders, Deal-makers, Startups)** je sveobuhvatna platforma dizajnirana da revolucionira startup ekosustav. Naš tim, **Team Cloudzz**, fokusirao se na rješavanje ključnog problema: *nepovezanosti između inovatora (Foundera), graditelja (Developera) i investitora.*
+**DFDS (Developers, Founders, Deal-makers, Startups)** je sveobuhvatna platforma dizajnirana da revolucionira startup ekosustav. Naš tim, **Team Cloudzz**, fokusirao se na rješavanje ključnog problema: *nepovezanosti između inovatora (Foundera), developera i investitora.*
 
 ### Tim Cloudzz
 
@@ -43,7 +44,7 @@
 
 ### Ideja
 
-**Kako smo došli na ideju za DFDS?** na ideju za DFDS smo došli nakon prikupljenih podataka da u Hrvatskoj oko 70% startupa propadne zbog nedostatka financiranja i tima. Također smo primjetili da je teško pronaći investitore i developere koji bi se pridružili startupu.
+**Kako smo došli na ideju za DFDS?** na ideju za DFDS smo došli nakon prikupljenih podataka da u Hrvatskoj oko 70% startupa propadne zbog nedostatka financiranja. Također smo primjetili da je teško pronaći investitore i developere koji bi se pridružili startupu. Zato smo napravili DFDS kako bi riješili taj problem.
 
 
 
@@ -71,6 +72,7 @@ Stvoriti **živi ekosustav** gdje se:
 ## Detaljan opis rada
 
 ---
+
 
 ## 👥 Korisničke Uloge
 
@@ -140,6 +142,22 @@ graph TB
 | Blog upravljanje | Kreiranje i uređivanje blog postova |
 | Korisnici pregled | Nadzor svih računa |
 | Feature requests | Upravljanje zahtjevima za nove funkcije |
+
+---
+
+## 📱 Naslovna Stranica (Landing Page)
+
+Prva stranica koju posjetitelji vide. Dizajnirana za konverziju.
+
+![Naslovna Stranica](./docs/images/HomePage-Screenshot.png)
+
+### Sekcije:
+
+1. **Hero Section** - Glavni naslov, opis i CTA gumbi
+2. **How It Works** - 3-step objašnjenje platforme
+3. **Call To Action** - Registracijski CTA
+4. **Modern Footer** - Linkovi, social media, copyright
+
 
 ---
 
@@ -1174,21 +1192,6 @@ docker-compose up -d
 
 ---
 
-## 📱 Naslovna Stranica (Landing Page)
-
-Prva stranica koju posjetitelji vide. Dizajnirana za konverziju.
-
-![Naslovna Stranica](./docs/images/landing_page_1769369074923.png)
-
-### Sekcije:
-
-1. **Hero Section** - Glavni naslov, opis i CTA gumbi
-2. **How It Works** - 3-step objašnjenje platforme
-3. **Call To Action** - Registracijski CTA
-4. **Modern Footer** - Linkovi, social media, copyright
-
----
-
 ## 📞 Kontakt i Podrška
 
 - **Email**: team@cloudzz.dev
@@ -1198,5 +1201,8 @@ Prva stranica koju posjetitelji vide. Dizajnirana za konverziju.
 *Hvala što koristite DFDS!*  
 *— Tim Cloudzz*
 
-**Verzija dokumentacije**: 2.0.0  
-**Zadnje ažuriranje**: Siječanj 2026
+**Verzija dokumentacije**: 3.0.0  
+**Zadnje ažuriranje**: Veljača 2026
+
+
+[def]: #-naslovna-stranica
