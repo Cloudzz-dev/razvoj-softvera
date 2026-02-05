@@ -225,7 +225,7 @@ graph TB
 
 Pregled i kreiranje startupa na platformi.
 
-![Pregled Startupa](./docs/images/startups_page_final_1769369880445.png)
+![Pregled Startupa](./docs/images/Startup_page.png)
 
 #### Funkcionalnosti:
 
@@ -253,7 +253,7 @@ graph LR
 
 Pronalaženje talenata za gradnju tima.
 
-![Mreža Developera](./docs/images/network_page_1769370073312.png)
+![Mreža Developera](./docs/images/Network_page.png)
 
 #### Funkcionalnosti:
 
@@ -275,7 +275,7 @@ Pronalaženje talenata za gradnju tima.
 
 Povezivanje s investitorima.
 
-![Investitori](./docs/images/investors_page_1769370060670.png)
+![Investitori](./docs/images/Investor_page.png)
 
 #### Funkcionalnosti:
 

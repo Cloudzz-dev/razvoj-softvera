@@ -83,8 +83,8 @@ export default async function StartupsPage({
                 <div className="space-y-8">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                         {startups.map((startup) => (
-                            <GlassCard 
-                                key={startup.id} 
+                            <GlassCard
+                                key={startup.id}
                                 className="group relative p-6 border-white/5 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-center text-center overflow-hidden min-h-[220px]"
                             >
                                 <div className="flex-1 flex flex-col justify-center items-center gap-2">

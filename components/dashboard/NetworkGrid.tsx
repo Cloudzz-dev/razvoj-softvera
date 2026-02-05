@@ -101,8 +101,8 @@ export function NetworkGrid({ initialUsers, searchQuery, initialHasMore }: Netwo
                     const isCurrentUser = session?.user?.email === developer.email;
 
                     return (
-                        <GlassCard 
-                            key={developer.id} 
+                        <GlassCard
+                            key={developer.id}
                             className="group relative p-6 border-white/5 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-between text-center overflow-hidden min-h-[200px]"
                         >
                             <div className="flex-1 flex flex-col justify-center items-center space-y-4">
@@ -111,7 +111,7 @@ export function NetworkGrid({ initialUsers, searchQuery, initialHasMore }: Netwo
                                         <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse" />
                                         <h3 className="text-xl font-bold text-white truncate max-w-[200px] tracking-tight">{developer.name?.split(' ')[0] || "Anon"}</h3>
                                     </div>
-                                    
+
                                     <div className="flex items-center justify-center gap-2 text-zinc-400">
                                         <MapPin size={14} />
                                         <p className="text-sm font-medium uppercase tracking-wide">

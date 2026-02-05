@@ -102,8 +102,8 @@ export function InvestorGrid({ initialInvestors, searchQuery, initialNextCursor 
         <div className="space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredInvestors.map((investor) => (
-                    <GlassCard 
-                        key={investor.id} 
+                    <GlassCard
+                        key={investor.id}
                         className="group relative p-6 border-white/5 bg-black/40 hover:bg-white/5 transition-all flex flex-col justify-between text-center overflow-hidden min-h-[180px]"
                     >
                         <div className="flex-1 flex flex-col justify-center items-center space-y-3">
