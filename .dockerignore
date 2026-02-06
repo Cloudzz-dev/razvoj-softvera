@@ -33,7 +33,7 @@ docker-compose*.yml
 
 # Documentation and misc (except docs needed in build)
 *.md
-!DFDS_Dokumentacija.md
+!README.md
 LICENSE
 docs
 

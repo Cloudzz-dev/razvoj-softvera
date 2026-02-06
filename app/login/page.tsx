@@ -10,6 +10,7 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import posthog from "posthog-js";
 import { ArrowLeft, Rocket } from "lucide-react";
+import Beams from "@/components/ui/Beams";
 
 export default function LoginPage() {
     const router = useRouter();
@@ -125,6 +126,20 @@ export default function LoginPage() {
 
     return (
         <PageShell footer={false}>
+            {/* Fixed Background - same as root page */}
+            <div className="fixed inset-0 z-0 pointer-events-none w-full h-full">
+                <Beams
+                    beamWidth={3}
+                    beamHeight={30}
+                    beamNumber={20}
+                    lightColor="#C0C0C0"
+                    speed={2}
+                    noiseIntensity={1.75}
+                    scale={0.2}
+                    rotation={30}
+                />
+            </div>
+
             <Section className="flex items-center justify-center min-h-[80vh]">
                 <div className="w-full max-w-md space-y-8">
                     <GlassCard className="p-8 border-white/10 bg-black/40 backdrop-blur-xl">

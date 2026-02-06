@@ -151,7 +151,7 @@ export default function JoinPage() {
 
     return (
         <PageShell footer={false}>
-            <Section className="flex items-center justify-center min-h-[85vh]">
+            <Section className="flex items-center justify-center min-h-[85vh] px-4" container={false}>
                 <GlassCard className="w-full max-w-2xl p-0 border-white/10 bg-black/40 backdrop-blur-xl relative z-10 overflow-hidden">
                     {/* Progress Bar */}
                     <div className="h-1.5 w-full bg-white/5 overflow-hidden">

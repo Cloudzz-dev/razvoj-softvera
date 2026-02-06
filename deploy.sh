@@ -160,11 +160,11 @@ install_nvm() {
   export NVM_DIR="$HOME/.nvm"
   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
-  # Install and use Node 20
-  log_info "Installing Node.js 20..."
-  nvm install 20
-  nvm use 20
-  nvm alias default 20
+  # Install and use Node 22
+  log_info "Installing Node.js 22..."
+  nvm install 22
+  nvm use 22
+  nvm alias default 22
 
   log_success "Node.js $(node -v) installed and active!"
 }
@@ -367,7 +367,7 @@ start_containers() {
   log_info "Running migrations via migrator..."
   
   # We override the command to perform the migration sequence
-  $COMPOSE_CMD run --rm --entrypoint "/bin/sh -c" migrator "npx prisma generate && npx prisma db push --skip-generate && npx ts-node --compiler-options '{\"module\":\"CommonJS\"}' prisma/seed.ts"
+  $COMPOSE_CMD run --rm --entrypoint "/bin/sh -c" migrator "npx prisma generate && npx prisma db push && npx ts-node --compiler-options '{\"module\":\"CommonJS\"}' prisma/seed.ts"
 
   # Start all services
   $COMPOSE_CMD up -d
@@ -421,7 +421,7 @@ force_db_push() {
     -e DATABASE_URL="postgresql://${ACTUAL_DB_USER}:${ACTUAL_DB_PASS}@postgres:5432/${ACTUAL_DB_NAME}?schema=public" \
     -v "$(pwd)/prisma:/app/prisma" \
     -w /app \
-    node:20-alpine sh -c "apk add --no-cache openssl && npm install prisma@5.22.0 @prisma/client@5.22.0 --no-save && npx prisma generate && npx prisma db push --skip-generate --accept-data-loss"
+    node:22-alpine sh -c "apk add --no-cache openssl && npm install prisma@7.3.0 @prisma/client@7.3.0 --no-save && npx prisma generate && npx prisma db push --skip-generate --accept-data-loss"
 
   log_success "Database schema updated (forced)!"
 }
