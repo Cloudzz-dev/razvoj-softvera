@@ -11,6 +11,18 @@ export async function GET(req: Request) {
         if (auth instanceof NextResponse) return auth;
         const { session } = auth;
 
+        if (session.user.email === "demo@cloudzz.dev") {
+            return NextResponse.json([{
+                id: "demo_startup_1",
+                name: "Cloudzz Demo",
+                founderId: session.user.id,
+                founder: { id: session.user.id, name: "Demo User" },
+                memberships: [{ role: "OWNER", joinedAt: new Date().toISOString(), isActive: true }],
+                myRole: "OWNER",
+                joinedAt: new Date().toISOString()
+            }]);
+        }
+
         const user = await prisma.user.findUnique({
             where: { email: session.user.email! },
             select: { id: true }

@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { GlassCard } from "@/components/ui/GlassCard";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import {
     ArrowLeft,
     MapPin,
@@ -18,6 +19,7 @@ import {
     Briefcase,
     Clock,
     DollarSign,
+    MessageSquare,
 } from "lucide-react";
 import posthog from "posthog-js";
 
@@ -75,10 +77,13 @@ interface UserProfile {
 
 export default function ProfilePage() {
     const params = useParams();
+    const router = useRouter();
+    const { data: session } = useSession();
     const userId = params.id as string;
     const [user, setUser] = useState<UserProfile | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [isMessaging, setIsMessaging] = useState(false);
 
     useEffect(() => {
         async function fetchProfile() {
@@ -109,6 +114,30 @@ export default function ProfilePage() {
             fetchProfile();
         }
     }, [userId]);
+
+    const handleMessage = async () => {
+        if (!session?.user || isMessaging) return;
+
+        setIsMessaging(true);
+        try {
+            const res = await fetch("/api/conversations", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ userId: user?.id }),
+            });
+
+            if (res.ok) {
+                const conversation = await res.json();
+                router.push(`/dashboard/messages?conversationId=${conversation.id}`);
+            } else {
+                console.error("Failed to start conversation");
+            }
+        } catch (error) {
+            console.error("Error starting conversation:", error);
+        } finally {
+            setIsMessaging(false);
+        }
+    };
 
     const getRoleLabel = (role: string) => {
         switch (role) {
@@ -171,6 +200,14 @@ export default function ProfilePage() {
             </main>
         );
     }
+
+    // Determine if we show the Message button or Edit Profile
+    // We assume session.user.id is available. If type error occurs, we might need a type assertion or fix Session type.
+    // For safety, we compare email if id is missing in standard session, but API route uses ID, so ID should be there.
+    // Let's use ID if available, else fallback to email check if ID is missing in types but present in runtime?
+    // Usually next-auth session needs augmentation to include ID.
+    // I'll assume it's extended properly.
+    const isOwnProfile = session?.user?.email && user.id && (session.user as any).id === user.id;
 
     return (
         <main className="min-h-screen bg-black text-white">
@@ -497,24 +534,67 @@ export default function ProfilePage() {
                             </motion.div>
                         )}
 
-                        {/* Connect CTA */}
+                        {/* Actions (Message / Connect) */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.25 }}
                         >
                             <GlassCard className="p-6 border-white/10 bg-gradient-to-br from-indigo-600/10 to-purple-600/10">
-                                <h3 className="text-lg font-semibold text-white mb-2">Want to connect?</h3>
-                                <p className="text-sm text-zinc-400 mb-4">
-                                    Sign up to message {user.name || "this user"} and start building together.
-                                </p>
-                                <Link
-                                    href="/join"
-                                    className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-lg bg-white text-black font-semibold hover:bg-zinc-200 transition-colors"
-                                >
-                                    <Lock className="w-4 h-4" />
-                                    Sign up to connect
-                                </Link>
+                                {session?.user ? (
+                                    isOwnProfile ? (
+                                        // Own Profile
+                                        <>
+                                            <h3 className="text-lg font-semibold text-white mb-2">Your Profile</h3>
+                                            <p className="text-sm text-zinc-400 mb-4">
+                                                This is how your profile appears to others.
+                                            </p>
+                                            <Link
+                                                href="/dashboard/settings"
+                                                className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-lg bg-white/10 text-white font-semibold hover:bg-white/20 transition-colors"
+                                            >
+                                                Edit Profile
+                                            </Link>
+                                        </>
+                                    ) : (
+                                        // Other User - Message
+                                        <>
+                                            <h3 className="text-lg font-semibold text-white mb-2">Interested?</h3>
+                                            <p className="text-sm text-zinc-400 mb-4">
+                                                Start a conversation with {user.name || "this user"} to discuss opportunities.
+                                            </p>
+                                            <button
+                                                onClick={handleMessage}
+                                                disabled={isMessaging}
+                                                className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-500 transition-colors disabled:opacity-50"
+                                            >
+                                                {isMessaging ? (
+                                                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                                ) : (
+                                                    <>
+                                                        <MessageSquare className="w-4 h-4" />
+                                                        Send Message
+                                                    </>
+                                                )}
+                                            </button>
+                                        </>
+                                    )
+                                ) : (
+                                    // Not Logged In
+                                    <>
+                                        <h3 className="text-lg font-semibold text-white mb-2">Want to connect?</h3>
+                                        <p className="text-sm text-zinc-400 mb-4">
+                                            Sign up to message {user.name || "this user"} and start building together.
+                                        </p>
+                                        <Link
+                                            href="/join"
+                                            className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-lg bg-white text-black font-semibold hover:bg-zinc-200 transition-colors"
+                                        >
+                                            <Lock className="w-4 h-4" />
+                                            Sign up to connect
+                                        </Link>
+                                    </>
+                                )}
                             </GlassCard>
                         </motion.div>
                     </div>

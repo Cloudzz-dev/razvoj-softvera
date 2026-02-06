@@ -12,13 +12,13 @@ export const metadata = {
 };
 
 export default function DocsPage() {
-    const docsPath = path.join(process.cwd(), 'DFDS_Dokumentacija.md');
+    const docsPath = path.join(process.cwd(), 'README.md');
 
     let fileContent = '';
     try {
         fileContent = fs.readFileSync(docsPath, 'utf8');
     } catch (_) {
-        fileContent = '# Error Loading Documentation\n\nCould not find `DFDS_Dokumentacija.md`. Please ensure it is present in the project root.';
+        fileContent = '# Error Loading Documentation\n\nCould not find `README.md`. Please ensure it is present in the project root.';
     }
 
     return (

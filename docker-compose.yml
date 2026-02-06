@@ -64,6 +64,7 @@ services:
       context: .
       dockerfile: Dockerfile
       target: builder
+      network: host
     profiles: [ "tools" ]
     env_file: .env
     volumes:
@@ -76,6 +77,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      network: host
     container_name: dfds-app
     restart: unless-stopped
     ports:

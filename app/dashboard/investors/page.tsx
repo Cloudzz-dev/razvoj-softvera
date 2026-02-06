@@ -14,8 +14,8 @@ interface InvestorsPageProps {
 // Loading skeleton
 function InvestorLoadingSkeleton() {
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {[1, 2, 3, 4].map((i) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
                 <GlassCard key={i} className="p-6 border-white/10 bg-black/40">
                     <div className="animate-pulse">
                         <div className="flex items-start gap-4 mb-4">

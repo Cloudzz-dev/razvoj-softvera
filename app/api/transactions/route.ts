@@ -19,6 +19,28 @@ export async function GET(request: Request) {
 
     const filter = searchParams.get("filter") || "all";
     const userId = session.user.id;
+    const isDemoUser = session.user.email === "demo@cloudzz.dev";
+
+    if (isDemoUser) {
+        const { DEMO_TRANSACTIONS } = await import("@/lib/demo-data");
+        
+        let filteredTransactions = DEMO_TRANSACTIONS;
+        if (filter === "sent") {
+            filteredTransactions = DEMO_TRANSACTIONS.filter(t => t.type === "OUTGOING");
+        } else if (filter === "received") {
+            filteredTransactions = DEMO_TRANSACTIONS.filter(t => t.type === "INCOMING");
+        }
+
+        return NextResponse.json({
+            transactions: filteredTransactions,
+            pagination: {
+                total: filteredTransactions.length,
+                pages: 1,
+                currentPage: 1,
+                limit: take
+            }
+        });
+    }
 
     try {
         let whereClause: any = {};

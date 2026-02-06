@@ -58,14 +58,27 @@ export default async function DashboardPage() {
         redirect("/auth/signin");
     }
 
-    const isFounder = session.user.role === "FOUNDER";
+    const isDemoUser = session.user.email === "demo@cloudzz.dev";
+    // Force founder view for demo user
+    const isFounder = session.user.role === "FOUNDER" || isDemoUser;
 
-    const [stats, activity, growthData, founderStats] = await Promise.all([
-        getDashboardStats(session.user.id),
-        getRecentActivity(session.user.id),
-        getGrowthMetrics("month", session.user.id),
-        isFounder ? getFounderStats(session.user.id) : Promise.resolve(null)
-    ]);
+    let stats: any, activity: any, growthData: any, founderStats: any;
+
+    if (isDemoUser) {
+        const { DEMO_FOUNDER_STATS, DEMO_GROWTH_DATA } = await import("@/lib/demo-data");
+        // Mock data for demo user
+        stats = null; // Not used for founder view
+        activity = [];
+        growthData = DEMO_GROWTH_DATA;
+        founderStats = DEMO_FOUNDER_STATS;
+    } else {
+        [stats, activity, growthData, founderStats] = await Promise.all([
+            getDashboardStats(session.user.id),
+            getRecentActivity(session.user.id),
+            getGrowthMetrics("month", session.user.id),
+            isFounder ? getFounderStats(session.user.id) : Promise.resolve(null)
+        ]);
+    }
 
     const statsCards = stats ? [
         { name: "Connections", value: stats.connections.toString(), icon: Users, color: "#818cf8" },
@@ -89,7 +102,7 @@ export default async function DashboardPage() {
                     </p>
                 </div>
                 <div className="flex gap-3">
-                    <Link 
+                    <Link
                         href="/dashboard/messages"
                         className="p-3 rounded-full bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-all relative"
                     >
@@ -107,7 +120,7 @@ export default async function DashboardPage() {
                     <Suspense fallback={<StatsLoadingSkeleton />}>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                             {statsCards.map((stat) => (
-                                <StatCard 
+                                <StatCard
                                     key={stat.name}
                                     title={stat.name}
                                     value={stat.value}
@@ -155,7 +168,7 @@ export default async function DashboardPage() {
                         <GlassCard className="p-6 border-white/10 bg-black/40 min-h-[280px]">
                             {activity.length > 0 ? (
                                 <div className="space-y-2">
-                                    {activity.map((item) => (
+                                    {activity.map((item: any) => (
                                         <div key={item.id} className="flex items-center gap-4 p-3 rounded-2xl hover:bg-white/5 transition-colors group">
                                             <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
                                                 {item.icon || "📌"}
