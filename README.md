@@ -9,27 +9,27 @@
 
 ## 📖 Sadržaj
 
-1. [Uvod i Pregled Projekta](#-uvod-i-pregled-projekta)
-2. [Detaljan opis rada](#-detaljan-opis-rada)
-- [Korisničke Uloge](#-korisničke-uloge)
-- [Naslovna Stranica (Landing Page)](#-naslovna-stranica-landing-page)
-- [Dashboard Funkcionalnosti](#-dashboard-funkcionalnosti-sve-kartice)
-- [AI Asistent](#-ai-asistent)
-3. [Tehnička dokumentacija](#-tehnička-dokumentacija)
-- [Tehnološki Stack](#-tehnološki-stack)
-- [Arhitektura Sustava](#-arhitektura-sustava)
-- [Shema Baze Podataka](#-shema-baze-podataka)
-- [API Dokumentacija](#-api-dokumentacija)
+1. [Uvod i pregled projekta](#-uvod-i-pregled-projekta)
+2. [Detaljan opis rada](#detaljan-opis-rada)
+- [Korisničke uloge](#-korisničke-uloge)
+- [Naslovna stranica (landing page)](#-naslovna-stranica-landing-page)
+- [Dashboard funkcionalnosti](#-dashboard-funkcionalnosti-sve-kartice)
+- [AI asistent](#-ai-asistent)
+3. [Tehnička dokumentacija](#tehnička-dokumentacija)
+- [Tehnološki stack](#-tehnološki-stack)
+- [Arhitektura sustava](#-arhitektura-sustava)
+- [Shema baze podataka](#-shema-baze-podataka)
+- [API dokumentacija](#-api-dokumentacija)
 - [Sigurnost](#-sigurnost)
-- [Kako Pokrenuti](#-kako-pokrenuti)
+- [Kako pokrenuti](#-kako-pokrenuti)
 
 ---
 
-## 📖 Uvod i Pregled Projekta
+## 📖 Uvod i pregled projekta
 
 ### Što je DFDS?
 
-**DFDS (Developers, Founders, Deal-makers, Startups)** je sveobuhvatna platforma dizajnirana da poboljša startup ekosustav. Naš tim, **Team Cloudzz**, fokusirao se na rješavanje ključnog problema: *nepovezanosti između inovatora (Foundera), developera i investitora.
+**DFDS (Developers, Founders, Deal-makers, Startups)** je sveobuhvatna platforma dizajnirana da poboljša startup ekosustav. Naš tim, **Team Cloudzz**, fokusirao se na rješavanje ključnog problema: nepovezanosti između inovatora (Foundera), developera i investitora.
 ### Tim Cloudzz
 
 **Team Cloudzz** je tim koji je dizajnirao DFDS. Trenutno je tim od tri učenika Strukovne škole Vice Vlatkovića
@@ -43,7 +43,7 @@
 
 ### Ideja
 
-**Kako smo došli na ideju za DFDS?** na ideju za DFDS smo došli nakon prikupljenih podataka da u Hrvatskoj oko 70% startupa propadne zbog nedostatka financiranja. Također smo primjetili da je teško pronaći investitore i developere koji bi se pridružili startupu. Zato smo napravili DFDS kako bi riješili taj problem.
+**Kako smo došli na ideju za DFDS?** Na ideju za DFDS smo došli nakon prikupljenih podataka da u Hrvatskoj oko 70% startupa propadne zbog nedostatka financiranja. Također smo primjetili da je teško pronaći investitore i developere koji bi se pridružili startupu. Zato smo napravili DFDS kako bi riješili taj problem.
 
 
 
@@ -54,7 +54,7 @@ Stvoriti **živi ekosustav** gdje se:
 - 💰 Inovacije **financiraju** transparentno
 - 🤝 Talenti **povezuju** inteligentno
 
-### Ključne Značajke Platforme
+### Ključne značajke platforme
 
 | Značajka | Opis |
 |----------|------|
@@ -73,7 +73,7 @@ Stvoriti **živi ekosustav** gdje se:
 ---
 
 
-## 👥 Korisničke Uloge
+## 👥 Korisničke uloge
 
 DFDS podržava četiri različite korisničke uloge, svaka s prilagođenim sučeljem i funkcionalnostima:
 
@@ -144,7 +144,7 @@ graph TB
 
 ---
 
-## 📱 Naslovna Stranica (Landing Page)
+## 📱 Naslovna stranica (Landing Page)
 
 Prva stranica koju posjetitelji vide. Dizajnirana za konverziju.
 
@@ -160,7 +160,7 @@ Prva stranica koju posjetitelji vide. Dizajnirana za konverziju.
 
 ---
 
-## 📱 Dashboard Funkcionalnosti (Sve Kartice)
+## 📱 Dashboard funkcionalnosti (Sve Kartice)
 
 Dashboard je srce DFDS platforme. Sadrži **12 zasebnih kartica** za različite funkcionalnosti:
 
@@ -190,7 +190,7 @@ graph LR
 
 **Ruta**: `/dashboard`
 
-Kontrolna ploča s pregledom ključnih metrika i brzim akcijama.
+Kontrolna ploča s pregledom ključnih metrika i brzim akcijama. Možete pratiti svoj napredak i razvoj na platformi.
 
 ![Glavni Dashboard](./docs/images/dashboard_final_1769369850203.png)
 
@@ -225,6 +225,15 @@ graph TB
 
 Pregled i kreiranje startupa na platformi.
 
+Ovdje možete pretraživati sve aktivne startupove na stranici, te možete i sami kreirati i započeti svoj vlastiti startup. 
+Ovdje također možete vidjeti i detalje o startupu kao što su:
+
+- ime startupa
+- tko je founder te izravna poveznica na njegov profil
+- koji problem startup riješava
+- koliko članova ima tim, te koje su njihove uloge
+
+
 ![Pregled Startupa](./docs/images/Startup_page.png)
 
 #### Funkcionalnosti:
@@ -238,7 +247,7 @@ Pregled i kreiranje startupa na platformi.
 | **Pagination** | Navigacija kroz stranice (25 po stranici) |
 | **External Links** | Link na web stranicu startupa |
 
-#### Faze Startupa:
+#### Faze startupa:
 
 ```mermaid
 graph LR
@@ -247,11 +256,19 @@ graph LR
 
 ---
 
-### 3. 👥 Network (Mreža Developera)
+### 3. 👥 Network (Mreža developera)
 
 **Ruta**: `/dashboard/network`
 
 Pronalaženje talenata za gradnju tima.
+
+Ovdje možete pronaći iskusne developere koji su također članovi DFDS zajednice. Možete pretraživati developere po imenu ili vještini koju posjeduju (python, java, c++, itd.) te možete vidjeti detalje o developeru kao što su:
+
+- ime developera
+- koje tehnologije koristi
+- gdje se nalazi
+
+
 
 ![Mreža Developera](./docs/images/Network_page.png)
 
@@ -275,6 +292,8 @@ Pronalaženje talenata za gradnju tima.
 
 Povezivanje s investitorima.
 
+Ovdje možete tražiti potencijalne investitore za vaš startup. Također sa potencijalnim investitorom možete direktno stupiti u kontakt preko platforme.
+
 ![Investitori](./docs/images/Investors_page.png)
 
 #### Funkcionalnosti:
@@ -296,6 +315,8 @@ Povezivanje s investitorima.
 
 Community forum za razmjenu znanja.
 
+Ovdje možete započeti diskusiju na određenu temu te možete vidjeti diskusije drugih članova zajednice. Također možete lajkati i komentirati diskusije.
+
 ![Diskusije](./docs/images/threads_page_1769370084469.png)
 
 #### Funkcionalnosti:
@@ -310,7 +331,7 @@ Community forum za razmjenu znanja.
 | **Author Info** | Ime, uloga i firma autora |
 | **Trending** | Sidebar s popularnim threadovima |
 
-#### Thread Model:
+#### Thread model:
 
 ```mermaid
 erDiagram
@@ -349,6 +370,8 @@ erDiagram
 
 Real-time chat sustav.
 
+Možete stupiti u kontakt sa bilo kojim članom zajednice, bilo da je to founder, developer ili investitor.
+
 ![Chat Sustav](./docs/images/chat_page_final_1769369863673.png)
 
 #### Funkcionalnosti:
@@ -362,7 +385,7 @@ Real-time chat sustav.
 | **User Search** | Pretraga korisnika za novu konverzaciju |
 | **Timestamps** | Relativno vrijeme (prije X minuta) |
 
-#### Real-time Arhitektura:
+#### Real-time arhitektura:
 
 ```mermaid
 sequenceDiagram
@@ -397,7 +420,7 @@ Slanje i primanje novca unutar platforme.
 | **Transaction History** | Lista svih transakcija s filterima |
 | **Payment Methods** | PayPal, Crypto (viem), Card |
 
-#### Platne Metode:
+#### Platne metode:
 
 ```mermaid
 graph TB
@@ -412,7 +435,7 @@ graph TB
     CD --> TX
 ```
 
-#### Transaction Statusi:
+#### Transaction statusi:
 
 | Status | Opis |
 |--------|------|
@@ -429,6 +452,8 @@ graph TB
 
 Transparentni prikaz planiranih funkcionalnosti s mogućnošću glasanja.
 
+Ovdje možete vidjeti koje funkcionalnosti planiramo dodati u budućnosti, te možete glasati za funkcionalnosti koje želite da se dodaju. Također možete i sami predložiti funkcionalnost.
+
 ![Roadmap](./docs/images/roadmap_page_1769370098909.png)
 
 #### Funkcionalnosti:
@@ -443,11 +468,13 @@ Transparentni prikaz planiranih funkcionalnosti s mogućnošću glasanja.
 
 ---
 
-### 9. 📊 Equity Simulator (Kalkulator)
+### 9. 📊 Equity simulator (kalkulator)
 
 **Ruta**: `/dashboard/calculator`
 
 Interaktivni alat za vizualizaciju dilucije vlasništva kroz runde financiranja.
+
+Ovdje možete izračunati kako će se vlasništvo vašeg startupa mijenjati kroz različite runde financiranja.
 
 #### Funkcionalnosti:
 
@@ -459,7 +486,7 @@ Interaktivni alat za vizualizaciju dilucije vlasništva kroz runde financiranja.
 | **Scenario Comparison** | Usporedba različitih scenarija |
 | **Export** | Dijeljenje rezultata |
 
-#### Primjer Dilucije:
+#### Primjer dilucije:
 
 ```mermaid
 pie title "Prije Seed Runde"
@@ -478,7 +505,7 @@ pie title "Nakon Seed Runde ($1M @ $5M valuation)"
 
 ---
 
-### 10. 🔑 API Access
+### 10. 🔑 API access
 
 **Ruta**: `/dashboard/api-access`
 
@@ -496,7 +523,7 @@ Upravljanje API ključevima za programatski pristup.
 | **Test Endpoint** | Testiranje API poziva iz UI-a |
 | **Usage Stats** | Prikaz zadnjeg korištenja |
 
-#### API Key Model:
+#### API key model:
 
 ```mermaid
 erDiagram
@@ -530,7 +557,7 @@ Prikaz verificiranih članova i premium pristupa.
 | **Subscription Tiers** | FREE, PRO, GROWTH planovi |
 | **Badge Display** | Verifikacijski badge za profile |
 
-#### Subscription Tiers:
+#### Subscription tiers:
 
 | Tier | Mogućnosti |
 |------|------------|
@@ -581,7 +608,7 @@ Upravljanje korisničkim računom i profilom.
 
 Floating widget dostupan na svim dashboard stranicama.
 
-### Lokacija u Kodu
+### Lokacija u kodu
 
 `/components/ai/AiAssistant.tsx`
 
@@ -595,7 +622,7 @@ Floating widget dostupan na svim dashboard stranicama.
 | **Markdown Rendering** | Formatirani odgovori s code highlightingom |
 | **Conversation History** | Pamćenje konteksta razgovora |
 
-### Quick Actions
+### Quick actions
 
 ```mermaid
 graph LR
@@ -605,7 +632,7 @@ graph LR
     QA --> A3["📧 Draft Email<br/>Generiranje cold emaila investitoru"]
 ```
 
-### Primjer Korištenja
+### Primjer korištenja
 
 ```
 User: "Analiziraj moj pitch: Gradimo AI platformu za automatizirano testiranje softvera..."
@@ -631,9 +658,9 @@ AI: ### Analiza Pitcha
 
 ---
 
-## 🔧 Tehnološki Stack
+## 🔧 Tehnološki stack
 
-### Pregled Arhitekture
+### Pregled arhitekture
 
 ```mermaid
 graph TB
@@ -678,7 +705,7 @@ graph TB
     NEXT --> POSTHOG
 ```
 
-### Detaljni Opis Tehnologija
+### Detaljni opis tehnologija
 
 #### Frontend
 
@@ -703,7 +730,7 @@ graph TB
 | **Zod** | 4.1 | Runtime validacija schema |
 | **Jose** | 6.1 | JWT token handling |
 
-#### Baza Podataka i Cache
+#### Baza podataka i cache
 
 | Tehnologija | Svrha |
 |-------------|-------|
@@ -711,7 +738,7 @@ graph TB
 | **Redis** | Cache layer i PubSub za real-time |
 | **Prisma Migrations** | Verzioniranje schema baze |
 
-#### Eksterni Servisi
+#### Eksterni servisi
 
 | Servis | Svrha |
 |--------|-------|
@@ -731,9 +758,9 @@ graph TB
 
 ---
 
-## 🏗️ Arhitektura Sustava
+## 🏗️ Arhitektura sustava
 
-### Kako Podaci Putuju
+### Kako podaci putuju
 
 ```mermaid
 sequenceDiagram
@@ -767,7 +794,7 @@ sequenceDiagram
     F-->>U: Markdown renderiran odgovor
 ```
 
-### Struktura Direktorija (Sažetak)
+### Struktura direktorija (sažetak)
 
 > **Napomena**: Ovo je sažeti prikaz glavnih direktorija. Stvarna struktura sadrži više datoteka.
 
@@ -817,9 +844,9 @@ dfds/
 
 ---
 
-## 🗄️ Shema Baze Podataka
+## 🗄️ Shema baze podataka
 
-### Entity Relationship Diagram
+### Entity relationship diagram
 
 ```mermaid
 erDiagram
@@ -909,7 +936,7 @@ erDiagram
     }
 ```
 
-### Ključni Modeli
+### Ključni modeli
 
 | Model | Svrha | Relacije |
 |-------|-------|----------|
@@ -962,7 +989,7 @@ enum TeamRole {
 
 ---
 
-## 🔌 API Dokumentacija
+## 🔌 API dokumentacija
 
 ### Autentifikacija
 
@@ -1036,7 +1063,7 @@ Dohvaća listu korisnika (filtrirano po ulozi).
 | `role` | UserRole | Filter po ulozi |
 | `search` | string | Pretraga po imenu |
 
-### Interni API Endpointi
+### Interni API endpointi
 
 | Endpoint | Metoda | Opis |
 |----------|--------|------|
@@ -1054,7 +1081,7 @@ Dohvaća listu korisnika (filtrirano po ulozi).
 | `/api/keys` | GET/POST/DELETE | API ključevi |
 | `/api/pusher/auth` | POST | Pusher autentifikacija |
 
-### Rate Limiting
+### Rate limiting
 
 | Tier | Limit |
 |------|-------|
@@ -1078,7 +1105,7 @@ Dohvaća listu korisnika (filtrirano po ulozi).
 
 ## 🔒 Sigurnost
 
-### Sigurnosne Mjere
+### Sigurnosne mjere
 
 | Mjera | Implementacija |
 |-------|----------------|
@@ -1090,7 +1117,7 @@ Dohvaća listu korisnika (filtrirano po ulozi).
 | **SQL Injection** | Prisma parameterized queries |
 | **XSS Prevention** | React automatic escaping + CSP headers |
 
-### Account Deletion Flow
+### Account deletion flow
 
 ```mermaid
 sequenceDiagram
@@ -1151,7 +1178,7 @@ npm run dev
 open http://localhost:3000
 ```
 
-### Environment Varijable
+### Environment varijable
 
 ```bash
 # Database
@@ -1179,7 +1206,7 @@ POSTHOG_KEY="..."
 REDIS_URL="redis://localhost:6379"
 ```
 
-### Docker Deployment
+### Docker deployment
 
 ```bash
 # Build i pokreni sve servise
@@ -1191,7 +1218,7 @@ docker-compose up -d
 
 ---
 
-## 📞 Kontakt i Podrška
+## 📞 Kontakt i podrška
 
 - **Email**: team@cloudzz.dev
 
