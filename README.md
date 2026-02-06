@@ -192,7 +192,7 @@ graph LR
 
 Kontrolna ploča s pregledom ključnih metrika i brzim akcijama. Možete pratiti svoj napredak i razvoj na platformi.
 
-![Glavni Dashboard](./docs/images/dashboard_final_1769369850203.png)
+![Glavni Dashboard](./docs/images/dashboard-overview.png)
 
 #### Komponente:
 
@@ -345,7 +345,7 @@ erDiagram
         string id PK
         string title
         string content
-        string[] tags
+        string-array tags
         datetime createdAt
     }
     
@@ -535,7 +535,7 @@ erDiagram
         string keyPrefix "Prvih 8 znakova"
         string name
         boolean isActive
-        string[] permissions
+        string-array permissions
         datetime lastUsed
         datetime expiresAt
     }
@@ -897,7 +897,7 @@ erDiagram
         string id PK
         string bio
         string location
-        string[] skills
+        string-array skills
         string githubUrl
         string linkedinUrl
         string experience
@@ -932,7 +932,7 @@ erDiagram
         string id PK
         string content
         boolean read
-        string[] attachments
+        string-array attachments
     }
 ```
 

@@ -1,0 +1,1944 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+            font-size: 16px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            margin: 0;
+            padding: 40px;
+            max-width: 900px;
+            margin: auto;
+        }
+        img {
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+        pre {
+            background-color: #f6f8fa;
+            border-radius: 6px;
+            padding: 16px;
+            overflow: auto;
+        }
+        code {
+            font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+            font-size: 85%;
+            background-color: rgba(175, 184, 193, 0.2);
+            padding: .2em .4em;
+            border-radius: 6px;
+        }
+        pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+        blockquote {
+            border-left: .25em solid #d0d7de;
+            color: #57606a;
+            padding: 0 1em;
+            margin: 0;
+        }
+        table {
+            border-spacing: 0;
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 16px;
+        }
+        table th, table td {
+            padding: 6px 13px;
+            border: 1px solid #d0d7de;
+        }
+        table tr:nth-child(2n) {
+            background-color: #f6f8fa;
+        }
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>DFDS: Dokumentacija</h1>
+<blockquote>
+<p><strong>Verzija</strong>: 3.0.0<br>
+<strong>Datum</strong>: Veljača 2026<br>
+<strong>Status</strong>: Produkcijska Verzija<br>
+<strong>Tim</strong>: Team Cloudzz</p>
+</blockquote>
+<hr>
+<h2>📖 Sadržaj</h2>
+<ol>
+<li><a href="#-uvod-i-pregled-projekta">Uvod i pregled projekta</a></li>
+<li><a href="#detaljan-opis-rada">Detaljan opis rada</a></li>
+</ol>
+<ul>
+<li><a href="#-korisni%C4%8Dke-uloge">Korisničke uloge</a></li>
+<li><a href="#-naslovna-stranica-landing-page">Naslovna stranica (landing page)</a></li>
+<li><a href="#-dashboard-funkcionalnosti-sve-kartice">Dashboard funkcionalnosti</a></li>
+<li><a href="#-ai-asistent">AI asistent</a></li>
+</ul>
+<ol start="3">
+<li><a href="#tehni%C4%8Dka-dokumentacija">Tehnička dokumentacija</a></li>
+</ol>
+<ul>
+<li><a href="#-tehnolo%C5%A1ki-stack">Tehnološki stack</a></li>
+<li><a href="#-arhitektura-sustava">Arhitektura sustava</a></li>
+<li><a href="#-shema-baze-podataka">Shema baze podataka</a></li>
+<li><a href="#-api-dokumentacija">API dokumentacija</a></li>
+<li><a href="#-sigurnost">Sigurnost</a></li>
+<li><a href="#-kako-pokrenuti">Kako pokrenuti</a></li>
+</ul>
+<hr>
+<h2>📖 Uvod i pregled projekta</h2>
+<h3>Što je DFDS?</h3>
+<p><strong>DFDS (Developers, Founders, Deal-makers, Startups)</strong> je sveobuhvatna platforma dizajnirana da poboljša startup ekosustav. Naš tim, <strong>Team Cloudzz</strong>, fokusirao se na rješavanje ključnog problema: nepovezanosti između inovatora (Foundera), developera i investitora.</p>
+<h3>Tim Cloudzz</h3>
+<p><strong>Team Cloudzz</strong> je tim koji je dizajnirao DFDS. Trenutno je tim od tri učenika Strukovne škole Vice Vlatkovića</p>
+<table>
+<thead>
+<tr>
+<th>Ime i Prezime</th>
+<th>Uloga</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Leon Ležaić</td>
+<td>Developer</td>
+</tr>
+<tr>
+<td>Frane Fantina</td>
+<td>Developer</td>
+</tr>
+<tr>
+<td>Roko Begonja</td>
+<td>Developer</td>
+</tr>
+</tbody>
+</table>
+<h3>Ideja</h3>
+<p><strong>Kako smo došli na ideju za DFDS?</strong> Na ideju za DFDS smo došli nakon prikupljenih podataka da u Hrvatskoj oko 70% startupa propadne zbog nedostatka financiranja. Također smo primjetili da je teško pronaći investitore i developere koji bi se pridružili startupu. Zato smo napravili DFDS kako bi riješili taj problem.</p>
+<h3>Misija</h3>
+<p>Stvoriti <strong>živi ekosustav</strong> gdje se:</p>
+<ul>
+<li>🚀 Startup timovi <strong>grade</strong> od nule</li>
+<li>💰 Inovacije <strong>financiraju</strong> transparentno</li>
+<li>🤝 Talenti <strong>povezuju</strong> inteligentno</li>
+</ul>
+<h3>Ključne značajke platforme</h3>
+<table>
+<thead>
+<tr>
+<th>Značajka</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Smart Matching</strong></td>
+<td>Algoritamsko povezivanje investitora i startupa korištenjem vektorske sličnosti</td>
+</tr>
+<tr>
+<td><strong>Real-time Chat</strong></td>
+<td>Privatne poruke bez kašnjenja putem WebSocketa</td>
+</tr>
+<tr>
+<td><strong>AI Konzultant</strong></td>
+<td>Instant analiza poslovnih ideja i generiranje e-mailova</td>
+</tr>
+<tr>
+<td><strong>Equity Simulator</strong></td>
+<td>Interaktivni kalkulator dilucije vlasništva</td>
+</tr>
+<tr>
+<td><strong>Investicijski Dashboard</strong></td>
+<td>Transparentno praćenje financiranja i transakcija</td>
+</tr>
+<tr>
+<td><strong>Community Threads</strong></td>
+<td>Forum za razmjenu znanja i partnerstava</td>
+</tr>
+<tr>
+<td><strong>API Pristup</strong></td>
+<td>Programatski pristup podacima platforme</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>Detaljan opis rada</h2>
+<hr>
+<h2>👥 Korisničke uloge</h2>
+<p>DFDS podržava četiri različite korisničke uloge, svaka s prilagođenim sučeljem i funkcionalnostima:</p>
+<p><div class="mermaid">graph TB
+    subgraph Uloge["🎭 Korisničke Uloge"]
+        DEV["👨‍💻 DEVELOPER<br/>Graditelji Proizvoda"]
+        FOUNDER["🚀 FOUNDER<br/>Osnivači Startupa"]
+        INVESTOR["💼 INVESTOR<br/>Financijeri"]
+        ADMIN["🛡️ ADMIN<br/>Administratori"]
+    end
+    
+    DEV --> |"Traži posao"| FOUNDER
+    FOUNDER --> |"Traži financiranje"| INVESTOR
+    FOUNDER --> |"Gradi tim"| DEV
+    INVESTOR --> |"Ulaže u"| FOUNDER
+    ADMIN --> |"Nadzire"| DEV
+    ADMIN --> |"Nadzire"| FOUNDER
+    ADMIN --> |"Nadzire"| INVESTOR
+</div></p>
+<h3>👨‍💻 Developer (Razvojni Programer)</h3>
+<p><strong>Pristup</strong>: Dashboard s fokusom na mrežu i prilike</p>
+<table>
+<thead>
+<tr>
+<th>Mogućnost</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Profil vještina</td>
+<td>Prikaz tehnologija (React, Node.js, Python, itd.)</td>
+</tr>
+<tr>
+<td>Portfolio projekata</td>
+<td>Galerija prošlih radova s GitHub linkovima</td>
+</tr>
+<tr>
+<td>Network pretraga</td>
+<td>Pronalaženje drugih developera i foundera</td>
+</tr>
+<tr>
+<td>Slanje poruka</td>
+<td>Direktna komunikacija s potencijalnim poslodavcima</td>
+</tr>
+<tr>
+<td>Prijava na startup</td>
+<td>Mogućnost pridruživanja postojećim startupima</td>
+</tr>
+</tbody>
+</table>
+<h3>🚀 Founder (Osnivač)</h3>
+<p><strong>Pristup</strong>: Posebni founder dashboard s metrikama startupa</p>
+<table>
+<thead>
+<tr>
+<th>Mogućnost</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Kreiranje startupa</td>
+<td>Registracija novog startupa s pitch-om i detaljima</td>
+</tr>
+<tr>
+<td>Tim management</td>
+<td>Pozivanje članova i dodjela uloga</td>
+</tr>
+<tr>
+<td>Investor matching</td>
+<td>AI-predloženi investitori na temelju fokusa</td>
+</tr>
+<tr>
+<td>Funding runway</td>
+<td>Prikaz prikupljenih sredstava i trajanja</td>
+</tr>
+<tr>
+<td>Growth analytics</td>
+<td>Grafikoni rasta i aktivnosti</td>
+</tr>
+</tbody>
+</table>
+<h3>💼 Investor</h3>
+<p><strong>Pristup</strong>: Dashboard s fokusom na deal flow</p>
+<table>
+<thead>
+<tr>
+<th>Mogućnost</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Startup discovery</td>
+<td>Pregled startupa po fazama (Pre-seed, Seed, Series A)</td>
+</tr>
+<tr>
+<td>Portfolio praćenje</td>
+<td>Pregled svih ulaganja</td>
+</tr>
+<tr>
+<td>Due diligence</td>
+<td>Pristup detaljima startupa</td>
+</tr>
+<tr>
+<td>Direktne poruke</td>
+<td>Kontaktiranje osnivača</td>
+</tr>
+<tr>
+<td>Check size profil</td>
+<td>Prikaz prosječnog ulaganja i fokusa</td>
+</tr>
+</tbody>
+</table>
+<h3>🛡️ Admin</h3>
+<p><strong>Pristup</strong>: Potpuni pristup + admin funkcije</p>
+<table>
+<thead>
+<tr>
+<th>Mogućnost</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Analytics dashboard</td>
+<td>Metrike platforme u realnom vremenu</td>
+</tr>
+<tr>
+<td>Blog upravljanje</td>
+<td>Kreiranje i uređivanje blog postova</td>
+</tr>
+<tr>
+<td>Korisnici pregled</td>
+<td>Nadzor svih računa</td>
+</tr>
+<tr>
+<td>Feature requests</td>
+<td>Upravljanje zahtjevima za nove funkcije</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>📱 Naslovna stranica (Landing Page)</h2>
+<p>Prva stranica koju posjetitelji vide. Dizajnirana za konverziju.</p>
+<p><img src="./docs/images/HomePage-Screenshot.png" alt="Naslovna Stranica"></p>
+<h3>Sekcije:</h3>
+<ol>
+<li><strong>Hero Section</strong> - Glavni naslov, opis i CTA gumbi</li>
+<li><strong>How It Works</strong> - 3-step objašnjenje platforme</li>
+<li><strong>Call To Action</strong> - Registracijski CTA</li>
+<li><strong>Modern Footer</strong> - Linkovi, social media, copyright</li>
+</ol>
+<hr>
+<h2>📱 Dashboard funkcionalnosti (Sve Kartice)</h2>
+<p>Dashboard je srce DFDS platforme. Sadrži <strong>12 zasebnih kartica</strong> za različite funkcionalnosti:</p>
+<p><div class="mermaid">graph LR
+    subgraph Navigation["📍 Dashboard Navigacija"]
+        O["🏠 Overview"]
+        S["🚀 Startups"]
+        N["👥 Network"]
+        I["💼 Investors"]
+        T["💬 Threads"]
+        M["✉️ Messages"]
+        P["💳 Payments"]
+        R["🗺️ Roadmap"]
+        C["📊 Calculator"]
+        A["🔑 API Access"]
+        MB["🛡️ Members"]
+        ST["⚙️ Settings"]
+    end
+    
+    O --> S --> N --> I --> T --> M --> P --> R --> C --> A --> MB --> ST
+</div></p>
+<hr>
+<h3>1. 🏠 Overview (Pregled)</h3>
+<p><strong>Ruta</strong>: <code>/dashboard</code></p>
+<p>Kontrolna ploča s pregledom ključnih metrika i brzim akcijama. Možete pratiti svoj napredak i razvoj na platformi.</p>
+<p><img src="./docs/images/dashboard-overview.png" alt="Glavni Dashboard"></p>
+<h4>Komponente:</h4>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Welcome Section</strong></td>
+<td>Personalizirani pozdrav s imenom korisnika</td>
+</tr>
+<tr>
+<td><strong>Stats Cards</strong></td>
+<td>4 kartice: Connections, Startups, Investors, Growth</td>
+</tr>
+<tr>
+<td><strong>Growth Dashboard</strong></td>
+<td>Interaktivni graf s metrikama rasta (za developere)</td>
+</tr>
+<tr>
+<td><strong>Founder Dashboard</strong></td>
+<td>Runway, funding, team size (za foundere)</td>
+</tr>
+<tr>
+<td><strong>Quick Actions</strong></td>
+<td>Brzi linkovi: Find Co-founders, Browse Startups, Connect with Investors</td>
+</tr>
+<tr>
+<td><strong>Action Buttons</strong></td>
+<td>Messages i Payments gumbi s gradijentom</td>
+</tr>
+<tr>
+<td><strong>Recent Activity</strong></td>
+<td>Lista zadnjih aktivnosti s ikonama i vremenskim oznakama</td>
+</tr>
+</tbody>
+</table>
+<h4>Razlike po ulozi:</h4>
+<p><div class="mermaid">graph TB
+    subgraph Dashboard
+        CHECK{Uloga?}
+        CHECK -->|FOUNDER| FD["FounderDashboard<br/>• Runway<br/>• Raised<br/>• Team Size<br/>• Funding Graph"]
+        CHECK -->|DEVELOPER/INVESTOR| GD["GrowthDashboard<br/>• Connections Graph<br/>• Activity Metrics<br/>• Network Growth"]
+    end
+</div></p>
+<hr>
+<h3>2. 🚀 Startups</h3>
+<p><strong>Ruta</strong>: <code>/dashboard/startups</code></p>
+<p>Pregled i kreiranje startupa na platformi.</p>
+<p>Ovdje možete pretraživati sve aktivne startupove na stranici, te možete i sami kreirati i započeti svoj vlastiti startup.
+Ovdje također možete vidjeti i detalje o startupu kao što su:</p>
+<ul>
+<li>ime startupa</li>
+<li>tko je founder te izravna poveznica na njegov profil</li>
+<li>koji problem startup riješava</li>
+<li>koliko članova ima tim, te koje su njihove uloge</li>
+</ul>
+<p><img src="./docs/images/Startup_page.png" alt="Pregled Startupa"></p>
+<h4>Funkcionalnosti:</h4>
+<table>
+<thead>
+<tr>
+<th>Funkcija</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Search</strong></td>
+<td>Pretraga po imenu, pitch-u, fazi ili founderu</td>
+</tr>
+<tr>
+<td><strong>Create Startup</strong></td>
+<td>Modal za registraciju novog startupa</td>
+</tr>
+<tr>
+<td><strong>Startup Cards</strong></td>
+<td>Prikaz: logo, ime, faza, pitch, founder</td>
+</tr>
+<tr>
+<td><strong>Connect Button</strong></td>
+<td>Direktno slanje poruke founderu</td>
+</tr>
+<tr>
+<td><strong>Pagination</strong></td>
+<td>Navigacija kroz stranice (25 po stranici)</td>
+</tr>
+<tr>
+<td><strong>External Links</strong></td>
+<td>Link na web stranicu startupa</td>
+</tr>
+</tbody>
+</table>
+<h4>Faze startupa:</h4>
+<p><div class="mermaid">graph LR
+    PS["🌱 Pre-seed"] --> S["🌿 Seed"] --> A["🌳 Series A"] --> B["🌲 Series B+"]
+</div></p>
+<hr>
+<h3>3. 👥 Network (Mreža developera)</h3>
+<p><strong>Ruta</strong>: <code>/dashboard/network</code></p>
+<p>Pronalaženje talenata za gradnju tima.</p>
+<p>Ovdje možete pronaći iskusne developere koji su također članovi DFDS zajednice. Možete pretraživati developere po imenu ili vještini koju posjeduju (python, java, c++, itd.) te možete vidjeti detalje o developeru kao što su:</p>
+<ul>
+<li>ime developera</li>
+<li>koje tehnologije koristi</li>
+<li>gdje se nalazi</li>
+</ul>
+<p><img src="./docs/images/Network_page.png" alt="Mreža Developera"></p>
+<h4>Funkcionalnosti:</h4>
+<table>
+<thead>
+<tr>
+<th>Funkcija</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Developer Grid</strong></td>
+<td>Kartice developera s avatarima</td>
+</tr>
+<tr>
+<td><strong>Search</strong></td>
+<td>Pretraga po imenu ili emailu</td>
+</tr>
+<tr>
+<td><strong>Skills Display</strong></td>
+<td>Prikaz tehnologija (badges)</td>
+</tr>
+<tr>
+<td><strong>Bio Preview</strong></td>
+<td>Kratki opis developera</td>
+</tr>
+<tr>
+<td><strong>Location</strong></td>
+<td>Geografska lokacija</td>
+</tr>
+<tr>
+<td><strong>Connect</strong></td>
+<td>Gumb za slanje poruke</td>
+</tr>
+<tr>
+<td><strong>Load More</strong></td>
+<td>Infinite scroll ili pagination</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3>4. 💼 Investors</h3>
+<p><strong>Ruta</strong>: <code>/dashboard/investors</code></p>
+<p>Povezivanje s investitorima.</p>
+<p>Ovdje možete tražiti potencijalne investitore za vaš startup. Također sa potencijalnim investitorom možete direktno stupiti u kontakt preko platforme.</p>
+<p><img src="./docs/images/Investors_page.png" alt="Investitori"></p>
+<h4>Funkcionalnosti:</h4>
+<table>
+<thead>
+<tr>
+<th>Funkcija</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Investor Grid</strong></td>
+<td>Kartice investitora</td>
+</tr>
+<tr>
+<td><strong>Search</strong></td>
+<td>Pretraga po imenu</td>
+</tr>
+<tr>
+<td><strong>Focus Areas</strong></td>
+<td>Područje interesa (SaaS, AI, Web3…)</td>
+</tr>
+<tr>
+<td><strong>Check Size</strong></td>
+<td>Prosječna veličina ulaganja</td>
+</tr>
+<tr>
+<td><strong>Portfolio Count</strong></td>
+<td>Broj ulaganja</td>
+</tr>
+<tr>
+<td><strong>Connect</strong></td>
+<td>Direktna poruka investitoru</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3>5. 💬 Threads (Diskusije)</h3>
+<p><strong>Ruta</strong>: <code>/dashboard/threads</code></p>
+<p>Community forum za razmjenu znanja.</p>
+<p>Ovdje možete započeti diskusiju na određenu temu te možete vidjeti diskusije drugih članova zajednice. Također možete lajkati i komentirati diskusije.</p>
+<p><img src="./docs/images/threads_page_1769370084469.png" alt="Diskusije"></p>
+<h4>Funkcionalnosti:</h4>
+<table>
+<thead>
+<tr>
+<th>Funkcija</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Create Thread</strong></td>
+<td>Kreiranje nove diskusije s naslovom, sadržajem i tagovima</td>
+</tr>
+<tr>
+<td><strong>Thread List</strong></td>
+<td>Lista svih diskusija sortirano po vremenu</td>
+</tr>
+<tr>
+<td><strong>Tags</strong></td>
+<td>Filtriranje po kategorijama</td>
+</tr>
+<tr>
+<td><strong>Like</strong></td>
+<td>Heart reakcija na thread</td>
+</tr>
+<tr>
+<td><strong>Reply</strong></td>
+<td>Odgovaranje na diskusije</td>
+</tr>
+<tr>
+<td><strong>Author Info</strong></td>
+<td>Ime, uloga i firma autora</td>
+</tr>
+<tr>
+<td><strong>Trending</strong></td>
+<td>Sidebar s popularnim threadovima</td>
+</tr>
+</tbody>
+</table>
+<h4>Thread model:</h4>
+<p><div class="mermaid">erDiagram
+    Thread ||--o{ ThreadReply : "ima"
+    Thread ||--o{ ThreadLike : "ima"
+    User ||--o{ Thread : "kreira"
+    User ||--o{ ThreadReply : "piše"
+    User ||--o{ ThreadLike : "lajka"
+    
+    Thread {
+        string id PK
+        string title
+        string content
+        string-array tags
+        datetime createdAt
+    }
+    
+    ThreadReply {
+        string id PK
+        string content
+        int likes
+        datetime createdAt
+    }
+    
+    ThreadLike {
+        string id PK
+        datetime createdAt
+    }
+</div></p>
+<hr>
+<h3>6. ✉️ Messages (Poruke)</h3>
+<p><strong>Ruta</strong>: <code>/dashboard/messages</code></p>
+<p>Real-time chat sustav.</p>
+<p>Možete stupiti u kontakt sa bilo kojim članom zajednice, bilo da je to founder, developer ili investitor.</p>
+<p><img src="./docs/images/chat_page_final_1769369863673.png" alt="Chat Sustav"></p>
+<h4>Funkcionalnosti:</h4>
+<table>
+<thead>
+<tr>
+<th>Funkcija</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Message Inbox</strong></td>
+<td>Lista konverzacija s preview-om zadnje poruke</td>
+</tr>
+<tr>
+<td><strong>Conversation View</strong></td>
+<td>Prikaz svih poruka u konverzaciji</td>
+</tr>
+<tr>
+<td><strong>Real-time Updates</strong></td>
+<td>Pusher WebSocket za instant poruke</td>
+</tr>
+<tr>
+<td><strong>Unread Indicators</strong></td>
+<td>Označavanje nepročitanih poruka</td>
+</tr>
+<tr>
+<td><strong>User Search</strong></td>
+<td>Pretraga korisnika za novu konverzaciju</td>
+</tr>
+<tr>
+<td><strong>Timestamps</strong></td>
+<td>Relativno vrijeme (prije X minuta)</td>
+</tr>
+</tbody>
+</table>
+<h4>Real-time arhitektura:</h4>
+<p><div class="mermaid">sequenceDiagram
+    participant A as Alice
+    participant API as Server
+    participant P as Pusher
+    participant B as Bob
+    
+    A->>API: POST /api/messages/send
+    API->>API: Spremi u PostgreSQL
+    API->>P: pusher.trigger('user-bob', 'new-message', data)
+    P-->>B: WebSocket event
+    B->>B: Prikaži novu poruku
+    API-->>A: 201 OK
+</div></p>
+<hr>
+<h3>7. 💳 Payments (Plaćanja)</h3>
+<p><strong>Ruta</strong>: <code>/dashboard/payments</code></p>
+<p>Slanje i primanje novca unutar platforme.</p>
+<h4>Funkcionalnosti:</h4>
+<table>
+<thead>
+<tr>
+<th>Funkcija</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Stats Overview</strong></td>
+<td>Total Sent, Total Received, Platform Fees (2.5%)</td>
+</tr>
+<tr>
+<td><strong>User Search</strong></td>
+<td>Pretraga primatelja po imenu ili emailu</td>
+</tr>
+<tr>
+<td><strong>Payment Modal</strong></td>
+<td>Modal za unos iznosa i odabir metode</td>
+</tr>
+<tr>
+<td><strong>Transaction History</strong></td>
+<td>Lista svih transakcija s filterima</td>
+</tr>
+<tr>
+<td><strong>Payment Methods</strong></td>
+<td>PayPal, Crypto (viem), Card</td>
+</tr>
+</tbody>
+</table>
+<h4>Platne metode:</h4>
+<p><div class="mermaid">graph TB
+    subgraph Methods["Podržane Metode"]
+        PP["💳 PayPal<br/>Fiat Currency"]
+        CR["🔗 Crypto<br/>ETH/USDC via viem"]
+        CD["💰 Card<br/>Stripe Integration"]
+    end
+    
+    PP --> TX["Transaction<br/>2.5% Fee"]
+    CR --> TX
+    CD --> TX
+</div></p>
+<h4>Transaction statusi:</h4>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PENDING</code></td>
+<td>Transakcija pokrenuta, čeka potvrdu</td>
+</tr>
+<tr>
+<td><code>COMPLETED</code></td>
+<td>Uspješno izvršena</td>
+</tr>
+<tr>
+<td><code>FAILED</code></td>
+<td>Neuspješna (nedovoljno sredstava, etc.)</td>
+</tr>
+<tr>
+<td><code>CANCELLED</code></td>
+<td>Otkazana od strane korisnika</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3>8. 🗺️ Roadmap</h3>
+<p><strong>Ruta</strong>: <code>/dashboard/roadmap</code></p>
+<p>Transparentni prikaz planiranih funkcionalnosti s mogućnošću glasanja.</p>
+<p>Ovdje možete vidjeti koje funkcionalnosti planiramo dodati u budućnosti, te možete glasati za funkcionalnosti koje želite da se dodaju. Također možete i sami predložiti funkcionalnost.</p>
+<p><img src="./docs/images/roadmap_page_1769370098909.png" alt="Roadmap"></p>
+<h4>Funkcionalnosti:</h4>
+<table>
+<thead>
+<tr>
+<th>Funkcija</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Feature Requests</strong></td>
+<td>Lista predloženih funkcionalnosti</td>
+</tr>
+<tr>
+<td><strong>Voting</strong></td>
+<td>Upvote/Downvote sustav</td>
+</tr>
+<tr>
+<td><strong>Status Tracking</strong></td>
+<td>PLANNED → IN_PROGRESS → COMPLETED</td>
+</tr>
+<tr>
+<td><strong>Submit Request</strong></td>
+<td>Predlaganje novih funkcionalnosti</td>
+</tr>
+<tr>
+<td><strong>Sort Options</strong></td>
+<td>Po glasovima, datumu, statusu</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3>9. 📊 Equity simulator (kalkulator)</h3>
+<p><strong>Ruta</strong>: <code>/dashboard/calculator</code></p>
+<p>Interaktivni alat za vizualizaciju dilucije vlasništva kroz runde financiranja.</p>
+<p>Ovdje možete izračunati kako će se vlasništvo vašeg startupa mijenjati kroz različite runde financiranja.</p>
+<h4>Funkcionalnosti:</h4>
+<table>
+<thead>
+<tr>
+<th>Funkcija</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Initial Equity</strong></td>
+<td>Postavljanje početnih postotaka (Founder, Co-founder, Investors)</td>
+</tr>
+<tr>
+<td><strong>Add Funding Round</strong></td>
+<td>Simulacija Pre-seed, Seed, Series A…</td>
+</tr>
+<tr>
+<td><strong>Dilution Visualization</strong></td>
+<td>Pie chart s promjenama postotaka</td>
+</tr>
+<tr>
+<td><strong>Scenario Comparison</strong></td>
+<td>Usporedba različitih scenarija</td>
+</tr>
+<tr>
+<td><strong>Export</strong></td>
+<td>Dijeljenje rezultata</td>
+</tr>
+</tbody>
+</table>
+<h4>Primjer dilucije:</h4>
+<p><div class="mermaid">pie title "Prije Seed Runde"
+    "Founder" : 60
+    "Co-founder" : 30
+    "Angel" : 10
+</div></p>
+<p><div class="mermaid">pie title "Nakon Seed Runde ($1M @ $5M valuation)"
+    "Founder" : 48
+    "Co-founder" : 24
+    "Angel" : 8
+    "Seed Investors" : 20
+</div></p>
+<hr>
+<h3>10. 🔑 API access</h3>
+<p><strong>Ruta</strong>: <code>/dashboard/api-access</code></p>
+<p>Upravljanje API ključevima za programatski pristup.</p>
+<h4>Funkcionalnosti:</h4>
+<table>
+<thead>
+<tr>
+<th>Funkcija</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>API Key Generation</strong></td>
+<td>Kreiranje novih ključeva s imenima</td>
+</tr>
+<tr>
+<td><strong>Key Management</strong></td>
+<td>Lista svih ključeva s statusom</td>
+</tr>
+<tr>
+<td><strong>Permissions</strong></td>
+<td>Odabir dozvola (read, write, delete)</td>
+</tr>
+<tr>
+<td><strong>Expiration</strong></td>
+<td>Postavljanje isteka ključa</td>
+</tr>
+<tr>
+<td><strong>Documentation</strong></td>
+<td>Inline API dokumentacija s primjerima</td>
+</tr>
+<tr>
+<td><strong>Test Endpoint</strong></td>
+<td>Testiranje API poziva iz UI-a</td>
+</tr>
+<tr>
+<td><strong>Usage Stats</strong></td>
+<td>Prikaz zadnjeg korištenja</td>
+</tr>
+</tbody>
+</table>
+<h4>API key model:</h4>
+<p><div class="mermaid">erDiagram
+    User ||--o{ ApiKey : "posjeduje"
+    
+    ApiKey {
+        string id PK
+        string keyHash "SHA-256 hash"
+        string keyPrefix "Prvih 8 znakova"
+        string name
+        boolean isActive
+        string-array permissions
+        datetime lastUsed
+        datetime expiresAt
+    }
+</div></p>
+<hr>
+<h3>11. 🛡️ Members</h3>
+<p><strong>Ruta</strong>: <code>/dashboard/members</code></p>
+<p>Prikaz verificiranih članova i premium pristupa.</p>
+<h4>Funkcionalnosti:</h4>
+<table>
+<thead>
+<tr>
+<th>Funkcija</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Verified Builders</strong></td>
+<td>Lista verificiranih developera</td>
+</tr>
+<tr>
+<td><strong>Subscription Tiers</strong></td>
+<td>FREE, PRO, GROWTH planovi</td>
+</tr>
+<tr>
+<td><strong>Badge Display</strong></td>
+<td>Verifikacijski badge za profile</td>
+</tr>
+</tbody>
+</table>
+<h4>Subscription tiers:</h4>
+<table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>Mogućnosti</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>FREE</strong></td>
+<td>Osnovni pristup, 100 poruka/dan</td>
+</tr>
+<tr>
+<td><strong>PRO</strong></td>
+<td>Sve FREE + neograničene poruke, API pristup</td>
+</tr>
+<tr>
+<td><strong>GROWTH</strong></td>
+<td>Sve PRO + prioritetna podrška, advanced analytics</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3>12. ⚙️ Settings (Postavke)</h3>
+<p><strong>Ruta</strong>: <code>/dashboard/settings</code></p>
+<p>Upravljanje korisničkim računom i profilom.</p>
+<p><img src="./docs/images/settings_page_1769370112162.png" alt="Postavke"></p>
+<h4>Tab: Profile</h4>
+<table>
+<thead>
+<tr>
+<th>Polje</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td>Ime i prezime</td>
+</tr>
+<tr>
+<td>Email</td>
+<td>Email adresa (readonly)</td>
+</tr>
+<tr>
+<td>Bio</td>
+<td>Kratki opis</td>
+</tr>
+<tr>
+<td>Location</td>
+<td>Grad/Država</td>
+</tr>
+<tr>
+<td>Skills</td>
+<td>Lista vještina (tags)</td>
+</tr>
+<tr>
+<td>GitHub URL</td>
+<td>Link na GitHub profil</td>
+</tr>
+<tr>
+<td>LinkedIn URL</td>
+<td>Link na LinkedIn profil</td>
+</tr>
+</tbody>
+</table>
+<h4>Tab: Account</h4>
+<table>
+<thead>
+<tr>
+<th>Akcija</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Change Password</strong></td>
+<td>Ažuriranje lozinke</td>
+</tr>
+<tr>
+<td><strong>Delete Account</strong></td>
+<td>Brisanje računa (30-dnevni grace period)</td>
+</tr>
+</tbody>
+</table>
+<h4>Tab: Notifications</h4>
+<table>
+<thead>
+<tr>
+<th>Opcija</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Email Notifications</td>
+<td>Toggle za email obavijesti</td>
+</tr>
+<tr>
+<td>Push Notifications</td>
+<td>Toggle za push obavijesti</td>
+</tr>
+<tr>
+<td>Marketing Emails</td>
+<td>Toggle za marketing</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>🤖 AI Asistent</h2>
+<p>Floating widget dostupan na svim dashboard stranicama.</p>
+<h3>Lokacija u kodu</h3>
+<p><code>/components/ai/AiAssistant.tsx</code></p>
+<h3>Funkcionalnosti</h3>
+<table>
+<thead>
+<tr>
+<th>Funkcija</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Chat Interface</strong></td>
+<td>Razgovor s AI asistentom</td>
+</tr>
+<tr>
+<td><strong>Quick Actions</strong></td>
+<td>Unaprijed definirane akcije</td>
+</tr>
+<tr>
+<td><strong>Resizable Window</strong></td>
+<td>Povlačenje za promjenu veličine</td>
+</tr>
+<tr>
+<td><strong>Markdown Rendering</strong></td>
+<td>Formatirani odgovori s code highlightingom</td>
+</tr>
+<tr>
+<td><strong>Conversation History</strong></td>
+<td>Pamćenje konteksta razgovora</td>
+</tr>
+</tbody>
+</table>
+<h3>Quick actions</h3>
+<p><div class="mermaid">graph LR
+    QA["⚡ Quick Actions"]
+    QA --> A1["✨ Analyze Pitch<br/>Analiza i prijedlozi poboljšanja"]
+    QA --> A2["🔍 Find Investors<br/>Pretraga investitora po kriterijima"]
+    QA --> A3["📧 Draft Email<br/>Generiranje cold emaila investitoru"]
+</div></p>
+<h3>Primjer korištenja</h3>
+<pre><code>User: &quot;Analiziraj moj pitch: Gradimo AI platformu za automatizirano testiranje softvera...&quot;
+
+AI: ### Analiza Pitcha
+
+**Snage:**
+- Jasno definirani problem
+- Rastući TAM (Total Addressable Market)
+
+**Prijedlozi:**
+1. Dodajte konkretne brojke (smanjenje vremena testiranja za X%)
+2. Navedite konkurenciju i vašu diferencijaciju
+3. Uključite social proof (beta korisnici, partnerships)
+
+**Ocjena:** 7/10 - Dobar temelj, treba više specifičnosti.
+</code></pre>
+<hr>
+<h2>Tehnička dokumentacija</h2>
+<hr>
+<h2>🔧 Tehnološki stack</h2>
+<h3>Pregled arhitekture</h3>
+<p><div class="mermaid">graph TB
+    subgraph Frontend["🖥️ Frontend Layer"]
+        NEXT["Next.js 16<br/>(App Router + SSR)"]
+        REACT["React 18<br/>(UI Library)"]
+        TAILWIND["Tailwind CSS<br/>(Styling)"]
+        FRAMER["Framer Motion<br/>(Animacije)"]
+    end
+    
+    subgraph Backend["⚙️ Backend Layer"]
+        API["Next.js API Routes<br/>(REST Endpoints)"]
+        AUTH["NextAuth.js<br/>(Autentifikacija)"]
+        PRISMA["Prisma ORM<br/>(Database Access)"]
+    end
+    
+    subgraph Database["🗄️ Data Layer"]
+        PG["PostgreSQL<br/>(Primary Database)"]
+        REDIS["Redis<br/>(Cache & PubSub)"]
+    end
+    
+    subgraph Services["☁️ External Services"]
+        PUSHER["Pusher<br/>(WebSockets)"]
+        RESEND["Resend<br/>(Transactional Email)"]
+        OPENAI["OpenAI<br/>(AI Assistant)"]
+        POSTHOG["PostHog<br/>(Analytics)"]
+    end
+    
+    NEXT --> API
+    REACT --> NEXT
+    TAILWIND --> REACT
+    FRAMER --> REACT
+    
+    API --> AUTH
+    API --> PRISMA
+    PRISMA --> PG
+    API --> REDIS
+    
+    API --> PUSHER
+    API --> RESEND
+    API --> OPENAI
+    NEXT --> POSTHOG
+</div></p>
+<h3>Detaljni opis tehnologija</h3>
+<h4>Frontend</h4>
+<table>
+<thead>
+<tr>
+<th>Tehnologija</th>
+<th>Verzija</th>
+<th>Svrha</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Next.js</strong></td>
+<td>16.x</td>
+<td>Full-stack React framework s App Routerom, SSR/SSG, i API rutama</td>
+</tr>
+<tr>
+<td><strong>React</strong></td>
+<td>18.2</td>
+<td>Deklarativna UI biblioteka s hookovima i Suspense podrškom</td>
+</tr>
+<tr>
+<td><strong>Tailwind CSS</strong></td>
+<td>3.4</td>
+<td>Utility-first CSS framework za brzi razvoj</td>
+</tr>
+<tr>
+<td><strong>Framer Motion</strong></td>
+<td>11.x</td>
+<td>Produkcijske animacije i prijelazi</td>
+</tr>
+<tr>
+<td><strong>Lucide React</strong></td>
+<td>0.555</td>
+<td>Moderna ikona biblioteka (500+ ikona)</td>
+</tr>
+<tr>
+<td><strong>Recharts</strong></td>
+<td>3.5</td>
+<td>React komponente za data vizualizaciju</td>
+</tr>
+<tr>
+<td><strong>React Hot Toast</strong></td>
+<td>2.6</td>
+<td>Elegantne notifikacije</td>
+</tr>
+</tbody>
+</table>
+<h4>Backend / Server</h4>
+<table>
+<thead>
+<tr>
+<th>Tehnologija</th>
+<th>Verzija</th>
+<th>Svrha</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Next.js API Routes</strong></td>
+<td>16.x</td>
+<td>Serverless API endpointi</td>
+</tr>
+<tr>
+<td><strong>Prisma</strong></td>
+<td>5.10</td>
+<td>Type-safe ORM za PostgreSQL</td>
+</tr>
+<tr>
+<td><strong>NextAuth.js</strong></td>
+<td>4.24</td>
+<td>Autentifikacija (OAuth + Credentials)</td>
+</tr>
+<tr>
+<td><strong>bcryptjs</strong></td>
+<td>3.0</td>
+<td>Sigurno hashiranje lozinki</td>
+</tr>
+<tr>
+<td><strong>Zod</strong></td>
+<td>4.1</td>
+<td>Runtime validacija schema</td>
+</tr>
+<tr>
+<td><strong>Jose</strong></td>
+<td>6.1</td>
+<td>JWT token handling</td>
+</tr>
+</tbody>
+</table>
+<h4>Baza podataka i cache</h4>
+<table>
+<thead>
+<tr>
+<th>Tehnologija</th>
+<th>Svrha</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PostgreSQL</strong></td>
+<td>Primarna relacionalna baza s 25+ tablica</td>
+</tr>
+<tr>
+<td><strong>Redis</strong></td>
+<td>Cache layer i PubSub za real-time</td>
+</tr>
+<tr>
+<td><strong>Prisma Migrations</strong></td>
+<td>Verzioniranje schema baze</td>
+</tr>
+</tbody>
+</table>
+<h4>Eksterni servisi</h4>
+<table>
+<thead>
+<tr>
+<th>Servis</th>
+<th>Svrha</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pusher</strong></td>
+<td>Real-time WebSocket komunikacija za chat</td>
+</tr>
+<tr>
+<td><strong>Resend</strong></td>
+<td>Transakcijski email (verifikacija, notifikacije)</td>
+</tr>
+<tr>
+<td><strong>OpenAI</strong></td>
+<td>AI asistent za analizu pitcheva i generiranje emailova</td>
+</tr>
+<tr>
+<td><strong>PostHog</strong></td>
+<td>Product analytics i event tracking</td>
+</tr>
+</tbody>
+</table>
+<h4>DevOps i Alati</h4>
+<table>
+<thead>
+<tr>
+<th>Alat</th>
+<th>Svrha</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Docker</strong></td>
+<td>Kontejnerizacija aplikacije</td>
+</tr>
+<tr>
+<td><strong>Vitest</strong></td>
+<td>Unit i integration testiranje</td>
+</tr>
+<tr>
+<td><strong>ESLint</strong></td>
+<td>Linting i code quality</td>
+</tr>
+<tr>
+<td><strong>TypeScript</strong></td>
+<td>Static type checking</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>🏗️ Arhitektura sustava</h2>
+<h3>Kako podaci putuju</h3>
+<p><div class="mermaid">sequenceDiagram
+    participant U as 👤 Korisnik
+    participant F as 💻 Frontend (Next.js)
+    participant A as ⚡ API Routes
+    participant P as 🔷 Prisma
+    participant DB as 🗄️ PostgreSQL
+    participant R as 🔴 Redis
+    participant WS as 🔌 Pusher
+    participant AI as 🤖 OpenAI
+    
+    U->>F: Klik na "Pošalji poruku"
+    F->>A: POST /api/messages/send
+    A->>P: prisma.message.create()
+    P->>DB: INSERT INTO Message
+    DB-->>P: OK + message data
+    P-->>A: Message object
+    A->>R: PUBLISH channel:user_123
+    R->>WS: Trigger event
+    WS-->>U: Real-time poruka stiže!
+    A-->>F: 201 Created
+    F-->>U: UI Update ✓
+    
+    Note over U,AI: AI Asistent Flow
+    U->>F: "Analiziraj moj pitch"
+    F->>A: POST /api/chat
+    A->>AI: OpenAI Completion
+    AI-->>A: AI Response
+    A-->>F: Stream response
+    F-->>U: Markdown renderiran odgovor
+</div></p>
+<h3>Struktura direktorija (sažetak)</h3>
+<blockquote>
+<p><strong>Napomena</strong>: Ovo je sažeti prikaz glavnih direktorija. Stvarna struktura sadrži više datoteka.</p>
+</blockquote>
+<pre><code>dfds/
+├── app/                    # Next.js App Router
+│   ├── api/               # 34+ API endpoints
+│   │   ├── auth/          # NextAuth handlers
+│   │   ├── messages/      # Chat API
+│   │   ├── startups/      # Startup CRUD
+│   │   ├── threads/       # Forum API
+│   │   ├── transactions/  # Payment API
+│   │   └── v1/            # Public API v1
+│   ├── dashboard/         # 15+ dashboard stranica
+│   │   ├── page.tsx       # Glavni dashboard
+│   │   ├── startups/      # Startup pregled
+│   │   ├── network/       # Developer mreža
+│   │   ├── investors/     # Investitori
+│   │   ├── messages/      # Chat sučelje
+│   │   ├── payments/      # Transakcije
+│   │   ├── threads/       # Community forum
+│   │   ├── roadmap/       # Feature voting
+│   │   ├── calculator/    # Equity simulator
+│   │   ├── api-access/    # API ključevi
+│   │   ├── members/       # Članstvo
+│   │   └── settings/      # Postavke profila
+│   └── (public pages)/    # Landing, Login, Register...
+├── components/            # React komponente
+│   ├── ui/               # Shadcn-style UI primitivi
+│   ├── dashboard/        # Dashboard komponente
+│   ├── landing/          # Landing page sekcije
+│   ├── messaging/        # Chat komponente
+│   ├── payments/         # Payment komponente
+│   └── ai/               # AI Asistent
+├── lib/                  # Utility funkcije
+│   ├── auth.ts          # NextAuth konfiguracija
+│   ├── prisma.ts        # Prisma client
+│   ├── pusher.ts        # WebSocket setup
+│   ├── matchmaker.ts    # Vector similarity matching
+│   └── email.ts         # Email templates
+├── prisma/              # Database
+│   ├── schema.prisma    # 25+ modela
+│   └── seed.ts          # Test podaci
+└── config/              # App konfiguracija
+    └── nav.ts           # Navigacija
+</code></pre>
+<hr>
+<h2>🗄️ Shema baze podataka</h2>
+<h3>Entity relationship diagram</h3>
+<p><div class="mermaid">erDiagram
+    User ||--o| Profile : "ima"
+    User ||--o{ Startup : "osniva"
+    User ||--o{ StartupMembership : "član"
+    User ||--o{ Message : "šalje"
+    User ||--o{ Connection : "follower"
+    User ||--o{ Connection : "following"
+    User ||--o{ Thread : "kreira"
+    User ||--o{ Transaction : "sender"
+    User ||--o{ Transaction : "receiver"
+    User ||--o{ ApiKey : "posjeduje"
+    User ||--o{ Notification : "prima"
+    
+    Profile ||--o{ Project : "ima"
+    
+    Startup ||--o{ StartupMembership : "članovi"
+    Startup ||--o| Team : "tim"
+    
+    Team ||--o{ TeamMembership : "članovi"
+    Team ||--o{ TeamInvite : "pozivnice"
+    
+    Conversation ||--o{ Message : "sadrži"
+    Conversation ||--o{ ConversationParticipant : "sudionici"
+    
+    Thread ||--o{ ThreadReply : "odgovori"
+    Thread ||--o{ ThreadLike : "lajkovi"
+    
+    FeatureRequest ||--o{ FeatureRequestVote : "glasovi"
+    
+    User {
+        string id PK
+        string name
+        string email UK
+        datetime emailVerified
+        string password
+        UserRole role
+        SubscriptionTier subscriptionTier
+        string referralCode UK
+        int referralCount
+        boolean isVerifiedBuilder
+        datetime deletedAt
+        datetime scheduledDeletionAt
+    }
+    
+    Profile {
+        string id PK
+        string bio
+        string location
+        string-array skills
+        string githubUrl
+        string linkedinUrl
+        string experience
+        string availability
+        string rate
+        string firm
+        string checkSize
+        string focus
+    }
+    
+    Startup {
+        string id PK
+        string name
+        string pitch
+        string stage
+        string websiteUrl
+        string raised
+        int teamSize
+    }
+    
+    Transaction {
+        string id PK
+        float amount
+        float serviceFee
+        float netAmount
+        PaymentProvider provider
+        TransactionStatus status
+        string idempotencyKey UK
+    }
+    
+    Message {
+        string id PK
+        string content
+        boolean read
+        string-array attachments
+    }
+</div></p>
+<h3>Ključni modeli</h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Svrha</th>
+<th>Relacije</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>User</strong></td>
+<td>Centralni entitet za sve korisnike</td>
+<td>Profile, Startups, Messages, Transactions</td>
+</tr>
+<tr>
+<td><strong>Profile</strong></td>
+<td>Prošireni podaci korisnika</td>
+<td>User (1:1), Projects</td>
+</tr>
+<tr>
+<td><strong>Startup</strong></td>
+<td>Registrirani startups</td>
+<td>Founder, Team, Memberships</td>
+</tr>
+<tr>
+<td><strong>Team</strong></td>
+<td>Tim startupa</td>
+<td>Startup (1:1), Members, Invites</td>
+</tr>
+<tr>
+<td><strong>Message</strong></td>
+<td>Chat poruke</td>
+<td>Sender, Conversation</td>
+</tr>
+<tr>
+<td><strong>Transaction</strong></td>
+<td>Financijske transakcije</td>
+<td>Sender, Receiver</td>
+</tr>
+<tr>
+<td><strong>Thread</strong></td>
+<td>Forum diskusije</td>
+<td>Author, Replies, Likes</td>
+</tr>
+<tr>
+<td><strong>ApiKey</strong></td>
+<td>API pristupni ključevi</td>
+<td>User</td>
+</tr>
+<tr>
+<td><strong>Notification</strong></td>
+<td>Obavijesti korisnika</td>
+<td>User</td>
+</tr>
+</tbody>
+</table>
+<h3>Enumeracije</h3>
+<pre><code class="language-typescript">enum UserRole {
+    DEVELOPER   // Razvojni programer
+    FOUNDER     // Osnivač startupa
+    INVESTOR    // Investitor
+    ADMIN       // Administrator
+}
+
+enum SubscriptionTier {
+    FREE        // Besplatni plan
+    PRO         // Profesionalni plan
+    GROWTH      // Rast plan
+}
+
+enum TransactionStatus {
+    PENDING     // U tijeku
+    COMPLETED   // Završeno
+    FAILED      // Neuspješno
+    CANCELLED   // Otkazano
+}
+
+enum PaymentProvider {
+    PAYPAL      // PayPal plaćanje
+    CRYPTO      // Kripto plaćanje
+    CARD        // Kartično plaćanje
+}
+
+enum TeamRole {
+    OWNER       // Vlasnik
+    ADMIN       // Administrator tima
+    MEMBER      // Član
+    VIEWER      // Promatrač
+}
+</code></pre>
+<hr>
+<h2>🔌 API dokumentacija</h2>
+<h3>Autentifikacija</h3>
+<p>API koristi dva načina autentifikacije:</p>
+<ol>
+<li><strong>Session-based</strong> (za frontend): NextAuth sesija</li>
+<li><strong>API Key</strong> (za eksterne integracije): Bearer token</li>
+</ol>
+<pre><code class="language-bash"># API Key autentifikacija
+curl -H &quot;Authorization: Bearer dfds_xxxx...&quot; https://api.dfds.io/v1/startups
+</code></pre>
+<h3>Javni API Endpoiniti (v1)</h3>
+<h4>GET /api/v1/startups</h4>
+<p>Dohvaća listu startupa.</p>
+<table>
+<thead>
+<tr>
+<th>Parametar</th>
+<th>Tip</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>page</code></td>
+<td>number</td>
+<td>Broj stranice (default: 1)</td>
+</tr>
+<tr>
+<td><code>limit</code></td>
+<td>number</td>
+<td>Broj rezultata (default: 25, max: 100)</td>
+</tr>
+<tr>
+<td><code>search</code></td>
+<td>string</td>
+<td>Pretraga po imenu ili pitchu</td>
+</tr>
+<tr>
+<td><code>stage</code></td>
+<td>string</td>
+<td>Filter po fazi (Pre-seed, Seed, etc.)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Response:</strong></p>
+<pre><code class="language-json">{
+  &quot;data&quot;: [
+    {
+      &quot;id&quot;: &quot;clxx...&quot;,
+      &quot;name&quot;: &quot;TechStartup&quot;,
+      &quot;pitch&quot;: &quot;Revolucionarna AI platforma...&quot;,
+      &quot;stage&quot;: &quot;Seed&quot;,
+      &quot;founder&quot;: {
+        &quot;id&quot;: &quot;clxx...&quot;,
+        &quot;name&quot;: &quot;Ivan Horvat&quot;
+      }
+    }
+  ],
+  &quot;pagination&quot;: {
+    &quot;page&quot;: 1,
+    &quot;limit&quot;: 25,
+    &quot;total&quot;: 150
+  }
+}
+</code></pre>
+<h4>POST /api/v1/startups</h4>
+<p>Kreira novi startup (zahtijeva FOUNDER ulogu).</p>
+<p><strong>Request Body:</strong></p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;Novi Startup&quot;,
+  &quot;pitch&quot;: &quot;Opis projekta...&quot;,
+  &quot;stage&quot;: &quot;Pre-seed&quot;,
+  &quot;websiteUrl&quot;: &quot;https://example.com&quot;,
+  &quot;teamSize&quot;: 3
+}
+</code></pre>
+<h4>GET /api/v1/users</h4>
+<p>Dohvaća listu korisnika (filtrirano po ulozi).</p>
+<table>
+<thead>
+<tr>
+<th>Parametar</th>
+<th>Tip</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>role</code></td>
+<td>UserRole</td>
+<td>Filter po ulozi</td>
+</tr>
+<tr>
+<td><code>search</code></td>
+<td>string</td>
+<td>Pretraga po imenu</td>
+</tr>
+</tbody>
+</table>
+<h3>Interni API endpointi</h3>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Metoda</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/api/register</code></td>
+<td>POST</td>
+<td>Registracija novog korisnika</td>
+</tr>
+<tr>
+<td><code>/api/auth/[...nextauth]</code></td>
+<td>*</td>
+<td>NextAuth handleri</td>
+</tr>
+<tr>
+<td><code>/api/messages/send</code></td>
+<td>POST</td>
+<td>Slanje poruke</td>
+</tr>
+<tr>
+<td><code>/api/conversations</code></td>
+<td>GET</td>
+<td>Lista konverzacija</td>
+</tr>
+<tr>
+<td><code>/api/transactions</code></td>
+<td>GET/POST</td>
+<td>Transakcije</td>
+</tr>
+<tr>
+<td><code>/api/threads</code></td>
+<td>GET/POST</td>
+<td>Forum diskusije</td>
+</tr>
+<tr>
+<td><code>/api/threads/[id]/like</code></td>
+<td>POST</td>
+<td>Like thread</td>
+</tr>
+<tr>
+<td><code>/api/threads/[id]/reply</code></td>
+<td>POST</td>
+<td>Odgovor na thread</td>
+</tr>
+<tr>
+<td><code>/api/roadmap</code></td>
+<td>GET/POST</td>
+<td>Feature requests</td>
+</tr>
+<tr>
+<td><code>/api/roadmap/vote</code></td>
+<td>POST</td>
+<td>Glasanje za feature</td>
+</tr>
+<tr>
+<td><code>/api/settings</code></td>
+<td>GET/PUT</td>
+<td>Korisničke postavke</td>
+</tr>
+<tr>
+<td><code>/api/keys</code></td>
+<td>GET/POST/DELETE</td>
+<td>API ključevi</td>
+</tr>
+<tr>
+<td><code>/api/pusher/auth</code></td>
+<td>POST</td>
+<td>Pusher autentifikacija</td>
+</tr>
+</tbody>
+</table>
+<h3>Rate limiting</h3>
+<table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>Limit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unauthenticated</td>
+<td>10 req/min</td>
+</tr>
+<tr>
+<td>FREE</td>
+<td>100 req/min</td>
+</tr>
+<tr>
+<td>PRO</td>
+<td>1000 req/min</td>
+</tr>
+<tr>
+<td>GROWTH</td>
+<td>10000 req/min</td>
+</tr>
+</tbody>
+</table>
+<h3>Error Responses</h3>
+<table>
+<thead>
+<tr>
+<th>Kod</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request - Nevaljani podaci</td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td>Unauthorized - Nedostaje autentifikacija</td>
+</tr>
+<tr>
+<td><code>403</code></td>
+<td>Forbidden - Nedovoljna prava</td>
+</tr>
+<tr>
+<td><code>404</code></td>
+<td>Not Found - Resurs ne postoji</td>
+</tr>
+<tr>
+<td><code>429</code></td>
+<td>Too Many Requests - Rate limit</td>
+</tr>
+<tr>
+<td><code>500</code></td>
+<td>Internal Server Error</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>🔒 Sigurnost</h2>
+<h3>Sigurnosne mjere</h3>
+<table>
+<thead>
+<tr>
+<th>Mjera</th>
+<th>Implementacija</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Password Hashing</strong></td>
+<td>bcryptjs s cost factor 12</td>
+</tr>
+<tr>
+<td><strong>Session Management</strong></td>
+<td>JWT tokeni s NextAuth</td>
+</tr>
+<tr>
+<td><strong>CSRF Protection</strong></td>
+<td>Middleware token validation</td>
+</tr>
+<tr>
+<td><strong>Rate Limiting</strong></td>
+<td>Redis-backed rate limiter</td>
+</tr>
+<tr>
+<td><strong>Input Sanitization</strong></td>
+<td>Zod validacija + HTML sanitization</td>
+</tr>
+<tr>
+<td><strong>SQL Injection</strong></td>
+<td>Prisma parameterized queries</td>
+</tr>
+<tr>
+<td><strong>XSS Prevention</strong></td>
+<td>React automatic escaping + CSP headers</td>
+</tr>
+</tbody>
+</table>
+<h3>Account deletion flow</h3>
+<p><div class="mermaid">sequenceDiagram
+    participant U as User
+    participant API as Server
+    participant DB as Database
+    participant CRON as Cleanup Job
+    
+    U->>API: DELETE /api/settings (delete account)
+    API->>DB: SET deletedAt = NOW()
+    API->>DB: SET scheduledDeletionAt = NOW() + 30 days
+    API-->>U: Account marked for deletion
+    
+    Note over U,CRON: 30 dana grace period
+    
+    U->>API: Login (within 30 days)
+    API->>DB: CLEAR deletedAt, scheduledDeletionAt
+    API-->>U: Account reactivated!
+    
+    Note over CRON: After 30 days
+    CRON->>DB: DELETE users WHERE scheduledDeletionAt < NOW()
+    CRON->>DB: CASCADE delete all related data
+</div></p>
+<hr>
+<h2>🚀 Kako Pokrenuti</h2>
+<h3>Preduvjeti</h3>
+<ul>
+<li>Node.js 18+</li>
+<li>PostgreSQL 14+</li>
+<li>Redis (opcionalno, za full real-time)</li>
+<li>pnpm/npm/yarn</li>
+</ul>
+<h3>Koraci</h3>
+<pre><code class="language-bash"># 1. Klonirajte repozitorij
+git clone https://github.com/team-cloudzz/dfds.git
+cd dfds
+
+# 2. Instalirajte dependencies
+npm install
+
+# 3. Konfigurirajte environment varijable
+cp env.example .env
+# Uredite .env s vašim podacima
+
+# 4. Inicijalizirajte bazu
+npx prisma db push
+npx prisma db seed
+
+# 5. Pokrenite development server
+npm run dev
+
+# 6. Otvorite u pregledniku
+open http://localhost:3000
+</code></pre>
+<h3>Environment varijable</h3>
+<pre><code class="language-bash"># Database
+DATABASE_URL=&quot;postgresql://user:pass@localhost:5432/dfds&quot;
+
+# NextAuth
+NEXTAUTH_SECRET=&quot;your-secret-key&quot;
+NEXTAUTH_URL=&quot;http://localhost:3000&quot;
+
+# OAuth Providers
+GITHUB_ID=&quot;...&quot;
+GITHUB_SECRET=&quot;...&quot;
+GOOGLE_CLIENT_ID=&quot;...&quot;
+GOOGLE_CLIENT_SECRET=&quot;...&quot;
+
+# Services
+PUSHER_APP_ID=&quot;...&quot;
+PUSHER_KEY=&quot;...&quot;
+PUSHER_SECRET=&quot;...&quot;
+RESEND_API_KEY=&quot;...&quot;
+OPENAI_API_KEY=&quot;...&quot;
+POSTHOG_KEY=&quot;...&quot;
+
+# Redis (optional)
+REDIS_URL=&quot;redis://localhost:6379&quot;
+</code></pre>
+<h3>Docker deployment</h3>
+<pre><code class="language-bash"># Build i pokreni sve servise
+docker-compose up -d
+
+# Ili koristi deploy skriptu
+./deploy.sh full
+</code></pre>
+<hr>
+<h2>📞 Kontakt i podrška</h2>
+<ul>
+<li><strong>Email</strong>: team@cloudzz.dev</li>
+</ul>
+<hr>
+<p><em>Hvala što koristite DFDS!</em><br>
+<em>— Tim Cloudzz</em></p>
+<p><strong>Verzija dokumentacije</strong>: 3.0.0<br>
+<strong>Zadnje ažuriranje</strong>: Veljača 2026</p>
+
+
+    <!-- Mermaid JS -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        // Configure mermaid to be less strict if possible, though syntax errors are usually fatal
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: { htmlLabels: true } 
+        });
+    </script>
+</body>
+</html>
